@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="ProductManagement/productmanagement.css">
+	<title>출고 요청</title>
+</head>
+<body>
+	<ul>
+		<li>
+			<a href="#"> <img src="" />홈 로고넣기 </a>
+		</li>
+		<li></li>
+		<li>출하 관리</li>
+		<li></li>
+		<li>출고 요청</li>
+	</ul>
+	<br />
+	<br />
+	<h3>출고 요청</h3>
+	<table>
+		<tr>
+			<th>접수일자</th>
+			<td><input type="date" /></td>
+		</tr>
+		<tr>
+			<th>업체 명</th>
+			<td>
+				<input type="text" placeholder="업체 조회" /><button>조회</button>
+			</td>
+		</tr>
+		<tr>
+			<th>주소</th>
+			<td>업체주소</td>
+		</tr>
+	</table>
+	<br />
+	<table>
+		<thead>
+			<tr>
+				<th>바코드</th>
+				<th>제품 명</th>
+				<th>요청 수량</th>
+				<th>수주 번호</th>
+				<th>출하 수량</th>
+				<th>재고 수량</th>
+				<th>총 출고 수량</th>
+				<th>미출고 수량</th>
+				<th>초과 수량</th>
+				<th>특이사항</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr id="list">
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<br />
+	<table>
+		<tr>
+			<th rowspan="2">출고 현황</th>
+			<th>요청 수량</th>
+			<th>출고 수량</th>
+			<th>미출고 수량</th>
+			<th>초과 수량</th>
+			<th>총 출고 수량</th>
+		</tr>
+		<tr>
+			<td>0</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<br />
+	<h3>출하출고 요청</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>수주 번호</th>
+				<th>업체 명</th>
+				<th>품목 번호</th>
+				<th>요청 수량</th>
+				<th>출고 수량</th>
+				<th>요청 일자</th>
+				<th>바코드</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<div style="float: right">
+		<button id="btn_back">돌아가기</button>
+		<button id="btn_release">출고</button>
+		<button id="btn_consignmentrequest">출하신청</button>
+	</div>
+</body>
+
+</html>
