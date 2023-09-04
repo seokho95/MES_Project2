@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>협력업체</title>
+	<!--<link rel="stylesheet" href="common/header.css" />-->
+    <link rel="stylesheet" href="/order/contractor.css">
+</head>
+<body>
+	<!--<th:block th:insert="header/header.html"></th:block>-->
+       <!-- 협력업체 정보 -->
+    <div class="content_detail" id="content_detail">
+        <div id="content" class="maOrderCont">
+            <ul class="order_lnb">
+                <li>
+                        <a href="/mainpage/mainpage">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 51 51" fill="none">
+                            <path d="M21.7266 29.2581H30.086V43.8871H21.7266V29.2581Z" fill="#F08080"/>
+                            <path d="M43.5033 21.2748L27.3905 4.80665C27.1962 4.61077 26.965 4.4553 26.7104 4.3492C26.4557 4.2431 26.1826 4.18848 25.9067 4.18848C25.6308 4.18848 25.3576 4.2431 25.103 4.3492C24.8483 4.4553 24.6171 4.61077 24.4229 4.80665L8.31002 21.2957C7.92013 21.6887 7.6122 22.1553 7.40412 22.6683C7.19604 23.1813 7.09195 23.7306 7.0979 24.2842V41.7972C7.09628 42.8671 7.50495 43.8968 8.23975 44.6744C8.97454 45.4519 9.97953 45.9181 11.0477 45.977H17.5472V27.1682C17.5472 26.6139 17.7674 26.0824 18.1593 25.6904C18.5512 25.2985 19.0828 25.0783 19.6371 25.0783H32.1763C32.7305 25.0783 33.2621 25.2985 33.654 25.6904C34.0459 26.0824 34.2661 26.6139 34.2661 27.1682V45.977H40.7656C41.8338 45.9181 42.8388 45.4519 43.5736 44.6744C44.3084 43.8968 44.717 42.8671 44.7154 41.7972V24.2842C44.7171 23.1618 44.2825 22.0827 43.5033 21.2748Z" fill="#F08080"/>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 17 29" fill="none">
+                        <path d="M2 2L14.3352 14.3352L2 26.6705" stroke="#F08080" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </li>
+                <li>
+                    <a href="/Contractor">협력업체</a>
+                </li>
+                <li> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 17 29" fill="none">
+                        <path d="M2 2L14.3352 14.3352L2 26.6705" stroke="#F08080" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </li>
+                <li>
+                    <a href="/Contractor">협력업체 정보</a>
+                </li>
+            </ul>
+            <!--lnb -->
+            <div id="sub_con_wrap">
+                <div class="sub_con">
+                    <div class="tit_box">
+                        <h2 class="sub_tit">협력업체 정보</h2>
+                        <p class="sub_txt">
+                            <span>2</span>개의 데이터가 조회되었습니다.
+                        </p>
+                    </div>
+                    <!-- tit_box -->
+                    <div class="search_pc">
+                        <input type="text" id="search_po_p" name="search_key" placeholder="search">
+                        <span><button>조회</button></span>
+                    </div>
+                    <!-- search_pc -->
+                    <table id="table" class="result_table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" name="chk_all"></th>
+                                <th>번호</th>
+                                <th>협력업체코드</th>
+                                <th>협력업체명</th>
+                                <th>대표자명</th>
+                                <th>전화번호</th>
+                                <th>휴대폰번호</th>
+                                <th>FAX</th>
+                                <th>이메일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="location.href='/order/ma_order_mod.html'">
+                                <td onclick="event.stopPropagation();">
+                                    <input type='checkbox' name='s_no[]'>
+                                </td>
+                                <td>2</td>
+                                <td>cop-3022</td>
+                                <td>바둑왕세돌이</td>
+                                <td>이세돌</td>
+                                <td>02-2525-7744</td>
+                                <td>010-4747-7475</td>
+                                <td>02-141-4744</td>
+                                <td>mangmang12@naver.com</td>
+                            </tr>
+                            <tr onclick="location.href='/order/ma_order_mod.html'">
+                                <td onclick="event.stopPropagation();">
+                                    <input type='checkbox' name='s_no[]'>
+                                </td>
+                                <td>1</td>
+                                <td>cop-3022</td>
+                                <td>우리두부박수철</td>
+                                <td>박수철</td>
+                                <td>02-215-7744</td>
+                                <td>010-4312-7431</td>
+                                <td>02-321-6341</td>
+                                <td>pockpock@naver.com</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="bot_box">
+                        <div class="bot_btn">
+                            <div class="btn delete" title="선택삭제">선택삭제</div>
+                            <div class="btn btn_right" title="등록" onclick="location.href='/ContractorRegister'">등록</div>
+                        </div>
+                        <!-- bot_btn -->
+                    </div>
+                    <!-- bot_box -->
+                </div>
+                <!--con-->
+            </div>
+        </div>
+        <!--content-->
+    </div>
+    </div>
+
+</body>
+</html>

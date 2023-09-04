@@ -1,0 +1,30 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+body {
+  margin: 0;
+  line-height: normal;
+  border-spacing: 0;
+}
+
+:root {
+  /* fonts */
+  --font-notosans: NotoSans;
+
+  /* font sizes */
+  --font-size-sm: 16px;
+  --font-size-xs: 12px;
+  --font-size-xl: 20px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-darkgray-100: #929292;
+  --color-dahong: #f08080;
+  --color-lightdahong: #fce6e6;
+  --color-header: #DCAEAE;
+
+  /* border radiuses */
+  --br-4xs: 4px;
+  --br-8xs: 8px;
+}

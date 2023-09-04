@@ -1,0 +1,103 @@
+*{
+    margin: 0;
+    padding: 0;
+    
+ }
+ .sub_form{
+         position: absolute;
+         width: 307px;
+         height: 822px;
+         background-color: #f39999;
+         border: 2px solid #000000;
+     }
+     .bar{
+         list-style-type: none;
+         width: 302px;
+         height: 135px;
+         margin: 0px auto;
+         border: 1px solid #ffffff;
+         display: flex;
+         flex-direction: row;
+     }
+     .bar:hover{
+         background-color: #f9cccc;
+         list-style-type: none;
+         width: 302px;
+         height: 135px;
+         margin: 0px auto;
+         display: flex;
+         flex-direction: row;
+     }
+     .menu{
+         margin: 0px;
+         padding: 0px;
+     }
+     .click{
+         text-decoration: none;
+         color: #FFF;
+         font-family: Inter;
+         font-size: 30px;
+         font-style: normal;
+         font-weight: 400;
+         line-height: normal;
+         text-align: center;
+         justify-content: center;
+         margin: auto 15px;
+ 
+     }
+     .source{
+         width: 62px;
+         height: 62px;
+         margin: auto 15px;
+     }
+     .arrow{
+         width: 12.297px;
+         height: 24.834px;
+         flex-shrink: 0;
+         margin: auto 15px;
+     }
+     .tab_on{
+       outline: 10px;
+       outline-color: #000;
+       border-radius: 5px;
+         display: flex;
+         text-align:center ;
+         -ms-flex-direction: row;
+         width: 333.463px;
+         height: 95px;
+         flex-shrink: 0;
+         border: 1px solid #FFF;
+         background: #DCAEAE;
+         list-style-type: none;
+     }
+     .tab_on a{
+       position: relative;
+       padding-top: 25px ;
+         width: 329.463px;
+         height: 70px;
+       text-align: center;
+         text-decoration: none;
+         color: #000;
+         text-align: center;
+         font-family: Inter;
+         font-size: 30px;
+         font-style: normal;
+         font-weight: 400;
+         line-height: normal;
+     }
+     .tab_on a:hover{
+         background-color: #F08080;
+     }
+     .menu_box ul{
+         padding: 0px;
+     }
+     .bar-container {
+         display: flex;
+         align-items: flex-start;
+         gap: 10px; /* 여백 조절 */
+     }
+     .menu_box {
+       margin-left: 111px;
+       position: absolute;
+         display: none;
+     }

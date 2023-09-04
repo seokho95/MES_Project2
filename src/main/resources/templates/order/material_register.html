@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원부재료등록</title>
+    <!--<link rel="stylesheet" href="common/header.css" />-->
+    <link rel="stylesheet" href="/order/order.css">
+    <link rel="stylesheet" href="/order/material_register.css">
+</head>
+<body>
+		<!--<th:block th:insert="header/header.html"></th:block>-->
+        <!-- 원부재료등록 -->
+        <div class="materialEditContent" id="content_detail">
+            <div id="content" class="maOrderCont">
+                <ul class="order_lnb">
+                    <li>
+                        <a href="/mainpage/mainpage">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 51 51" fill="none">
+                                <path d="M21.7266 29.2581H30.086V43.8871H21.7266V29.2581Z" fill="#F08080"/>
+                                <path d="M43.5033 21.2748L27.3905 4.80665C27.1962 4.61077 26.965 4.4553 26.7104 4.3492C26.4557 4.2431 26.1826 4.18848 25.9067 4.18848C25.6308 4.18848 25.3576 4.2431 25.103 4.3492C24.8483 4.4553 24.6171 4.61077 24.4229 4.80665L8.31002 21.2957C7.92013 21.6887 7.6122 22.1553 7.40412 22.6683C7.19604 23.1813 7.09195 23.7306 7.0979 24.2842V41.7972C7.09628 42.8671 7.50495 43.8968 8.23975 44.6744C8.97454 45.4519 9.97953 45.9181 11.0477 45.977H17.5472V27.1682C17.5472 26.6139 17.7674 26.0824 18.1593 25.6904C18.5512 25.2985 19.0828 25.0783 19.6371 25.0783H32.1763C32.7305 25.0783 33.2621 25.2985 33.654 25.6904C34.0459 26.0824 34.2661 26.6139 34.2661 27.1682V45.977H40.7656C41.8338 45.9181 42.8388 45.4519 43.5736 44.6744C44.3084 43.8968 44.717 42.8671 44.7154 41.7972V24.2842C44.7171 23.1618 44.2825 22.0827 43.5033 21.2748Z" fill="#F08080"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 17 29" fill="none">
+                            <path d="M2 2L14.3352 14.3352L2 26.6705" stroke="#F08080" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </li>
+                    <li>
+                    <a href="/MaterialInfo">원부재료 관리</a>
+                    </li>
+                    <li> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 17 29" fill="none">
+                            <path d="M2 2L14.3352 14.3352L2 26.6705" stroke="#F08080" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </li>
+                    <li>
+                        <a href="MaterialRegister">원부재료 등록</a>
+                    </li>
+                </ul>
+                <!--lnb -->
+                <h2 class="sub_tit">원부재료 등록</h2>
+                <form method="post" class="editBox">
+                    <div class="uploadImg">
+                        <div class="showImg">
+
+                        </div>
+                        <div class="uploadBtn">
+                            <input type="file" name="" id="searchFileBtn">
+                        </div>
+                    </div>
+                    <div class="materialInfoBox">
+                        <table class="info">
+                            <tr>
+                                <th>제품번호<span>*</span></th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>제품명<span>*</span></th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>규격</th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>BOX당 수량<span>*</span></th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>BOX 표시단위</th>
+                                <td>
+                                    <select name="weight" id="">
+                                        <option value="1MT">1MT</option>
+                                        <option value="25kg">25kg</option>
+                                        <option value="1kg">1kg</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>가격</th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>협력업체</th>
+                                <td class="coworks">
+                                    <input type="text"><br>
+                                    <input type="text"><br>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>원산지</th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>유통기한<span>*</span></th>
+                                <td>
+                                    <input type="text">
+                                    <select name="period" id="">
+                                        <option value="year">년</option>
+                                        <option value="month">월</option>
+                                        <option value="day">일</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>진열순서</th>
+                                <td>
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>구분</th>
+                                <td>
+                                    <label for="raw">
+                                        <input type="radio" id="raw" name="ingredient" value="raw" checked>
+                                        원재료
+                                    </label>
+                                    <label for="sub">
+                                        <input type="radio" id="sub" name="ingredient" value="sub">
+                                        부재료
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="buttonBox">
+                            <input type="reset" value="취소">
+                            <input type="submit" value="수정">	
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--content-->
+        </div>
+    </div>
+
+    <script>
+        const rawRadio = document.getElementById('raw');
+        const subRadio = document.getElementById('sub');
+    
+        rawRadio.addEventListener('change', () => {
+            if (rawRadio.checked) {
+                subRadio.checked = false;
+            }
+        });
+    
+        subRadio.addEventListener('change', () => {
+            if (subRadio.checked) {
+                rawRadio.checked = false;
+            }
+        });
+    </script>
+</body>
+</html>

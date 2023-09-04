@@ -1,0 +1,99 @@
+table {
+	border-spacing: 0;
+}
+.content_detail{
+	font-family: 'Inter';
+	margin-top: 20px;
+	margin-left: 200px;
+	width: 80%;
+	height: auto;
+}
+.order_lnb{
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	list-style-type: none;
+	margin-left: 100px;
+}
+.order_lnb li {
+	margin-right: 12px;
+}
+.order_lnb li a {
+	text-decoration: none;
+	color: #000;
+}
+
+.sub_con .tit_box {
+	margin: 20px 0;
+	margin-left: 140px;
+	line-height: 1.1;
+}
+
+.sub_con .search_pc {
+	width: 80%;
+	text-align: right;
+	margin: 20px auto;
+}
+.sub_con .search_pc input {
+	border: 1px solid #f08080;
+	height: 20px;
+}
+.sub_con .search_pc span button {
+	background-color: #f08080;
+	color: white;
+	border: none;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 4px 12px;
+	border-radius: 5px;
+}
+.sub_con .result_table {
+	width: 80%;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+.sub_con .result_table th,
+.sub_con .result_table td {
+	border: 1px solid #000;
+	
+}
+.sub_con .result_table thead{
+	background-color: #fce6e6;
+	text-align: center;
+	height: 40px;
+}
+.sub_con .result_table tbody {
+	text-align: center;
+}
+
+.sub_con .result_table td button {
+	background-color: #f08080;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	line-height: 40px;
+	padding: 0 12px;
+	box-shadow: 0px 1px 2px gray;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+.sub_con .bot_box {
+	width: 80%;
+	margin: 40px auto;
+}
+.sub_con .bot_box .bot_btn {
+	display: flex;
+	justify-content: space-between;
+}
+.sub_con .bot_box .bot_btn .btn {
+	height: 40px;
+	background-color: #f08080;
+	color: white;
+	border-radius: 5px;
+	line-height: 40px;
+	padding: 0 12px;
+	box-shadow: 0px 1px 2px gray;
+}

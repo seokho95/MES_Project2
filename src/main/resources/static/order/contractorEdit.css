@@ -1,0 +1,66 @@
+.content_detail{
+    font-family: 'NotoSans';
+	margin-top: 20px;
+	margin-left: 350px;
+	width: 80%;
+	height: auto;
+}
+.order_lnb{
+    margin-left: 90px;
+}
+
+.sub_tit {
+    margin: 20px 0;
+    margin-left: 130px;
+	line-height: 1.1;
+}
+.editBox {
+    width: 80%;
+    margin: 40px auto;
+}
+
+.editBox .materialInfoBox {
+    width: 70%;
+    height: 630px;
+}
+.editBox .materialInfoBox .info {
+    width: 100%;
+    border-collapse: collapse;
+}
+.editBox .materialInfoBox .info tr{
+    border: 1px solid #000;
+}
+.editBox .materialInfoBox .info tr th {
+    background: #fce6e6;
+    text-align: center;
+    height: 32px;
+    line-height: 32px;
+    width: 20%;
+    border-right: 1px solid #000;
+}
+.editBox .materialInfoBox .info tr th span {
+    color: red;
+}
+.editBox .materialInfoBox .info tr td {
+    width: 80%;
+    padding-left: 12px;
+}
+.editBox .materialInfoBox .info tr td button {
+    border: none;
+    color: white;
+    background-color: #f08080;
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+
+.editBox .buttonBox {
+    margin-top: 40px;
+    text-align: right;
+}
+.editBox .buttonBox input {
+    border: none;
+    color: white;
+    background-color: #f08080;
+    padding: 4px 12px;
+    box-shadow: 0px 1px 2px gray;
+}
