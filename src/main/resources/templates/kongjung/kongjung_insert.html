@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="EUC-KR">
+	<title>공정 정보</title>
+
+	<th:block th:include="header/header.html"></th:block>
+	<link rel="stylesheet" href="/Kongjung/kongjung_insert.css">
+	<link rel="stylesheet" href="/global.css">
+
+</head>
+
+<body>
+	<div id="container">
+		<ul class="menu1" style="width: 1250px;">
+			<li>
+				<a href="/main.html">
+					<img src="img/home.png" width="40" height="40" viewBox="0 0 51 51">
+				</a>
+			</li>
+			<div style="margin-top: 15px;" width="300px" id="menu2">
+				<li>
+					<img src="img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+				</li>
+				<li>
+					<h4>공정 관리</h4>
+				</li>
+				<li>
+					<img src="img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+				</li>
+				<li>
+					<h4>공정 등록</h4>
+				</li>
+			</div>
+		</ul>
+		<div class="name">
+			<h2>공정 등록</h2>
+		</div>
+		<div class="table_container" style="margin-top: 20px;">
+			<table class="table" border="2" width="1250px">
+				<thead>
+					<tr>
+						<th id="col">공정 번호</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+
+						<td id="col1">레시피 설명</td>
+						<td id="col2"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="btn">
+			<button id="btn_cancle" onclick="location.href='kongjunginfo'" style="float:right">취소</button>
+			<button id="btn_insert" onclick="btn_insert()" style="float: right">등록</button>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.ch1{
+	border: 2px solid #000000;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left:  400px;
+	top: 200px;
+	width: 250px;
+	height: 190px;
+	text-align: center;
+	background-color: #ffffff;
+  	font-weight: bold;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    padding-top: 60px;
+        	box-shadow: 1px 1px 1px black;
+
+}
+.ch2{
+	border: 2px solid #000000;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left:  800px;
+	top: 200px;
+	width: 250px;
+	height: 190px;
+	text-align: center;
+	background-color: #ffffff;
+  font-weight: bold;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    padding-top: 60px;
+        	box-shadow: 1px 1px 1px black;
+
+}
+.ch3{
+	border: 2px solid #000000;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left:  1200px;
+	top: 200px;
+	width: 250px;
+	height: 190px;
+	text-align: center;
+	background-color: #ffffff;
+  font-weight: bold;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    padding-top: 60px;
+        	box-shadow: 1px 1px 1px black;
+
+}
+.ch4{
+	border: 2px solid #000000;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left:  400px;
+	top: 600px;
+	width: 250px;
+	height: 190px;
+	text-align: center;
+			background-color: #ffffff;
+  font-weight: bold;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    padding-top: 60px;
+        	box-shadow: 1px 1px 1px black;
+
+	
+}
+.ch5{
+	border: 2px solid #000000;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left:  800px;
+	top: 600px;
+	width: 250px;
+	height: 190px;
+	text-align: center;
+	background-color: #ffffff;
+  font-weight: bold;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    padding-top: 60px;
+        	box-shadow: 1px 1px 1px black;
+
+}
+.ch6{
+	border: 2px solid #000000;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left:  1200px;
+	top: 600px;
+	width: 250px;
+	height: 190px;
+	text-align: center;
+	background-color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    padding-top: 60px;
+    	box-shadow: 1px 1px 1px black;
+
+}
+.ch1:hover{
+	background-color: #ffbebe;
+		box-shadow: 3px 3px 3px black;
+
+}
+.ch2:hover{
+	background-color: #ffbebe;
+		box-shadow: 3px 3px 3px black;
+
+}
+.ch3:hover{
+	background-color: #ffbebe;
+		box-shadow: 3px 3px 3px black;
+
+}
+.ch4:hover{
+	background-color: #ffbebe;
+		box-shadow: 3px 3px 3px black;
+
+}
+.ch5:hover{
+	background-color: #ffbebe;
+		box-shadow: 3px 3px 3px black;
+
+}
+.ch6:hover{
+	background-color: #ffbebe;
+		box-shadow: 3px 3px 3px black;
+
+}
