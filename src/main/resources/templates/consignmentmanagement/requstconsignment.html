@@ -1,138 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>출하 요청</title>
-    <link rel="stylesheet" href="common/global.css" />
-    <link rel="stylesheet" href="common/header.css" />
-    <link rel="stylesheet" href="consignmentmanagement/requstconsignment.css" />
-  </head>
-  <body>
-    <header>
-      <div class="header">
-          <table><tr>
-          <td><a onclick="history.back()" id="back"><img src="../img/back.png" ></a></td>
-            <td>
-          <a href="/mainPage" id="logo"><img src="../img/logo2.png" alt="로고"></a></td>
-          </tr></table>
-    </header>
-    <div id="requstconsignment" class="req_con">
-      <ul class="menu" style="width: 500px;">
-        <li>
-            <a href="/main.html">
-                <img src="../img/home.png" width="40" height="40" viewBox="0 0 51 51">
-            </a>
-        </li>
-        <div style="margin-top: 15px;" width="300px" id="menu2">
-        <li>
-            <img src="../img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
-        </li>
-        <li>
-            <h4><a href="/order/main.html">출하 관리</a></h4>
-        </li>
-        <li> 
-            <img src="../img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
-        </li>
-        <li>
-            <h4><a href="#">출하 요청</a></h4>
-        </li>
-      </div>
-    </ul>
-      <br />
-      <br />
-      <br />
-      <h3>출하 요청</h3>
-      <table id="table1">
-        <tr>
-          <th>접수일자</th>
-          <td><input type="text" placeholder="등록정보에서 받아옴" readonly/></td>
-        </tr>
-        <tr>
-          <th>업체 명</th>
-          <td>
-            <input type="text" placeholder="등록정보에서 받아옴" readonly />
-          </td>
-        </tr>
-        <tr>
-          <th>주소</th>
-          <td><input type="text" placeholder="등록정보에서 받아옴" readonly></td>
-        </tr>
-      </table>
-      <br />
-      <table id="table2">
-        <thead>
-          <tr>
-            <th style="width: 100px;">바코드</th>
-            <th style="width: 150px;">제품 명</th>
-            <th style="width: 100px;">요청 수량</th>
-            <th style="width: 150px;">수주 번호</th>
-            <th style="width: 100px;">출하 수량</th>
-            <th style="width: 100px;">재고 수량</th>
-            <th>특이사항</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="list">
-            <td>0</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-      <br />
-      <table id="table3">
-        <tr>
-          <th rowspan="2">출고 현황</th>
-          <th>요청 수량</th>
-          <th>출고 수량</th>
-          <th>재고 수량</th>
-          <th>총 출고 수량</th>
-        </tr>
-        <tr>
-          <td>0</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-      <br />
-      <h3>출하 내역</h3>
-      <table id="table4">
-        <thead>
-          <tr>
-            <th>수주 번호</th>
-            <th>업체 명</th>
-            <th>품목 번호</th>
-            <th>출하 수량</th>
-            <th>총 출하 수량</th>
-            <th>출하 일자</th>
-            <th>바코드</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-      <div id="btn">
-        <button id="btn_list" style="float: left"><a href="ConsignmentManagement">목록으로</a></button>
-        <button id="btn_cnacle" style="float: right">출하 취소</button>
-        <button id="btn_consignment" style="float: right">출하</button>
-        <button id="btn_finish_con" style="float: right">출하 완료</button>
-      </div>
-    </div>
-  </body>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>출하 요청</title>
+	<link rel="stylesheet" href="common/global.css" />
+	<link rel="stylesheet" href="common/header.css" />
+	<link rel="stylesheet" href="consignmentmanagement/requstconsignment.css" />
+</head>
+
+<body>
+	<th:block th:insert="header/header.html"></th:block>
+	<div id="requstconsignment" class="req_con">
+		<ul class="menu1" style="width: 500px;">
+			<li>
+				<a href="/main.html">
+					<img src="img/home.png" width="40" height="40" viewBox="0 0 51 51">
+				</a>
+			</li>
+			<div style="margin-top: 15px;" width="300px" id="menu2">
+				<li>
+					<img src="img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+				</li>
+				<li>
+					<h4>출하 관리</h4>
+				</li>
+				<li>
+					<img src="img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+				</li>
+				<li>
+					<h4>출하 요청</h4>
+				</li>
+			</div>
+		</ul>
+		<br />
+		<br />
+		<br />
+		<h3>출하 요청</h3>
+		<table id="table1">
+			<tr>
+				<th>접수일자</th>
+				<td><input type="text" placeholder="등록정보에서 받아옴" readonly /></td>
+			</tr>
+			<tr>
+				<th>업체 명</th>
+				<td>
+					<input type="text" placeholder="등록정보에서 받아옴" readonly />
+				</td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td><input type="text" placeholder="등록정보에서 받아옴" readonly></td>
+			</tr>
+		</table>
+		<br />
+		<table id="table2">
+			<thead>
+				<tr>
+					<th style="width: 100px;">바코드</th>
+					<th style="width: 150px;">제품 명</th>
+					<th style="width: 100px;">요청 수량</th>
+					<th style="width: 150px;">수주 번호</th>
+					<th style="width: 100px;">출하 수량</th>
+					<th style="width: 100px;">재고 수량</th>
+					<th>특이사항</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr id="list">
+					<td>0</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<br />
+		<table id="table3">
+			<tr>
+				<th rowspan="2">출고 현황</th>
+				<th>요청 수량</th>
+				<th>출고 수량</th>
+				<th>재고 수량</th>
+				<th>총 출고 수량</th>
+			</tr>
+			<tr>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<br />
+		<h3>출하 내역</h3>
+		<table id="table4">
+			<thead>
+				<tr>
+					<th>수주 번호</th>
+					<th>업체 명</th>
+					<th>품목 번호</th>
+					<th>출하 수량</th>
+					<th>총 출하 수량</th>
+					<th>출하 일자</th>
+					<th>바코드</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="btn">
+			<button id="btn_list" style="float: left"><a href="ConsignmentManagement">목록으로</a></button>
+			<button id="btn_cnacle" style="float: right">출하 취소</button>
+			<button id="btn_consignment" style="float: right">출하</button>
+			<button id="btn_finish_con" style="float: right">출하 완료</button>
+		</div>
+	</div>
+</body>
+
 </html>

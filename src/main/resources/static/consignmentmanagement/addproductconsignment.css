@@ -5,9 +5,7 @@
 	height: auto;
 }
 
-/* .menu > li{
-  padding-left: 10px;
-} */
+
 #menu2>li {
 	padding-left: 10px;
 }
@@ -23,7 +21,6 @@
 th {
 	border: 1px solid #242424;
 	height: 30px;
-	margin: 0;
 	background-color: #fce6e6;
 }
 
@@ -35,10 +32,9 @@ th {
 #table1>tbody>tr>td>input {
 	margin-left: 10px;
 	font-size: 15px;
-	width: 30%;
+	width: 200px;
 	height: 20px;
 	border: 1px solid #cacaca;
-	background-color: #ececec;
 }
 
 #table1>tbody>tr>td>button {
@@ -56,12 +52,13 @@ th {
 textarea {
 	margin-left: 10px;
 	font-size: 14px;
-	width: 80%;
+	width: 76%;
 	height: 20px;
 	border-radius: 3px;
 	border: 1px solid #cacaca;
-	background-color: #ececec;
 	resize: none;
+	margin: auto 1;
+	display: block;
 }
 
 #table2>tbody {
@@ -77,9 +74,8 @@ textarea {
 #table2>tbody>tr>td>input {
 	font-size: 15px;
 	width: 75%;
-	height: 40px;
+	height: 30px;
 	border: 1px solid #cacaca;
-	background-color: #ececec;
 	text-align: center;
 }
 
@@ -90,8 +86,8 @@ textarea {
 	margin-left: 5px;
 	font-size: 15px;
 	border-radius: 3px;
-	width: 16%;
-	height: 40px;
+	width: 60px;
+	height: 30px;
 	border: 1px solid #929292;
 	color: #fff;
 	background-color: #f08080;
@@ -124,7 +120,7 @@ li {
 	border: 1px solid #929292;
 	border-radius: 3px;
 }
-a{
+#btn > button >a{
 	text-decoration: none;
 	color: #fff;
 }
