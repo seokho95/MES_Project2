@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>출하 등록</title>
+	<link rel="stylesheet" href="common/global.css">
+	<link rel="stylesheet" href="common/header.css">
+	<link rel="stylesheet" href="consignmentmanagement/addproductconsignment.css">
+</head>
+<style>
+	/* 팝업 스타일 */
+	.popup {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		/* 배경 어둡게 처리 */
+	}
+
+	.popup-content {
+		background-color: #fff;
+		width: 80%;
+		max-width: 800px;
+		margin: 50px auto;
+		padding: 20px;
+		border-radius: 5px;
+	}
+
+	/* 닫기 버튼 스타일 */
+	.close {
+		color: #888;
+		float: right;
+		font-size: 24px;
+		font-weight: bold;
+		cursor: pointer;
+	}
+</style>
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+	$(function () {
+
+		$('.add_product_consignment').submit(function (r) {
+
+		})
+	})
+	// 팝업 열기
+	function consumerListPopup() {
+		// 팝업창 대신 모달 팝업 열기
+		var popup = document.getElementById('consumerListPopup');
+		popup.style.display = 'block';
+	}
+	function consumerListClose() {
+		var popup = document.getElementById('consumerListPopup');
+		popup.style.display = 'none';
+	}
+
+	// 팝업 열기
+	function productListPopup() {
+		var popup = document.getElementById('productListPopup');
+		popup.style.display = 'block';
+	}
+	function productListClose() {
+		var popup = document.getElementById('productListPopup');
+		popup.style.display = 'none';
+	}
+
+	function orderListPopup() {
+		var popup = document.getElementById('orderListPopup');
+		popup.style.display = 'block';
+	}
+	function orderListClose() {
+		var popup = document.getElementById('orderListPopup');
+		popup.style.display = 'none';
+	}
+
+	function selectorder(orderNo) {
+		// 주문 번호를 입력 상자에 자동으로 입력
+		document.getElementById("orderNoInput").value = orderNo;
+		window.opener.selectorder(orderNo); // 부모 창의 함수 호출
+		window.close();
+	}
+
+</script>
+
+<body>
+	<header>
+		<div class="header">
+			<table>
+				<tr>
+					<td><a onclick="history.back()" id="back"><img src="../img/back.png"></a></td>
+					<td>
+						<a href="/mainPage" id="logo"><img src="../img/logo2.png" alt="로고"></a>
+					</td>
+				</tr>
+			</table>
+	</header>
+	<!-- 출하등록 -->
+	<!--<th:block th:insert="header.html"></th:block>-->
+	<div id="addaddproduct_container" class="addproduct">
+		<ul class="menu" style="width: 500px;">
+			<li>
+				<a href="/main.html">
+					<img src="../img/home.png" width="40" height="40" viewBox="0 0 51 51">
+				</a>
+			</li>
+			<div style="margin-top: 15px;" width="300px" id="menu2">
+				<li>
+					<img src="../img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+				</li>
+				<li>
+					<h4><a href="/order/main.html">출하 관리</a></h4>
+				</li>
+				<li>
+					<img src="../img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+				</li>
+				<li>
+					<h4><a href="#">출하 등록</a></h4>
+				</li>
+			</div>
+		</ul>
+		<br />
+		<br />
+		<br />
+		<h3>출하 등록</h3>
+		<form class="add_product_consignment" action="#" method="post" enctype="multipart/form-data">
+			<div id="table_div">
+				<table id="table1">
+					<tr>
+						<th>접수일자<span style="color: red">*</span></th>
+						<td><input type="date" /></td>
+					</tr>
+					<tr>
+						<th>납기일자<span style="color: red">*</span></th>
+						<td><input type="date" /></td>
+					</tr>
+					<tr>
+						<th>업체 명<span style="color: red">*</span></th>
+						<td>
+							<input type="text" id="consumerName" placeholder="업체 조회" />
+							<button type="button" onclick="consumerListPopup()">검색</button>
+							<!-- 모달 팝업 -->
+							<div id="consumerListPopup" class="popup">
+								<div class="popup-content">
+									<span class="close" onclick="consumerListClose()">×</span>
+									<iframe src="AddProductConsignment/consumerlist" width="100%" height="400px"></iframe>
+								</div>
+							</div>
+
+						</td>
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td><input type="text" id="consumerAddress" readonly></td>
+					</tr>
+					<tr>
+						<th>특이 사항</th>
+						<td><textarea name="memo" id="memo" cols="30" rows="10"></textarea></td>
+					</tr>
+				</table>
+
+				<br />
+				<table id="table2">
+					<thead>
+						<tr>
+							<th style="width: 250px;">품목 번호</th>
+							<th>출하 일정</th>
+							<th style="width: 100px;">요청 수량</th>
+							<th style="width: 100px;">출하 수량</th>
+							<th style="width: 300px;">수주 번호</th>
+							<th>기사 번호</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<input type="text" id="productNoInput" placeholder="품목번호 검색" />
+								<button type="button" onclick="productListPopup()">조회</button>
+								<div id="productListPopup" class="popup">
+									<div class="popup-content">
+										<span class="close" onclick="productListClose()">×</span>
+										<iframe src="AddProductConsignment/productlist" width="100%" height="400px"></iframe>
+									</div>
+								</div>
+							</td>
+							<td><input type="date" /></td>
+							<td>
+								<input type="text" placeholder="0" />개
+							</td>
+							<td>
+								<input type="text" placeholder="0" />개
+							</td>
+							<td>
+								<input type="text" id="orderNoInput" placeholder="수주번호 검색" />
+								<button type="button" onclick="orderListPopup()">조회</button>
+								<div id="orderListPopup" class="popup">
+									<div class="popup-content">
+										<span class="close" onclick="orderListClose()">×</span>
+										<iframe src="AddProductConsignment/orderlist" width="100%" height="400px"></iframe>
+									</div>
+							</td>
+							<td>
+								<input type="text" placeholder="기사 번호를 입력해주세요." />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="btn" style="float: right">
+					<button id="btn_back"><a href="ConsignmentManagement">돌아가기</a></button>
+					<button id="btn_add" onclick="btn_add()">등록</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

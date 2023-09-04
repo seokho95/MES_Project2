@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="common/global.css" />
+    <link rel="stylesheet" href="common/header.css" />
+    <link rel="stylesheet" href="consignmentmanagement/productmanagement.css" />
+    <title>Document</title>
+  </head>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // #category 아래의 ul 요소에서 li 항목 가져옴.
+        var listItems = document.querySelectorAll("#category > ul li");
+
+        // 각 항목에 클릭 이벤트 추가.
+        listItems.forEach(function (item) {
+            item.addEventListener("click", function () {
+                // 모든 클래스를 초기화.
+                listItems.forEach(function (li) {
+                    li.classList.remove("clicked");
+                });
+                // 클릭한 항목에 클래스를 추가해서 스타일 변경.
+                this.classList.add("clicked");
+            });
+        });
+    });
+
+     // 상단 체크 박스 클릭 시 아래 체크 박스 전체 선택 또는 해제
+     function AllCheckboxes() {
+            var checkboxes = document.querySelectorAll('table input[type="checkbox"]');
+            var masterCheckbox = document.getElementById('all_check');
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = masterCheckbox.checked;
+            });
+        }
+</script>
+  <body>
+      <header>
+        <div class="header">
+            <table><tr>
+            <td><a onclick="history.back()" id="back"><img src="../img/back.png" ></a></td>
+              <td>
+            <a href="/mainPage" id="logo"><img src="../img/logo2.png" alt="로고"></a></td>
+            </tr></table>
+      </header>
+      <div id="consignmemtmanagement" class="managment">
+        <ul class="menu" style="width: 500px;">
+          <li>
+              <a href="/main.html">
+                  <img src="../img/home.png" width="40" height="40" viewBox="0 0 51 51">
+              </a>
+          </li>
+          <div style="margin-top: 15px;" width="300px" id="menu2">
+          <li>
+              <img src="../img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+          </li>
+          <li>
+              <h4><a href="/order/main.html">출하 관리</a></h4>
+          </li>
+          <li> 
+              <img src="../img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+          </li>
+          <li>
+              <h4><a href="#">출하지시 관리</a></h4>
+          </li>
+        </div>
+      </ul>
+        <br />
+        <br />
+        <br />
+      <h3>출하관리 현황</h3>
+      <p>
+        <span>0</span>
+        개의 데이터가 조회되었습니다.
+      </p>
+      <table id="table1">
+        <tr>
+          <th>출하 일자</th>
+          <td><input type="date" /> ~ <input type="date" /></td>
+          <th>납기 일자</th>
+          <td><input type="date" /> ~ <input type="date" /></td>
+        </tr>
+      </table>
+      <div id="category" class="category">
+        <ul>
+          <li onclick="all_search()">전체</li>
+          <li onclick="waiting()">출고 대기</li>
+          <li onclick="proceeding()">출하 중</li>
+          <li onclick="completed()">출하 완료</li>
+        </ul>
+        <div id="search" style="float: right">
+          <input type="text" placeholder="업체명을 입력해주세요." />
+          <button id="search_btn">검색</button>
+        </div>
+      </div>
+      <br />
+      <br />
+      <table id="table2">
+        <thead>
+          <th style="width: 25px;"><input type="checkbox" id="all_check" onchange="AllCheckboxes()" /></th>
+          <th style="width: 100px;">출하 코드</th>
+          <th style="width: 115px;">접수 일자</th>
+          <th style="width: 115px;">납기 일자</th>
+          <th>업체 명</th>
+          <th style="width: 100px;">품목 번호</th>
+          <th>출하 일정</th>
+          <th style="width: 80px;">요청 수량</th>
+          <th style="width: 80px;">출하 수량</th>
+          <th style="width: 80px;">재고 수량</th>
+          <th style="width: 100px;">수주 번호</th>
+          <th>담당기사 번호</th>
+          <th>출하 현황</th>
+        </thead>
+        <tbody>
+          <!-- 리스트 정보 받아오기 -->
+          <td><input type="checkbox" style="width: 15px;" height="15px"/></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tbody>
+      </table>
+      <div id="btn">
+        <button id="btn_delete" style="float: left" onclick="btn_del()">선택 삭제</button>
+        <button id="btn_add" style="float: right"><a href="AddProductConsignment">등록</a></button>
+      </div>
+    </div>
+  </body>
+</html>
