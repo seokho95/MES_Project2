@@ -1,101 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <style>
-    #container {
-      width: 300px;
-      margin: 0 auto;
-    }
-    #driver_list {
-      border: 1px solid #242424;
-      border-collapse: collapse;
-    }
-    th,
-    td {
-      border: 1px solid #242424;
-    }
-    th {
-      background-color: #fce6e6;
-    }
-    td {
-      text-align: center;
-    }
-    button {
-      margin-top: 5px;
-      float: right;
-      color: #fff;
-      width: 100px;
-      height: 40px;
-      background-color: #f08080;
-      text-align: center;
-      border: 1px solid #929292;
-      border-radius: 3px;
-    }
-  </style>
-  <body>
-    <div id="container">
-      <table id="driver_list">
-        <thead>
-          <th style="width: 100px">기사 코드</th>
-          <th style="width: 200px">기사 연락처</th>
-        </thead>
-        <tbody id="driver_data">
-          <!-- 리스트 정보 받아오기 -->
-        </tbody>
-      </table>
-      <button onclick="window.close()">닫기</button>
-    </div>
-    <script>
-      // 가상의 데이터 리스트 (예시)
-      var driverDataList = [
-        { driver: "No1", driver_tel: "010-5487-5546"},
-        { driver: "No2", driver_tel: "010-4871-1571"},
-        // 다른 데이터도 유사한 형식으로 추가 가능
-      ];
 
-      // 데이터를 동적으로 생성하여 테이블에 추가하는 함수
-      function populateDriverData() {
-        var tbody = document.getElementById("driver_data");
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+<style>
+	#container {
+		width: 300px;
+		margin: 0 auto;
+	}
 
-        // 데이터 리스트를 순회하며 각 항목을 테이블에 추가
-        for (var i = 0; i < driverDataList.length; i++) {
-          var driver = driverDataList[i];
-          var row = document.createElement("tr");
+	#driver_list {
+		border: 1px solid #242424;
+		border-collapse: collapse;
+	}
 
-          // 기사 코드 열
-          var driverCell = document.createElement("td");
-          var driverLink = document.createElement("a");
-          driverLink.textContent = driver.driver;
-          // 클릭 이벤트를 통해 데이터를 선택하도록 설정
-          driverLink.onclick = function (event) {
-            event.preventDefault();
-            selectdriver(driver.driver);
-          };
-          driverCell.appendChild(driverLink);
-          row.appendChild(driverCell);
+	th,
+	td {
+		border: 1px solid #242424;
+	}
 
-          // 기사 연락처 열
-          var driver_telCell = document.createElement("td");
-          driverCell.textContent = driver.driver_tel;
-          row.appendChild(driverCell);
+	th {
+		background-color: #fce6e6;
+	}
 
-          // 완성된 행을 테이블에 추가
-          tbody.appendChild(row);
-        }
-      }
-      // 데이터를 테이블에 추가
-      populateDriverData();
+	td {
+		text-align: center;
+	}
 
-      function selectDriver(driver) {
-        // 회사 이름과 주소를 입력란에 자동으로 채우기
-        document.getElementById("driverInput").value = driver;
-        // 팝업 창 닫기
-        window.close();
-      }
-    </script>
-  </body>
+	button {
+		margin-top: 5px;
+		float: right;
+		color: #fff;
+		width: 100px;
+		height: 40px;
+		background-color: #f08080;
+		text-align: center;
+		border: 1px solid #929292;
+		border-radius: 3px;
+	}
+</style>
+
+<body>
+	<div id="container">
+		<table id="driver_list">
+			<thead>
+				<th style="width: 100px">기사 코드</th>
+				<th style="width: 200px">기사 연락처</th>
+			</thead>
+			<tbody id="driver_data">
+				<!-- 리스트 정보 받아오기 -->
+			</tbody>
+		</table>
+		<button onclick="window.close()">닫기</button>
+	</div>
+	<script>
+		// 가상의 데이터 리스트 (예시)
+		var driverDataList = [
+			{driverNo: "No1", driver_tel: "010-5487-5546"},
+			{driverNo: "No2", driver_tel: "010-4871-1571"},
+			// 다른 데이터도 유사한 형식으로 추가 가능
+		];
+
+		// 데이터를 동적으로 생성하여 테이블에 추가하는 함수
+		function populateDriverData() {
+			var tbody = document.getElementById("driver_data");
+
+			// 데이터 리스트를 순회하며 각 항목을 테이블에 추가
+			for (var i = 0; i < driverDataList.length; i++) {
+				var driver = driverDataList[i];
+				var row = document.createElement("tr");
+
+				// 기사 코드 열
+				var driverNoCell = document.createElement("td");
+				var driverNoLink = document.createElement("a");
+				driverNoLink.textContent = driver.driverNo; // 기사 코드를 표시하도록 수정
+				// 클릭 이벤트를 통해 데이터를 선택하도록 설정
+				driverNoLink.onclick = function (event) {
+					event.preventDefault();
+					selectDriver(driver.driverNo); // 기사 코드를 전달하도록 수정
+				};
+				driverNoCell.appendChild(driverNoLink);
+				row.appendChild(driverNoCell);
+
+
+				// 기사 연락처 열
+				var driver_telCell = document.createElement("td");
+				driver_telCell.textContent = driver.driver_tel;
+				row.appendChild(driver_telCell);
+
+				// 완성된 행을 테이블에 추가
+				tbody.appendChild(row);
+			}
+		}
+		// 데이터를 테이블에 추가
+		populateDriverData();
+
+		function selectDriver(driverNo) {
+			document.getElementById("driverInput").value = driverNo;
+			window.close();
+		}
+	</script>
+</body>
+
 </html>

@@ -26,7 +26,7 @@
 	.popup-content {
 		background-color: #fff;
 		width: 80%;
-		max-width: 800px;
+		max-width: 1100px;
 		margin: 50px auto;
 		padding: 20px;
 		border-radius: 5px;
@@ -72,6 +72,11 @@
 			popup.style.display = 'none';
 		}
 	}
+
+	function closeMainPopup1() {
+		orderListClose(); // 주요 HTML 파일의 팝업 창 닫기 함수 호출
+	}
+
 	function selectorder(orderNo) {
 		// 주문 번호를 입력 상자에 자동으로 입력
 		document.getElementById("orderNoInput").value = orderNo;
@@ -133,7 +138,7 @@
 						<td><input type="text" readonly /></td>
 					</tr>
 					<tr>
-						<th>업체 명<span style="color: red">*</span></th>
+						<th>사업자번호<span style="color: red">*</span></th>
 						<td>
 							<input type="text" id="consumerName" readonly />
 						</td>
