@@ -6,7 +6,7 @@ import org.apache.ibatis.type.Alias;
 public class ConsignmentManagementDTO {
 	private String sNum; //수주번호
 	private String dateOrder; //수주 접수 일자
-	private String dateReceived; //납기 일자
+	private String dateToArrive; //납기 일자
 	private String cNum; // 사업자번호
 	private String address; // 주소
 	private String pNum;//품목번호
@@ -22,11 +22,11 @@ public class ConsignmentManagementDTO {
 	
 	
 	//수주리스트
-	public ConsignmentManagementDTO(String sNum, String dateOrder, String dateReceived, String cNum, String address,
+	public ConsignmentManagementDTO(String sNum, String dateOrder, String dateToArrive, String cNum, String address,
 			String pNum, int sAmount) {
 		this.sNum = sNum;
 		this.dateOrder = dateOrder;
-		this.dateReceived = dateReceived;
+		this.dateToArrive = dateToArrive;
 		this.cNum = cNum;
 		this.address = address;
 		this.pNum = pNum;
@@ -39,11 +39,11 @@ public class ConsignmentManagementDTO {
 	
 	
 
-	public ConsignmentManagementDTO(String sNum, String dateOrder, String dateReceived, String cNum, String address,
+	public ConsignmentManagementDTO(String sNum, String dateOrder, String dateToArrive, String cNum, String address,
 			String pNum, int sAmount, int dNum, String shipNum, String dateStartShip, int shipAmount, String sPhase) {
 		this.sNum = sNum;
 		this.dateOrder = dateOrder;
-		this.dateReceived = dateReceived;
+		this.dateToArrive = dateToArrive;
 		this.cNum = cNum;
 		this.address = address;
 		this.pNum = pNum;
@@ -72,12 +72,12 @@ public class ConsignmentManagementDTO {
 		this.dateOrder = dateOrder;
 	}
 
-	public String getDateReceived() {
-		return dateReceived;
+	public String getdateToArrive() {
+		return dateToArrive;
 	}
 
-	public void setDateReceived(String dateReceived) {
-		this.dateReceived = dateReceived;
+	public void setdateToArrive(String dateToArrive) {
+		this.dateToArrive = dateToArrive;
 	}
 
 	public String getcNum() {
@@ -154,7 +154,7 @@ public class ConsignmentManagementDTO {
 
 	@Override
 	public String toString() {
-		return "ConsignmentManagementDTO [sNum=" + sNum + ", dateOrder=" + dateOrder + ", dateReceived=" + dateReceived
+		return "ConsignmentManagementDTO [sNum=" + sNum + ", dateOrder=" + dateOrder + ", dateToArrive=" + dateToArrive
 				+ ", cNum=" + cNum + ", address=" + address + ", pNum=" + pNum + ", sAmount=" + sAmount + ", dNum="
 				+ dNum + ", shipNum=" + shipNum + ", dateStartShip=" + dateStartShip + ", shipAmount=" + shipAmount
 				+ ", sPhase=" + sPhase + "]";

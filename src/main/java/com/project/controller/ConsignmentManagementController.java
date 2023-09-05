@@ -32,7 +32,7 @@ public class ConsignmentManagementController {
 
 	// 수주 리스트 조회
 	@RequestMapping("AddProductConsignment/orderlist")
-	public ModelAndView userList(ModelAndView view) {
+	public ModelAndView orderList(ModelAndView view) {
 		List<ConsignmentManagementDTO> list = consignmentManagementService.vieworderlist();
 		System.out.println(list);
 		System.out.println(view);
@@ -43,7 +43,7 @@ public class ConsignmentManagementController {
 
 	//기사연락처 리스트
 	@RequestMapping("AddProductConsignment/driverlist")
-	public String ConsumerList() {
+	public String driverList() {
 		return "consignmentmanagement/driverlist";
 	}
 
