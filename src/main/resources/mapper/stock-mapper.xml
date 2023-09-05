@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.StockMapper">
+
+
+	<select id="selectAllMaterial" resultType="material">
+		select * from material
+	</select>
+	<select id="countAllMaterial" resultType="int">
+		select count(*) from material
+	</select>
+	<select id="selectAllProduct" resultType="product">
+		select * from product
+	</select>
+	<select id="countAllProduct" resultType="int">
+		select count(*) from product
+	</select>
+
+</mapper>
