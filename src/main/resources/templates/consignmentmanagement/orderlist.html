@@ -7,7 +7,7 @@
 	<title>Document</title>
 </head>
 <style>
-	#container {
+	#order_container {
 		width: 1150px;
 		margin: 0 auto;
 	}
@@ -17,20 +17,20 @@
 		border-collapse: collapse;
 	}
 
-	th,
+	#order_list>thead>tr>th,
 	td {
 		border: 1px solid #242424;
 	}
 
-	th {
+	#order_list>thead>tr>th {
 		background-color: #fce6e6;
 	}
 
-	td {
+	#order_list>tbody>tr>td {
 		text-align: center;
 	}
 
-	button {
+	#order_container button {
 		margin-top: 5px;
 		float: right;
 		color: #fff;
@@ -44,7 +44,7 @@
 </style>
 
 <body>
-	<div id="container" style="width: 1050px;">
+	<div id="order_container" style="width: 1050px;">
 		<table id="order_list">
 			<thead>
 				<th style="width: 100px">수주 번호</th>
@@ -53,7 +53,7 @@
 				<th style="width: 200px">사업자번호</th>
 				<th style="width: 300px">주 소</th>
 				<th style="width: 100px">품목 번호</th>
-				<th style="width: 50px">요청 수량</th>
+				<th style="width: 80px">요청 수량</th>
 			</thead>
 			<tbody id="order_data">
 				<!-- 리스트 정보 받아오기 -->
@@ -64,7 +64,7 @@
 				<td id="comNo"></td>
 			</tbody>
 		</table>
-		<button onclick="window.opener.closeMainPopup1();">닫기</button>
+		<button id="close">닫기</button>
 	</div>
 	<script>
 		// 가상의 데이터 리스트 (예시)
@@ -132,8 +132,15 @@
 		}
 		// 데이터를 테이블에 추가
 		populateOrderData();
+		$(function () {
+			$(".close").click(function (e) {
+				e.preventDefault();
+				$(".order_container").hide();
+			})
+		})
 
 	</script>
+	
 </body>
 
 </html>

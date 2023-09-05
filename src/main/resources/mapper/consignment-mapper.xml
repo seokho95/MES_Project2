@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.project.Mapper.ConsignmentManagementMapper">
+	<resultMap type="Consignment" id="Consignment">
+		<id column="s_num" property="sNum" /> 
+		<result column="date_order" property="dateOrder" />
+		<result column="date_received" property="dateReceived" />
+		<result column="c_num" property="cNum" />
+		<result column="address" property="address" />
+		<result column="p_num" property="pNum" />
+		<result column="s_amount" property="sAmount" />
+		<result column="date_start_ship" property="dateStartShip" />
+		<result column="ship_amount" property="shipAmount" />
+		<result column="d_num" property="dNum" />
+		<result column="ship_num" property="shipNum" />
+		<result column="s_phase" property="sPhase" />
+	</resultMap>
+	<!-- 수주리스트 받기 -->
+	<select id="vieworderlist" resultMap="orderlist">
+		select b.sNum,b.dateOrder,b.dateReceived,b.cNum,cs.address,b.pNum,b.sAmount
+		from buy b, company_sell cs where b.C_NUM = cs.C_NUM
+	</select>
+</mapper>
+	 

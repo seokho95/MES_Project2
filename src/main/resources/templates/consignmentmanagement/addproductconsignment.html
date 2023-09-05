@@ -10,71 +10,55 @@
 	<link rel="stylesheet" href="common/header.css">
 	<link rel="stylesheet" href="consignmentmanagement/addproductconsignment.css">
 </head>
-<style>
-	/* 팝업 스타일 */
-	.popup {
-		display: none;
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		/* 배경 어둡게 처리 */
-	}
 
-	.popup-content {
-		background-color: #fff;
-		width: 80%;
-		max-width: 1100px;
-		margin: 50px auto;
-		padding: 20px;
-		border-radius: 5px;
-	}
-
-	/* 닫기 버튼 스타일 */
-	.close {
-		color: #888;
-		float: right;
-		font-size: 24px;
-		font-weight: bold;
-		cursor: pointer;
-	}
-</style>
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
 	$(function () {
-
 		$('.add_product_consignment').submit(function (r) {
-
-		})
-	})
-	// 팝업 열기
-	function orderListPopup() {
-		var popup = document.getElementById('orderListPopup');
-		popup.style.display = 'block';
+		});
+		 $('#openorderlist').click(function () {
+         console.log("qweasd");
+         let data = `search=${$("#search_po_p").val()}`;
+         $.ajax({
+            url: '/AddProductConsignment/orderlist',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (r) {
+               console.log(r);
+               $(".orderpopBg").show();
+               var tag = "";
+               if (r.length === 0) {
+                  tag = "<tr><td colspan=7'>일치하는 정보가 없습니다.<td></tr>";
+                  $('.list').html(tag);   
+               }else {
+                  
+                  for (let i = 0; i < r.length; i++) {
+                     tag += `<tr>`;
+                     tag += `<td>${ r[i].sNum}</td>`;
+                     tag += `<td>${ r[i].dateOrder}</td>`;
+                     tag += `<td>${ r[i].dateReceived}</td>`;
+                     tag += `<td>${ r[i].cNum}</td>`;
+                     tag += `<td>${ r[i].address}</td>`;
+                     tag += `<td>${ r[i].pNum}</td>`;
+                     tag += `<td>${ r[i].sAmount}</td>`;
+                     tag += `</tr>`;
+                  }
+               $('.list').html(tag);
+               }
+            }
+         });
+      });
+   });
+	function closeorderpopUp() {
+		$(".orderpopBg").hide();
 	}
-	function orderListClose() {
-		var popup = document.getElementById('orderListPopup');
-		if (popup) {
-			popup.style.display = 'none';
-		}
+	function opendriverpopUp() {
+		$(".driverpopBg").show();
 	}
-	function driverListPopup() {
-		var popup = document.getElementById('driverListPopup');
-		popup.style.display = 'block';
-	}
-	function driverListClose() {
-		var popup = document.getElementById('driverListPopup');
-		if (popup) {
-			popup.style.display = 'none';
-		}
-	}
-
-	function closeMainPopup1() {
-		orderListClose(); // 주요 HTML 파일의 팝업 창 닫기 함수 호출
+	function closedriverpopUp() {
+		$(".driverpopBg").hide();
 	}
 
 	function selectorder(orderNo) {
@@ -88,7 +72,6 @@
 
 <body>
 	<th:block th:insert="header/header.html"></th:block>
-
 	<!-- 출하등록 -->
 	<div id="addaddproduct_container" class="addproduct">
 		<ul class="menu1" style="width: 500px;">
@@ -122,13 +105,7 @@
 					<tr>
 						<th>수주 번호<span style="color: red">*</span></th>
 						<td colspan="3"><input type="text" readonly />
-							<button type="button" onclick="orderListPopup()">조회</button>
-							<div id="orderListPopup" class="popup">
-								<div class="popup-content">
-									<span class="close" onclick="orderListClose()">×</span>
-									<iframe src="AddProductConsignment/orderlist" width="100%" height="400px"></iframe>
-								</div>
-							</div>
+							<button type="button" id="openorderlist" onclick="openorderpopUp()">조회</button>
 						</td>
 					</tr>
 					<tr>
@@ -145,11 +122,11 @@
 						<th>주소</th>
 						<td><input type="text" id="consumerAddress" readonly></td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<th>특이 사항</th>
 						<td colspan="3"><textarea placeholder="특이사항을 입력해주세요." name="memo" id="memo" cols="30"
 								rows="10"></textarea></td>
-					</tr>
+					</tr>-->
 				</table>
 
 				<br />
@@ -179,14 +156,7 @@
 							</td>
 							<td>
 								<input type="text" placeholder="기사 번호 조회" readonly />
-								<button type="button" onclick="driverListPopup()">조회</button>
-								<div id="driverListPopup" class="popup">
-									<div class="popup-content">
-										<span class="close" onclick="driverListClose()">×</span>
-										<iframe src="AddProductConsignment/driverlist" width="100%"
-											height="400px"></iframe>
-									</div>
-								</div>
+								<button type="button" id="opendriverlist" onclick="opendriverpopUp()">조회</button>
 							</td>
 						</tr>
 					</tbody>
@@ -197,6 +167,81 @@
 				</div>
 			</div>
 		</form>
+	</div>
+	<!--orderlist popup-->
+	<div class="orderpopBg">
+		<div class="orderpopcon" style="width: 1050px;">
+			<span class="close" onclick="closeorderpopUp()" style="width: 30px;">×</a></span>
+			<br>
+			<h3>주문 리스트</h3>
+			<div id="search">
+				<select>
+					<option value="orderNo">수주 번호</option>
+					<option value="comNo">사업자번호</option>
+				</select>
+				<input type="text" placeholder="검색">
+				<button>검색</button>
+			</div>
+			<br>
+			<br>
+			<table id="order_list">
+				<thead>
+					<th style="width: 100px" id="sNum">수주 번호</th>
+					<th style="width: 150px" id="dateOrder">접수 일자</th>
+					<th style="width: 150px" id="dateReceived">납기 일자</th>
+					<th style="width: 200px" id="cNum">사업자번호</th>
+					<th style="width: 300px" id="address">주 소</th>
+					<th style="width: 100px" id="pNum">품목 번호</th>
+					<th style="width: 80px" id="sAmount">요청 수량</th>
+				</thead>
+				<tbody id="order_data">
+					<!-- 리스트 정보 받아오기 -->
+					<tr id="order_info" th:each="Consignment : ${order_info}">
+					<td id="orderNo">
+						<a href="#" onclick="d">[[${orderlist.sNum}]]</a>
+					</td>
+					<td>[[${orderlist.dateOrder}]]</td>
+					<td>[[${orderlist.dateReceived}]]</td>
+					<td>[[${orderlist.cNum}]]</td>
+					<td>[[${orderlist.address}]]</td>
+					<td>[[${orderlist.mNum}]]</td>
+					<td>[[${orderlist.sAmount}]]</td>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!--	<button id="close">닫기</button>-->
+	</div>
+	<!--driverlist popup-->
+	<div class="driverpopBg">
+		<div class="driverpopcon" style="width: 300px;">
+			<span class="close" onclick="closedriverpopUp()" style="width: 30px;">×</a></span>
+			<br>
+			<h3>기사 리스트</h3>
+			<div id="search">
+				<select>
+					<option value="orderNo">기사 코드</option>
+					<option value="comNo">연락처</option>
+				</select>
+				<input type="text" placeholder="검색" style="width: 150px;">
+				<button>검색</button>
+			</div>
+			<br>
+			<br>
+			<table id="driver_list">
+				<thead>
+					<th style="width: 100px">기사 코드</th>
+					<th style="width: 200px">기사 연락처</th>
+				</thead>
+				<tbody id="driver_data">
+					<!-- 리스트 정보 받아오기 -->
+					<td>0</td>
+					<td>0</td>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!--	<button id="close">닫기</button>-->
 	</div>
 </body>
 
