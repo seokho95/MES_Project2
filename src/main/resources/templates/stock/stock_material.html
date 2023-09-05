@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="common/global.css" />
+	<link rel="stylesheet" href="stock/stock_material.css" />
+	<title>Document</title>
+</head>
+
+
+<body>
+	<th:block th:insert="header/header.html"></th:block>
+	<div class="menu_container">
+	<ul class="menu_bar">
+		<li>
+			<a href="/main.html">
+				<img src="img/home.png" width="40" height="40" viewBox="0 0 51 51">
+			</a>
+		</li>
+		<div style="margin-top: 15px;" width="300px" id="menu">
+			<li>
+				<img src="img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+			</li>
+			<li>
+				<h4>재고 관리</h4>
+			</li>
+			<li>
+				<img src="img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
+			</li>
+			<li>
+				<h4>재료 재고 관리</h4>
+			</li>
+		</div>
+	</ul>
+	</div>
+	<div id="container">
+		<h3>재료 재고 관리</h3>
+		<p id="data">
+			<th:span>[[${count}]]</thspan>
+			개의 데이터가 조회되었습니다.
+		</p>
+
+		<div id="search" >
+			<input type="text" placeholder="검색" />
+			<button id="btn_search">검색</button>
+		</div>
+		<table id="table">
+			<tr>
+				<th style="width: 25px;"><input type="checkbox" id="all_check" onchange="selectAll(this)" /></th>
+				<th style="width: 10%">재료 이름</th>
+				<th>재고 수량</th>
+				<th>박스(묶음) 당 수량</th>
+				<th style="width: 10%">기준 단위</th>
+				<th style="width: 15%">바코드</th>
+			</tr>
+			<tr th:each="m : ${list}" id="contents">
+				<td id="chk_box"><input type="checkbox" name="chk" style="width: 15px;" height="15px" onclick="checkSelectAll(this)"/></td>
+				<td>[[${ m.material_name}]]</td>
+				<td>[[${ m.m_count}]]</td>
+				<td>[[${ m.m_box_count}]]</td>
+				<td>[[${ m.m_unit}]]</td>
+				<td>[[${ m.m_num}]]</td>
+			</tr>
+		</table>
+		<div id="btn">
+			<a id="btn_delete" href="">선택 삭제</a>
+			<a id="btn_update" href="">수정</a>
+			<a id="btn_add" href="">등록</a>
+		</div>
+	</div>
+</body>
+<script>
+	
+	function checkSelectAll(checkbox) {
+		const selectall	= document.querySelector('#all_check');
+
+		if (checkbox.checked === false) {
+			selectall.checked = false;
+		}
+	}
+	function selectAll(selectAll) {
+		const checkboxes = document.getElementsByName('chk');
+
+		checkboxes.forEach((checkbox) => {
+			checkbox.checked = selectAll.checked;
+		})
+	}
+</script>
+</html>

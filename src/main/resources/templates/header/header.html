@@ -12,14 +12,14 @@
 		<table>
 			<tr>
 				<td><a onclick="history.back()" id="back"><img src="/img/back.png"></a></td>
-				<td><a href="/mainpage/mainpage"><img src="/img/logo5.png" alt="로고" class="logo2"></a></td>
+				<td><a href="/mainpage"><img src="/img/logo5.png" alt="로고" class="logo2"></a></td>
 				<td>
 					<ul class="menu">
-						<li class="bar"><a href="#">발주관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="Order">발주관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="#">발주 관리</a></li>
-								<li><a href="#">원부재료 관리</a></li>
-								<li><a href="#">협력업체</a></li>
+								<li><a href="Order">발주 관리</a></li>
+								<li><a href="MaterialInfo">원부재료 관리</a></li>
+								<li><a href="/Contractor">협력업체</a></li>
 							</ul>
 						</li>
 						<li class="bar"><a href="#">수주관리<img src="/img/down.png" alt="" class="arrow"></a>
@@ -31,9 +31,8 @@
 						</li>
 						<li class="bar"><a href="#">공정관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="#">공정 관리</a></li>
-								<li><a href="#">작업 표준 정보</a></li>
-								<li><a href="#">통합 레시피</a></li>
+								<li><a href="kongjunginfo">공정 정보</a></li>
+								<li><a href="recipeinfo">통합 레시피 정보</a></li>
 							</ul>
 						</li>
 						<li class="bar"><a href="#">생산관리<img src="/img/down.png" alt="" class="arrow"></a>
@@ -43,19 +42,20 @@
 						</li>
 						<li class="bar"><a href="#">재고관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="#">재고 관리</a></li>
-								<li><a href="#">입고 등록</a></li>
-								<li><a href="#">출고 등록</a></li>
-								<li><a href="#">창고 관리</a></li>
-								<li><a href="#">입/출고 관리</a></li>
-								<li><a href="#">입/출고 요청</a></li>
+								<li><a href="/stock/material">재료 재고 관리</a></li>
+								<li><a href="/stock/product">완제품 재고 관리</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="#">출하관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="ConsignmentManagement">출하관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="#">출하 관리</a></li>
+								<li><a href="ConsignmentManagement">출하 현황</a></li>
+								<li><a href="RequstRelease">출고 요청</a></li>
+								<li><a href="RequstConsignment">출하 요청</a></li>
 							</ul>
 						</li>
+						<ul>
+							<li id="hello">안녕하세요</li>
+					<li class="logout"><a href="/logout"  style="	text-decoration: none;color: white;" />로그아웃</li>
 					</ul>
 				</td>
 			</tr>

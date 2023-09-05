@@ -9,7 +9,7 @@ body {
 
 :root {
 	/* fonts */
-	--font-notosans: NotoSans;
+	--font-notosans: 'Noto Sans KR', sans-serif;
 
 	/* font sizes */
 	--font-size-sm: 16px;
