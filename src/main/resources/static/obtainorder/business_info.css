@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+.All{
+    width: 1426px;
+    height: 1117px;
+}
+.header{
+    margin-left: 45.81px;
+    margin-top: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.header .source{
+    margin: 10px 18.51px;
+}
+.header #headText{
+    color: #000;
+    font-family: Inter;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
+}
+.header #home{
+    width: 50.157px;
+    height: 50.157px;
+    flex-shrink: 0;
+}
+h1{
+    margin-left: 40px;
+    margin-top: 29.84px;
+    color: #000;
+    font-family: Inter;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.count{
+    margin-left: 36px;
+    color: #F08080;
+    font-family: Inter;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+.business_search{
+    margin-top: 23px;
+    margin-bottom: 26.32px;
+    margin-right: 70px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+#img_search{
+    position: absolute;
+    right: 300px;
+    top: 7px;
+    width: 11.992px;
+    height: 12px;
+}
+.txt_search{
+    width: 178px;
+    height: 26px;
+    border-radius: 4px;
+    border: 1px solid #F08080;
+    background: rgba(0, 0, 0, 0.00);
+    padding: 0px 30px;
+    flex-shrink: 0;
+}
+.btn_search{
+    margin-left: 10px;
+    width: 72px;
+    height: 26px;
+    flex-shrink: 0;
+    color: #FFF;
+    border-radius: 8px;
+    background: #F08080;
+    border: #F08080;
+}
+#search_result{
+    margin-left: 39.97px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    width: 1312px;
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    border: 1px solid black;
+    display: block;
+    overflow: hidden;
+	border-collapse: collapse;
+}
+th{
+    background-color: #FCE6E6;
+}
+#search_result th:first-child{
+    width: 56px;
+    height: 36px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+#search_result th:last-child{
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    width: 157px;
+    height: 36px;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 15.6px */
+}
+#search_result td:last-child{
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    width: 157px;
+    height: 36px;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 15.6px */
+}
+#search_result td:first-child{
+    width: 56px;
+    height: 36px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+#search_result th:not(:first-child,:last-child){
+    border: 1px solid black;
+    border-top: none;
+    width: 157px;
+    height: 36px;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 15.6px */
+}
+#search_result td:not(:first-child,:last-child){
+    border: 1px solid black;
+    border-bottom: none;
+    width: 157px;
+    height: 36px;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 15.6px */
+}
+
+.check_all, .check_one{
+    margin: 0px 21px;
+}
+.btn_delete, .btn_upload{
+    width: 145px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: #F08080;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: none;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.btn_search:hover, .btn_delete:hover, .btn_upload:hover{
+    background-color: #FFF;
+    border: 2px solid #F08080;
+
+    color: #F08080;
+}
+.btn_area{
+    display: flex;
+    justify-content: space-around;
+    padding: 29px 0px;
+}

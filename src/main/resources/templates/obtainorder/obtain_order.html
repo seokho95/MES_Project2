@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/obtainorder/obtain_order.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="All">
+        <div class="header">
+            <img src="/img/home.png" alt="" class="source" id="home">
+            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+            <a href="#" class="source" id="headText">수주관리</a>
+            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+            <a href="#" class="source" id="headText">수주조회</a>
+        </div>
+        <h1>수주조회</h1>
+        <p class="inquire"><span class="count">{$($.btn_search)}개</span>의 데이터가 조회되었습니다.</p>
+    <table id="search_first">
+        <tr>
+            <td class="search_date">수주일자</td>
+            <td class="date">
+                <div class="session">
+                    <input type="date" class="input_calendar" id="on1">
+                    <b>~</b>
+                    <input type="date" class="input_calendar" id="on2">
+                    <!-- <img src="source/calendar.png" alt="" class="source"> -->
+                </div>
+            </td>
+            <td class="search_date">납기일자</td>
+            <td class="date">
+                <div class="session">
+                    <input type="date" class="input_calendar" id="on1">
+                    <b>~</b>
+                    <input type="date" class="input_calendar" id="on2">
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="order_search">
+        <img src="/img/search_icon.png" alt="" id="img_search">
+        <input type="text" class="txt_search">
+        <button class="btn_search">검색</button>
+    </div>
+    <table id="search_result">
+        <tr>
+            <th><input type="checkbox" class="check_all"></th>
+            <th>수주번호</th>
+            <th>고객업체</th>
+            <th>제품명</th>
+            <th>등록일자</th>
+            <th>수주일자</th>
+            <th>납품일자</th>
+            <th>수주수량</th>
+            <th>바코드</th>
+        </tr>
+        <tr id="info" th:each="order : ${list}">
+            <td><input type="checkbox" class="check_one"></td>
+            <td>[[${order.orderno}]]</td>
+            <td>[[${order.businessInfo}]]</td>
+            <td>[[${order.productname}]]</td>
+            <td>[[${order.uploadDate}]]</td>
+            <td>[[${order.orderDate}]]</td>
+            <td>[[${order.deliveryDate}]]</td>
+            <td>[[${order.orderCount}]]</td>
+            <td>[[${order.barcode}]]</td>
+        </tr>
+    </table>
+    <div class="btn_area">
+        <button value="button" class="btn_delete">삭제</button>
+        <button value="button" class="btn_upload">등록</button>
+    </div>
+    </div>
+</body>
+</html>

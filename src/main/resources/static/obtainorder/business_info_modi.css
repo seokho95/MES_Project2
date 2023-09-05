@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&display=swap');
+
+.All{
+    width: 1426px;
+    height: 1117px;
+}
+.header{
+    margin-left: 45.81px;
+    margin-top: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.header .source{
+    margin: 10px 18.51px;
+}
+.header #headText{
+    color: #000;
+    font-family: Inter;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
+}
+.header #home{
+    width: 50.157px;
+    height: 50.157px;
+    flex-shrink: 0;
+}
+h1{
+    margin-left: 40px;
+    margin-top: 29.84px;
+    color: #000;
+    font-family: Inter;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.modi_form{
+    margin: 0px auto;
+    width: 851px;
+    height: 663px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 2px solid #000;
+    margin-top: 24px;
+    display: block;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+.modi_form td:not(.thead){
+    width: 716px;
+    flex-shrink: 0;
+    border: 1px solid #000;
+    background: #FFF;
+}
+.thead{
+    width: 136px;
+    height: 31px;
+    flex-shrink: 0;
+    border: 1px solid #000;
+    background: rgba(240, 128, 128, 0.20);
+    
+    color: #000;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.inputtext{
+    width: 95px;
+    height: 24px;
+    flex-shrink: 0;
+    border: 1px solid #9A9595;
+    border-radius: 4px;
+}
+.address{
+    width: 165px;
+    height: 24px;
+    flex-shrink: 0;
+    border: 1px solid #9A9595;
+    border-radius: 4px;
+
+    color: #4D4D4D;
+    font-family: Noto Sans KR;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.address_input{
+    width: 305px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #9A9595;
+
+    color: #4D4D4D;
+    font-family: Noto Sans KR;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.inputtext_etc{
+    width: 595px;
+    height: 68px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #9A9595;
+}
+.tel{
+    width: 164.601px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #9A9595;
+}
+.inputtext_payment{
+    width: 305px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #9A9595;
+}
+#email_domain, #contact_email_domain{
+    width: 92px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #9A9595;
+    color: #4D4D4D;
+    font-family: Noto Sans KR;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.red{
+    color: red;
+}
+.address_div{
+    position: relative;
+}
+.search_icon{
+    position: absolute;
+    left: 21%;
+    top: 20%;
+}
+#btn_check{
+    width: 71px;
+    height: 24px;
+    flex-shrink: 0; 
+    border-radius: 4px;
+    background-color: #F08080;
+
+    color: #FFF;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+    margin-left: 5px;
+}
+.btn_delete, .btn_modi{
+    width: 145px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: #F08080;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: none;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+#btn_check:hover, .btn_delete:hover, .btn_modi:hover{
+    background-color: #FFF;
+    border: 2px solid #F08080;
+
+    color: #F08080;
+}
+.btn_area{
+    display: flex;
+    justify-content: space-around;
+    padding: 29px 0px;
+}
+.check{
+    display: flex;
+    flex-direction: row;
+    border: none !important;
+    margin: 2px 0px;
+}
+input{
+    margin-left: 5px;
+}

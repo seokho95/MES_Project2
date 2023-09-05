@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/obtainorder/production_info_upload.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<script>
+    
+</script>
+<body>
+    <div class="All">
+        <div class="header">
+            <img src="/img/home.png" alt="" class="source" id="home">
+            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+            <a href="#" class="source" id="headText">수주관리</a>
+            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+            <a href="#" class="source" id="headText">제품정보</a>
+        </div>
+        <h1>제품정보 정보 수정</h1>
+        <div class="form">
+            <table class="input_img_form">
+                <tr>
+                    <td class="input_img"> </td>
+                </tr>
+                <tr>
+                    <td class="input_img_name">
+                        <input type="file" class="file_click"> 
+                    </td>
+                </tr>
+            </table>
+            <table class="production_form">
+             <tr>
+                 <td class="thead">제품번호<span class="red">*</span></td>
+                 <td class="check">
+                     <input type="text" class="inputtext" id="production_num">
+                     <button type="button" id="btn_check">중복검사</button>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">제품명<span class="red">*</span></td>
+                 <td><input type="text" class="inputtext" id="production_name"></td>
+             </tr>
+             <tr>
+                 <td class="thead">규격</td>
+                 <td><input type="text" class="inputtext" id="leader"></td>
+             </tr>
+             <tr>
+                 <td class="thead">BOX당 수량<span class="red">*</span></td>
+                 <td><input type="text" class="inputtext" id="business_registration_num"></td>
+             </tr>
+             <tr>
+                 <td class="thead">박스당 표시단위</td>
+                 <td>
+                     <select name="" id="box_unit">
+                         <option value="BOX">BOX</option>
+                         <option value="">직접입력</option>
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">포장지당 중량(단위)</td>
+                 <td>
+                     <input type="text" class="inputtext" id="wrap">
+                     <select name="" id="wrap_unit">
+                         <option value="kg">kg</option>
+                         <option value="g">g</option>
+                         <option value="mg">mg</option>
+                         <option value="L">L</option>
+                         <option value="ml">ml</option>
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">가격</td>
+                 <td><input type="text" class="inputtext" id="price"></td>
+             </tr>
+             <tr>
+                 <td class="thead">협력업체</td>
+                 <td>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business1" placeholder="1." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business2" placeholder="2." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business3" placeholder="3." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business4" placeholder="4." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business5" placeholder="5." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business6" placeholder="6." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business7" placeholder="7." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business8" placeholder="8." name="business_name[]" readonly="" value="" onclick="pop_up('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">유통기한<span class="red">*</span></td>
+                 <td>
+                     <input type="text" class="inputtext" id="expiration_date">
+                     <select name="" id="date">
+                         <option value="year">년</option>
+                         <option value="month">개월</option>
+                         <option value="day">일</option>
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">작업표준 정보<span class="red">*</span></td>
+                 <td>
+                     <div class="search">
+                         <input type="text" class="input_business" id="business8" name="work_standard[]" readonly="" value="" onclick="pop_up2('/popup/popup_coo.html',jQuery('#myform').serialize(),'.popup-5')">
+                         <img src="source/search_icon.png" alt="" value="button" class="search_icon">
+                     </div>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">진열순서</td>
+                 <td><input type="text" class="inputtext" id="order_of"></td>
+             </tr>
+             <tr>
+                 <td class="thead">진열여부</td>
+                 <td>
+                     <label class="checkyn">
+                         <input type="radio" name="display_yn" value="Y">
+                         "YES"
+                     </label>
+                     <label class="checkyn">
+                         <input type="radio" name="display_yn" value="N">
+                         "NO"
+                     </label>
+                 </td>
+             </tr>
+             <tr>
+                 <td class="thead">구분</td>
+                 <td>
+                     <label class="checkyn">
+                         <input type="radio" name="complete" value="Y">
+                         "완제품"
+                     </label>
+                     <label class="checkyn">
+                         <input type="radio" name="complete" value="N">
+                         "반제품"
+                     </label>
+                 </td>
+             </tr>
+            </table>
+        </div>
+    <div class="btn_area">
+        <button value="button" class="btn_cancel">취소</button>
+        <button value="button" class="btn_upload">등록</button>
+    </div>
+    </div>
+</body>
+</html>

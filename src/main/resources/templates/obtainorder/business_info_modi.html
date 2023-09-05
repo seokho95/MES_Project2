@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/obtainorder/business_info_modi.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="All">
+        <div class="header">
+            <img src="/img/home.png" alt="" class="source" id="home">
+            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+            <a href="#" class="source" id="headText">수주관리</a>
+            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+            <a href="#" class="source" id="headText">고객업체 정보</a>
+        </div>
+        <h1>고객업체 정보 수정</h1>
+       <table class="modi_form">
+        <tr>
+            <td class="thead">고객업체 코드<span class="red">*</span></td>
+            <td class="check">
+                <input type="text" class="inputtext" id="business_code">
+                <button type="button" id="btn_check">중복검사</button>
+            </td>
+        </tr>
+        <tr>
+            <td class="thead">고객업체명<span class="red">*</span></td>
+            <td><input type="text" class="inputtext" id="business_name"></td>
+        </tr>
+        <tr>
+            <td class="thead">대표자명</td>
+            <td><input type="text" class="inputtext" id="leader"></td>
+        </tr>
+        <tr>
+            <td class="thead">사업자 등록번호</td>
+            <td><input type="text" class="inputtext" id="business_registration_num"></td>
+        </tr>
+        <tr>
+            <td class="thead">전화번호</td>
+            <td class="div_tel"><input type="text" class="tel" id="tel_num"></td>
+        </tr>
+        <tr>
+            <td class="thead">핸드폰번호</td>
+            <td class="div_tel"><input type="text" class="tel" id="phone_num"></td>
+        </tr>
+        <tr>
+            <td class="thead">FAX</td>
+            <td class="div_tel"><input type="text" class="tel" id="FAX_num"></td>
+        </tr>
+        <tr>
+            <td class="thead">이메일</td>
+            <td><input type="text" class="inputtext" id="email1"> @
+                <input type="text" class="inputtext" id="email2">
+                <select name="" id="email_domain">
+                    <option value="">직접입력</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="gmail.com">gmail.com</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="thead">주소</td>
+            <td>
+                <div class="address_div">
+                    <input type="text" placeholder="우편번호" class="address">
+                    <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                </div>
+                <input type="text" class="address_input" id="business_address1" placeholder="도로명 주소를 입력하세요.">
+                <br>
+                <input type="text" class="address_input" id="business_address2" placeholder="상세 주소를 입력하세요.">
+            </td>
+        </tr>
+        <tr>
+            <td class="thead">납품처 주소</td>
+            <td>
+                <div class="address_div">
+                    <input type="text" placeholder="우편번호" class="address">
+                    <img src="/img/search_icon.png" alt="" value="button" class="search_icon">
+                </div>
+                <input type="text" class="address_input" id="vendor_address1" placeholder="도로명 주소를 입력하세요.">
+                <br>
+                <input type="text" class="address_input" id="vendor_address2" placeholder="상세 주소를 입력하세요.">
+            </td>
+        </tr>
+        <tr>
+            <td class="thead">담당자명</td>
+            <td class="div_tel"><input type="text" class="inputtext" id="contact_person"></td>
+        </tr>
+        <tr>
+            <td class="thead">담당자 전화번호</td>
+            <td class="div_tel"><input type="text" class="tel" id="contact_phone_num"></td>
+        </tr>
+        <tr>
+            <td class="thead">담당자 이메일</td>
+                <td><input type="text" class="inputtext" id="contact_email1"> @
+                    <input type="text" class="inputtext" id="contact_email2">
+                    <select name="" id="contact_email_domain">
+                        <option value="">직접입력</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="gmail.com">gmail.com</option>
+                    </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="thead">결제조건</td>
+            <td><input type="text" class="inputtext_payment" id="terms_of_payment"></td>
+        </tr>
+        <tr>
+            <td class="thead">기타</td>
+            <td><input type="text" class="inputtext_etc" id="etc"></td>
+        </tr>
+       </table>
+    <div class="btn_area">
+        <button value="button" class="btn_delete">삭제</button>
+        <button value="button" class="btn_modi">수정</button>
+    </div>
+    </div>
+</body>
+</html>
