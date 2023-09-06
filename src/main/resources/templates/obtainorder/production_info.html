@@ -31,6 +31,12 @@
             window.location.href = 'production_info_upload.html';
         });
     });
+    $(function() {
+        // 각 행에 번호를 연속적으로 삽입
+        $('#info tr').each(function(index) {
+            $(this).find('td:first').text(index + 1);
+        });
+    });
 </script>
 <body>
     <div class="All">
@@ -66,25 +72,23 @@
             <th>제품번호</th>
             <th>제품명</th>
             <th>규격</th>
-            <th>단위</th>
             <th>BOX당 수량</th>
-            <th>포장지당 수량</th>
+            <th>포장지당 중량</th>
             <th>유통기한</th>
             <th>가격(원)</th>
             <th>바코드</th>
         </tr>
         <tr id="info" th:each="pro : ${list}">
             <td><input type="checkbox" class="check_one"></td>
-            <td>[[${pro.no}]]</td>
-            <td>[[${pro.img}]]</td>
-            <td>[[${pro.class}]]</td>
-            <td>[[${pro.prono}]]</td>
-            <td>[[${pro.proname}]]</td>
-            <td>[[${pro.standard}]]</td>
-            <td>[[${pro.unit}]]</td>
-            <td>[[${pro.boxcount}]]</td>
-            <td>[[${pro.wrappingcount}]]</td>
-            <td>[[${pro.shelflife}]]</td>
+            <td>1</td>
+            <td>[[${pro.pImg}]]</td>
+            <td>[[${pro.sPhase}]]</td>
+            <td>[[${pro.pNum}]]</td>
+            <td>[[${pro.pName}]]</td>
+            <td>[[${pro.pSize}]]</td>
+            <td>[[${pro.boxCount}]]</td>
+            <td>[[${pro.pWeight}]]</td>
+            <td>[[${pro.pFinish}]]</td>
             <td>[[${pro.price}]]</td>
             <td>[[${pro.barcode}]]</td>
         </tr>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.ObtainOrderMapper">
+	<resultMap type="com.project.dto.ObtainDTO" id="sell">
+		<id column="s_num" property="sNum" />
+		<result column="s_phase" property="sPhase" />
+		<result column="s_amount" property="sAmount" />
+		<result column="c_num" property="cNum" />
+		<result column="price" property="price" />
+		<result column="p_num" property="pNum" />
+		<result column="date_order" property="dateOrder" />
+		<result column="date_start_ship" property="dateStartShip" />
+		<result column="date_to_arrive" property="dateToArrive" />
+		<result column="s_barcode" property="barcode" />
+		<result column="s_name" property="sName" />
+		<result column="address" property="address" />
+		<result column="c_code" property="cCode" />
+		<result column="c_leader" property="cLeader" />
+		<result column="c_tel" property="cTel" />
+		<result column="c_phone" property="cPhone" />
+		<result column="c_fax" property="cFax" />
+		<result column="c_mail" property="cMail" />
+		<result column="p_Amount" property="pAmount" />
+		
+		<result column="p_name" property="pName" />
+		<result column="p_img" property="pImg" />
+		<result column="p_size" property="pSize" />
+		<result column="boxcount" property="boxCount" />
+		<result column="weight" property="pWeight" />
+		<result column="unit" property="unit" />
+		<result column="date_finish" property="pFinish" />
+	</resultMap>
+
+	<!-- //로그인 -->
+	<select id="obtainAllList" resultMap="sell">
+		select * from SELL, COMPANY_SELL, PRODUCT
+	</select>
+	<select id="BusinessAllList" resultMap="sell">
+		select * from COMPANY_SELL
+	</select>
+	<select id="ProductionAllList" resultMap="sell">
+		select * from PRODUCT p, SELL s
+	</select>
+
+</mapper>

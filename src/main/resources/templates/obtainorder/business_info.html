@@ -62,16 +62,16 @@
             <th>FAX</th>
             <th>이메일</th>
         </tr>
-        <tr id="info" th:each="business : ${list}">
+        <tr id="info" th:each="sell : ${list}">
             <td><input type="checkbox" class="check_one"></td>
-            <td>[[${business.businessno}]]</td>
-            <td>[[${business.businesscode}]]</td>
-            <td>[[${business.businessname}]]</td>
-            <td>[[${business.leadername}]]</td>
-            <td>[[${business.businesstel}]]</td>
-            <td>[[${business.phoneno}]]</td>
-            <td>[[${business.faxno}]]</td>
-            <td>[[${business.email}]]</td>
+            <td>[[${sell.cNum}]]</td>
+            <td>[[${sell.cCode}]]</td>
+            <td>[[${sell.sName}]]</td>
+            <td>[[${sell.cLeader}]]</td>
+            <td>[[${sell.cTel}]]</td>
+            <td>[[${sell.cPhone}]]</td>
+            <td>[[${sell.cFax}]]</td>
+            <td>[[${sell.cMail}]]</td>
         </tr>
     </table>
     <div class="btn_area">

@@ -1,17 +1,31 @@
 package com.project.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.project.dto.ObtainDTO;
+import com.project.service.ObtainOrderService;
 
 @Controller
 public class ObtainOrderController {
+	private ObtainOrderService obtainService;
 	
+	public ObtainOrderController(ObtainOrderService obtainService) {
+		this.obtainService = obtainService;
+	}
 	
 	//수주조회
 	@RequestMapping("/ObtainOrder")
-	public String ObtainOrder() {
-		return "obtainorder/obtain_order";
+	public ModelAndView obtainOrderList(ModelAndView view) {
+		List<ObtainDTO> list = obtainService.obtainAllList();
+		view.addObject("list", list);
+		view.setViewName("obtainorder/obtain_order");
+		return view;
 	}
+	
 	//수주등록
 	@RequestMapping("/ObtainOrderUpload")
 	public String ObtainOrderUpload() {
@@ -24,8 +38,11 @@ public class ObtainOrderController {
 	}
 	//제품조회
 	@RequestMapping("/ProductionInfo")
-	public String ProductionInfo() {
-		return "obtainorder/production_info";
+	public ModelAndView ProductionList(ModelAndView view) {
+		List<ObtainDTO> list = obtainService.ProductionAllList();
+		view.addObject("list", list);
+		view.setViewName("obtainorder/production_info");
+		return view;
 	}
 	//제품등록
 	@RequestMapping("/ProductionInfoUpload")
@@ -39,8 +56,11 @@ public class ObtainOrderController {
 	}
 	//고객업체 조회
 	@RequestMapping("/BusinessInfo")
-	public String BusinessInfo() {
-		return "obtainorder/business_info";
+	public ModelAndView BusinessList(ModelAndView view) {
+		List<ObtainDTO> list = obtainService.BusinessAllList();
+		view.addObject("list", list);
+		view.setViewName("obtainorder/business_info");
+		return view;
 	}
 	//고객업체 등록
 		@RequestMapping("/BusinessInfoUpload")

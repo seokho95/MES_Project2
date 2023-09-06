@@ -58,16 +58,17 @@
             <th>수주수량</th>
             <th>바코드</th>
         </tr>
-        <tr id="info" th:each="order : ${list}">
+        <tr id="info" th:each="sell : ${list}">
             <td><input type="checkbox" class="check_one"></td>
-            <td>[[${order.orderno}]]</td>
-            <td>[[${order.businessInfo}]]</td>
-            <td>[[${order.productname}]]</td>
-            <td>[[${order.uploadDate}]]</td>
-            <td>[[${order.orderDate}]]</td>
-            <td>[[${order.deliveryDate}]]</td>
-            <td>[[${order.orderCount}]]</td>
-            <td>[[${order.barcode}]]</td>
+            <td>[[${sell.sNum}]]</td>
+            <td>[[${sell.cCode}]]</td>
+            <td>[[${sell.pName}]]</td>
+            <td>[[${sell.dateOrder}]]</td>
+            <td>[[${sell.dateStartShip}]]</td>
+            <td>[[${sell.dateToArrive}]]</td>
+            <td>[[${sell.sAmount}]]</td>
+            <td>[[${sell.barcode}]]</td>
+            <!--https://products.aspose.app/barcode/generate/ko/api/Download/158C24A83E7FE70FB56E210209849377-->
         </tr>
     </table>
     <div class="btn_area">
