@@ -10,7 +10,10 @@
 	<link rel="stylesheet" href="consignmentmanagement/productmanagement.css" />
 	<title>Document</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+
 	document.addEventListener("DOMContentLoaded", function () {
 		// #category 아래의 ul 요소에서 li 항목 가져옴.
 		var listItems = document.querySelectorAll("#category > ul li");
@@ -42,7 +45,7 @@
 <body>
 	<th:block th:insert="header/header.html"></th:block>
 	<div id="consignmemtmanagement" class="managment">
-		<ul class="menu" style="width: 500px;">
+		<ul class="menu1" style="width: 500px;">
 			<li>
 				<a href="/main.html">
 					<img src="img/home.png" width="40" height="40" viewBox="0 0 51 51">
@@ -81,50 +84,49 @@
 		</table>
 		<div id="category" class="category">
 			<ul>
-				<li onclick="all_search()">전체</li>
+				<li onclick="all_consignment()">전체</a></li>
 				<li onclick="waiting()">출고 대기</li>
 				<li onclick="proceeding()">출하 중</li>
 				<li onclick="completed()">출하 완료</li>
 			</ul>
 			<div id="search" style="float: right">
-				<input type="text" placeholder="업체명을 입력해주세요." />
+				<input type="text" placeholder="사업자번호 조회." />
 				<button id="search_btn">검색</button>
 			</div>
 		</div>
 		<br />
 		<br />
-		<table id="table2">
+		<table id="table2" class="consignmentlist">
 			<thead>
 				<th style="width: 25px;"><input type="checkbox" id="all_check" onchange="AllCheckboxes()" /></th>
 				<th style="width: 100px;">출하 코드</th>
 				<th style="width: 115px;">접수 일자</th>
 				<th style="width: 115px;">납기 일자</th>
-				<th>업체 명</th>
+				<th>사업자번호</th>
 				<th style="width: 100px;">품목 번호</th>
 				<th>출하 일정</th>
 				<th style="width: 80px;">요청 수량</th>
 				<th style="width: 80px;">출하 수량</th>
-				<th style="width: 80px;">재고 수량</th>
 				<th style="width: 100px;">수주 번호</th>
 				<th>담당기사 번호</th>
 				<th>출하 현황</th>
 			</thead>
 			<tbody>
 				<!-- 리스트 정보 받아오기 -->
-				<td><input type="checkbox" style="width: 15px;" height="15px" /></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<tr th:each="consignmentlist : ${all_consignmentlist}">
+					<td><input type="checkbox" style="width: 15px;" height="15px" /></td>
+					<td>[[${consignmentlist.shipNum}]]</td>
+					<td>[[${consignmentlist.dateOrder}]]</td>
+					<td>[[${consignmentlist.dateToArrive}]]</td>
+					<td>[[${consignmentlist.cNum}]]</td>
+					<td>[[${consignmentlist.pNum}]]</td>
+					<td>[[${consignmentlist.dateStartShip}]]</td>
+					<td>[[${consignmentlist.sAmount}]]</td>
+					<td>[[${consignmentlist.shipAmount}]]</td>
+					<td>[[${consignmentlist.sNum}]]</td>
+					<td>[[${consignmentlist.pNum}]]</td>
+					<td>[[${consignmentlist.sPhase}]]</td>
+				</tr>
 			</tbody>
 		</table>
 		<div id="btn">

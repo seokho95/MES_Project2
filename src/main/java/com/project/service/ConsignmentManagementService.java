@@ -15,8 +15,8 @@ public class ConsignmentManagementService {
 		this.mapper = mapper;
 	}
 
-	public List<ConsignmentManagementDTO> vieworderlist() {
-		return mapper.vieworderlist();
+	public List<ConsignmentManagementDTO> ConsignmentManagement() {
+		return mapper.ConsignmentManagement();
 	}
 	
 	

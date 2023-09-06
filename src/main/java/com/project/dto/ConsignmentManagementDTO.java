@@ -38,7 +38,7 @@ public class ConsignmentManagementDTO {
 	}
 	
 	
-
+	//전체조회
 	public ConsignmentManagementDTO(String sNum, String dateOrder, String dateToArrive, String cNum, String address,
 			String pNum, int sAmount, int dNum, String shipNum, String dateStartShip, int shipAmount, String sPhase) {
 		this.sNum = sNum;
@@ -55,102 +55,7 @@ public class ConsignmentManagementDTO {
 		this.sPhase = sPhase;
 	}
 
-
-	public String getsNum() {
-		return sNum;
-	}
-
-	public void setsNum(String sNum) {
-		this.sNum = sNum;
-	}
-
-	public String getDateOrder() {
-		return dateOrder;
-	}
-
-	public void setDateOrder(String dateOrder) {
-		this.dateOrder = dateOrder;
-	}
-
-	public String getdateToArrive() {
-		return dateToArrive;
-	}
-
-	public void setdateToArrive(String dateToArrive) {
-		this.dateToArrive = dateToArrive;
-	}
-
-	public String getcNum() {
-		return cNum;
-	}
-
-	public void setcNum(String cNum) {
-		this.cNum = cNum;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getpNum() {
-		return pNum;
-	}
-
-	public void setpNum(String pNum) {
-		this.pNum = pNum;
-	}
-
-	public int getsAmount() {
-		return sAmount;
-	}
-
-	public void setsAmount(int sAmount) {
-		this.sAmount = sAmount;
-	}
-
-	public int getdNum() {
-		return dNum;
-	}
-
-	public void setdNum(int dNum) {
-		this.dNum = dNum;
-	}
-
-	public String getShipNum() {
-		return shipNum;
-	}
-
-	public void setShipNum(String shipNum) {
-		this.shipNum = shipNum;
-	}
-
-	public String getDateStartShip() {
-		return dateStartShip;
-	}
-
-	public void setDateStartShip(String dateStartShip) {
-		this.dateStartShip = dateStartShip;
-	}
-
-	public int getShipAmount() {
-		return shipAmount;
-	}
-
-	public void setShipAmount(int shipAmount) {
-		this.shipAmount = shipAmount;
-	}
-
-	public String getsPhase() {
-		return sPhase;
-	}
-
-	public void setsPhase(String sPhase) {
-		this.sPhase = sPhase;
-	}
+	
 
 	@Override
 	public String toString() {
@@ -158,6 +63,126 @@ public class ConsignmentManagementDTO {
 				+ ", cNum=" + cNum + ", address=" + address + ", pNum=" + pNum + ", sAmount=" + sAmount + ", dNum="
 				+ dNum + ", shipNum=" + shipNum + ", dateStartShip=" + dateStartShip + ", shipAmount=" + shipAmount
 				+ ", sPhase=" + sPhase + "]";
+	}
+
+
+	public String getsNum() {
+		return sNum;
+	}
+
+
+	public void setsNum(String sNum) {
+		this.sNum = sNum;
+	}
+
+
+	public String getDateOrder() {
+		return dateOrder;
+	}
+
+
+	public void setDateOrder(String dateOrder) {
+		this.dateOrder = dateOrder;
+	}
+
+
+	public String getDateToArrive() {
+		return dateToArrive;
+	}
+
+
+	public void setDateToArrive(String dateToArrive) {
+		this.dateToArrive = dateToArrive;
+	}
+
+
+	public String getcNum() {
+		return cNum;
+	}
+
+
+	public void setcNum(String cNum) {
+		this.cNum = cNum;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public String getpNum() {
+		return pNum;
+	}
+
+
+	public void setpNum(String pNum) {
+		this.pNum = pNum;
+	}
+
+
+	public int getsAmount() {
+		return sAmount;
+	}
+
+
+	public void setsAmount(int sAmount) {
+		this.sAmount = sAmount;
+	}
+
+
+	public String getDateStartShip() {
+		return dateStartShip;
+	}
+
+
+	public void setDateStartShip(String dateStartShip) {
+		this.dateStartShip = dateStartShip;
+	}
+
+
+	public int getShipAmount() {
+		return shipAmount;
+	}
+
+
+	public void setShipAmount(int shipAmount) {
+		this.shipAmount = shipAmount;
+	}
+
+
+	public int getdNum() {
+		return dNum;
+	}
+
+
+	public void setdNum(int dNum) {
+		this.dNum = dNum;
+	}
+
+
+	public String getShipNum() {
+		return shipNum;
+	}
+
+
+	public void setShipNum(String shipNum) {
+		this.shipNum = shipNum;
+	}
+
+
+	public String getsPhase() {
+		return sPhase;
+	}
+
+
+	public void setsPhase(String sPhase) {
+		this.sPhase = sPhase;
 	}
 	
 	

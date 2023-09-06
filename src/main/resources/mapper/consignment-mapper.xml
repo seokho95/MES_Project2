@@ -2,11 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper	namespace="com.project.mapper.ConsignmentManagementMapper">
+<mapper
+	namespace="com.project.mapper.ConsignmentManagementMapper">
 	<resultMap type="Consignment" id="Consignment">
-		<id column="s_num" property="sNum" /> 
+		<id column="s_num" property="sNum" />
 		<result column="date_order" property="dateOrder" />
-		<result column="date_received" property="dateToArrive" />
+		<result column="date_to_arrive" property="dateToArrive" />
 		<result column="c_num" property="cNum" />
 		<result column="address" property="address" />
 		<result column="p_num" property="pNum" />
@@ -18,9 +19,21 @@
 		<result column="s_phase" property="sPhase" />
 	</resultMap>
 	<!-- 수주리스트 받기 -->
-	<select id="vieworderlist" resultMap="Consignment">
-		select s.S_NUM , s.DATE_ORDER , s.DATE_TO_ARRIVE , s.C_NUM , cs.ADDRESS , s.P_NUM , s.S_AMOUNT 
-		from sell s, company_sell cs where s.C_NUM = cs.C_NUM
+	<select id="searchorderNo" resultMap="Consignment"
+		parameterType="String">
+		select s.S_NUM , s.DATE_ORDER ,
+		s.DATE_TO_ARRIVE ,
+		s.C_NUM , cs.ADDRESS , s.P_NUM , s.S_AMOUNT
+		from sell s, company_sell
+		cs where s.C_NUM = cs.C_NUM and s.S_NUM
+		=#{searchorder}
+	</select>
+	<select id="ConsignmentManagement" resultMap="Consignment">
+		SELECT
+		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
+		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
+		s.S_NUM ,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
+		= sh.D_NUM AND s.S_NUM =sh.S_NUM
 	</select>
 </mapper>
 	 

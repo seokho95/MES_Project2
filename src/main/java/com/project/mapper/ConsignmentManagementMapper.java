@@ -9,7 +9,8 @@ import com.project.dto.ConsignmentManagementDTO;
 @Mapper
 public interface ConsignmentManagementMapper {
 
-	List<ConsignmentManagementDTO> vieworderlist();
+	//출하정보 전체리스트
+	List<ConsignmentManagementDTO> ConsignmentManagement();
 	
 	
 }

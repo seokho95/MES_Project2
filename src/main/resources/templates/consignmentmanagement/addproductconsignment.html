@@ -13,24 +13,25 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
+	
+	function openorderpopUp() {
+		$(".orderpopBg").show();
+	}
+	
 	$(function () {
-		$('.add_product_consignment').submit(function (r) {
-		});
-		$('#openorderlist').click(function () {
-			//let data = `search=${$("#search_po_p").val()}`;
+		$('#search_order').click(function () {
+			let data = `searchorder=${$("#searchOrder").val()}`;
 			$.ajax({
 				url: '/AddProductConsignment/orderlist',
-				//data: data,
+				data: data,
 				type: 'post',
 				dataType: 'json',
 				success: function (r) {
 					console.log(r);
-					$(".orderpopBg").show();
 					var tag = "";
 					if (r.length === 0) {
 						tag = "<tr><td colspan=7'>일치하는 정보가 없습니다.<td></tr>";
-						$('.list').html(tag);
+						$('.orderlist').html(tag);
 					} else {
 
 						for (let i = 0; i < r.length; i++) {
@@ -44,7 +45,7 @@
 							tag += `<td>${r[i].sAmount}</td>`;
 							tag += `</tr>`;
 						}
-						$('.list').html(tag);
+						$('.orderlist').html(tag);
 					}
 				}
 			});
@@ -174,16 +175,12 @@
 			<br>
 			<h3>주문 리스트</h3>
 			<div id="search">
-				<select>
-					<option value="orderNo">수주 번호</option>
-					<option value="comNo">사업자번호</option>
-				</select>
-				<input type="text" placeholder="검색">
-				<button>검색</button>
+				<input type="text" id="searchOrder" placeholder="수주 번호 검색">
+				<button id="search_order">검색</button>
 			</div>
 			<br>
 			<br>
-			<table id="order_list">
+			<table id="orderlist">
 				<thead>
 					<th style="width: 100px" id="sNum">수주 번호</th>
 					<th style="width: 150px" id="dateOrder">접수 일자</th>
@@ -195,7 +192,7 @@
 				</thead>
 				<tbody id="order_data">
 					<!-- 리스트 정보 받아오기 -->
-					<tr id="order_info" th:each="Consignment : ${order_info}">
+					<tr id="order_info" th:each="orderlist : ${order_info}">
 						<td id="orderNo">
 							<a href="#" onclick="d">[[${orderlist.sNum}]]</a>
 						</td>
@@ -205,6 +202,7 @@
 						<td>[[${orderlist.address}]]</td>
 						<td>[[${orderlist.mNum}]]</td>
 						<td>[[${orderlist.sAmount}]]</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
