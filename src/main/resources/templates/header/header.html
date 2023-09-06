@@ -6,7 +6,12 @@
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="/header/header.css">
 </head>
-
+	<th:block th:if="${session.user == null}">
+		<script>
+			alert("로그인을 하셔야 이용할수 있습니다.");
+			location.href = "/";
+		</script>
+	</th:block>
 <body>
 	<div class="header">
 		<table>
@@ -22,11 +27,11 @@
 								<li><a href="/Contractor">협력업체</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="#">수주관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="ObtainOrder">수주관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="#">수주 관리</a></li>
-								<li><a href="#">제품 관리</a></li>
-								<li><a href="#">고객 관리</a></li>
+								<li><a href="ObtainOrder">수주 관리</a></li>
+								<li><a href="ProductionInfo">제품 관리</a></li>
+								<li><a href="BusinessInfo">고객 관리</a></li>
 							</ul>
 						</li>
 						<li class="bar"><a href="#">공정관리<img src="/img/down.png" alt="" class="arrow"></a>
@@ -35,9 +40,9 @@
 								<li><a href="recipeinfo">통합 레시피 정보</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="#">생산관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="PM">생산관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="#">생산 관리</a></li>
+								<li><a href="PM">생산 관리</a></li>
 							</ul>
 						</li>
 						<li class="bar"><a href="#">재고관리<img src="/img/down.png" alt="" class="arrow"></a>
@@ -55,7 +60,7 @@
 						</li>
 						<ul>
 							<li id="hello">안녕하세요</li>
-					<li class="logout"><a href="/logout"  style="	text-decoration: none;color: white;" />로그아웃</li>
+					<li class="logout"><a href="/logout"  style="text-decoration:none;color: white;" />로그아웃</li>
 					</ul>
 				</td>
 			</tr>

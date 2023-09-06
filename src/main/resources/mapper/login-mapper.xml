@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.LoginMapper">
+	<resultMap type="user" id="user">
+		<id column="ID" property="userId" />
+		<result column="PW" property="passwd" />
+		<result column="NAME" property="name" />
+		</resultMap>
+		
+		<select id="login" parameterType="Map" resultMap="user">
+		select * from ACCOUNT 
+		where ID like #{userId} and PW like #{passwd}
+		</select>
+		</mapper>
