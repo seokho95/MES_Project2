@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.KongjungMapper">
+
+	<resultMap type="process" id="process">
+		<id column="PROCESS_NUM" property="processNum" />
+		<result column="PROCESS_NAME" property="processName" />
+	</resultMap>
+	<!-- all리스트조회  -->
+	<select id="selectAllList" resultMap="process">
+	select PROCESS_NUM,PROCESS_NAME
+	from PROCESS
+	</select>
+
+</mapper>

@@ -1,36 +1,53 @@
 package com.project.controller;
 
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.project.dto.KongjungDTO;
+import com.project.service.KongjungService;
 
 @Controller
 public class KongjungController {
 	
-	@RequestMapping("/kongjunginfo")
-	public String KongjungTest() {
-		return "kongjung/kongjung_info";
+	private KongjungService kongjungService;
+				
+	public KongjungController(KongjungService kongjungService) {
+			this.kongjungService = kongjungService;
+		}
+	@RequestMapping("/kongjung_info")     
+	public ModelAndView allList(KongjungDTO kongjungDTO , ModelAndView view)  {
+		List<KongjungDTO> List = kongjungService.selectAllList(kongjungDTO);    //  임시 KongjungService의 seletAllList List로 담음
+		System.out.println(List.toString());
+		view.addObject("kongjungList",List);	
+		view.setViewName("/kongjung/kongjung_info");
+	return view;                      
 	}
-	@RequestMapping("/kongjunginsert")
-	public String KongjungInsert() {
-		return "kongjung/kongjung_insert";
+
+	
+	@RequestMapping("/kongjung_insert")
+	public String KongjungTest1() {
+		return "kongjung_insert";
 	}
-	@RequestMapping("/kongjungupdate")
-	public String KongjungUpdate() {
-		return "kongjung/kongjung_update";
+	@RequestMapping("/kongjung_update")
+	public String KongjungTest2() {
+		return "kongjung_update";
 	}
-	@RequestMapping("/recipeinfo")
-	public String RecipeInfo() {
-		return "kongjung/recipe_info";
+	@RequestMapping("/recipe")
+	public String RecipeTest() {
+		return "recipe_info";
 	}
-	@RequestMapping("/recipeinsert")
-	public String RecipeInsert() {
-		return "kongjung/recipe_insert";
+	@RequestMapping("/recipe1")
+	public String RecipeTest1() {
+		return "recipe_insert";
 	}
-	@RequestMapping("/recipeupdate")
-	public String RecipeUpdate() {
-		return "kongjung/recipe_update";
+	@RequestMapping("/recipe2")
+	public String RecipeTest2() {
+		return "recipe_update";
 	}
 
 }
