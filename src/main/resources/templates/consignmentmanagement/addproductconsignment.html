@@ -13,50 +13,115 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	
-	function openorderpopUp() {
-		$(".orderpopBg").show();
-	}
-	
+	//수주번호입력후 조회버튼 클릭시 실행될 함수
 	$(function () {
-		$('#search_order').click(function () {
-			let data = `searchorder=${$("#searchOrder").val()}`;
+		$('#openorderlist').click(function () {
+			let obtainordersearch = $("#Obtainorder_search").val();
 			$.ajax({
-				url: '/AddProductConsignment/orderlist',
-				data: data,
+				url: '/AddProductConsignment/Obtainordersearch',
+				//data:{a:b} a는 컨트롤러와 동일해야함 b는 파라미터명
+				data: {obtainordersearch: obtainordersearch}, // 수정: 데이터를 객체 형태로 보냅니다.
+				type: 'post',
+				dataType: 'json',
+				success: function (response) {
+					console.log(obtainordersearch);
+					console.log(response);
+					if (response) {
+						// 서버에서 반환된 데이터를 사용하여 HTML 요소에 값을 설정합니다.
+						$("#dateOrder").val(response.dateOrder);
+						$("#dateToArrive").val(response.dateToArrive);
+						$("#cNum").val(response.cNum);
+						$("#address").val(response.address);
+						$("#pNum").val(response.pNum);
+						$("#sAmount").val(response.sAmount);
+					} else {
+						alert("존재하지 않는 수주번호입니다.");
+
+					}
+				},
+				error: function () {
+					alert("수주번호로 조회해주세요.");
+
+				}
+			});
+		});
+	});
+
+
+	function opendriverpopUp() {
+		$(".driverpopBg").show();
+	}
+
+
+	$(function () {
+		//btn_search 클릭시 실행될 함수(기사 검색)
+		$('#btn_search').click(function () {
+			//controller에서 선언한 kind값은 html의 kind /search동일
+			let data = {
+				kind : $("#kind").val(),
+				search : $("#search").val()
+			}
+			console.log(data);
+			$.ajax({
+				url: '/AddProductConsignment/driverlist',
+				data:data,
 				type: 'post',
 				dataType: 'json',
 				success: function (r) {
 					console.log(r);
 					var tag = "";
+
 					if (r.length === 0) {
-						tag = "<tr><td colspan=7'>일치하는 정보가 없습니다.<td></tr>";
-						$('.orderlist').html(tag);
+						tag = "<tr><td colspan=2'>등록된 기사정보가 없습니다.<td></tr>";
+						$('#driver_data').html(tag);
 					} else {
 
 						for (let i = 0; i < r.length; i++) {
 							tag += `<tr>`;
-							tag += `<td>${r[i].sNum}</td>`;
-							tag += `<td>${r[i].dateOrder}</td>`;
-							tag += `<td>${r[i].dateToArrive}</td>`;
-							tag += `<td>${r[i].cNum}</td>`;
-							tag += `<td>${r[i].address}</td>`;
-							tag += `<td>${r[i].pNum}</td>`;
-							tag += `<td>${r[i].sAmount}</td>`;
+							tag += `<td>${r[i].dNum}</td>`;
+							tag += `<td>${r[i].dContact}</td>`;
 							tag += `</tr>`;
 						}
-						$('.orderlist').html(tag);
+						console.log(tag)
+						$('#driver_data').html(tag);
+						
+						//td 코드 클릭시 해당 값이 기사번호에 기록
 					}
 				}
-			});
-		});
+			})
+		})
+		//기사 조회버튼 클릭시 기사리스트 보여지도록 처리
+		$('#opendriverlist').click(function () {
+			$.ajax({
+				url: '/AddProductConsignment/driverlist',
+				type: 'post',
+				dataType: 'json',
+				success: function (r) {
+					console.log(r);
+					var tag = "";
+
+					if (r.length === 0) {
+						tag = "<tr><td colspan=2'>등록된 기사정보가 없습니다.<td></tr>";
+						$('#driver_data').html(tag);
+					} else {
+
+						for (let i = 0; i < r.length; i++) {
+							tag += `<tr>`;
+							tag += `<td>${r[i].dNum}</td>`;
+							tag += `<td>${r[i].dContact}</td>`;
+							tag += `</tr>`;
+						}
+						console.log(tag)
+						$('#driver_data').html(tag);
+						
+						//td 코드 클릭시 해당 값이 기사번호에 기록
+					}
+				}
+			})
+		})
+		
 	});
-	function closeorderpopUp() {
-		$(".orderpopBg").hide();
-	}
-	function opendriverpopUp() {
-		$(".driverpopBg").show();
-	}
+
 	function closedriverpopUp() {
 		$(".driverpopBg").hide();
 	}
@@ -104,37 +169,32 @@
 				<table id="table1">
 					<tr>
 						<th>수주 번호<span style="color: red">*</span></th>
-						<td colspan="3"><input type="text" readonly />
-							<button type="button" id="openorderlist" onclick="openorderpopUp()">조회</button>
+						<td colspan="3"><input type="text" id="Obtainorder_search" th:value="${sNum}" />
+							<button type="button" id="openorderlist">조회</button>
+							<p style="float: right;"><span style="color: red">*</span>수주번호 조회시 자동으로 입력됩니다.</p>
 						</td>
 					</tr>
 					<tr>
 						<th>접수일자<span style="color: red">*</span></th>
-						<td><input type="text" readonly /></td>
+						<td><input type="text" readonly th:value="${dateOrder}" id="dateOrder" /></td>
 						<th>납기일자<span style="color: red">*</span></th>
-						<td><input type="text" readonly /></td>
+						<td><input type="text" readonly th:value="${dateToArrive}" id="dateToArrive" /></td>
 					</tr>
 					<tr>
 						<th>사업자번호<span style="color: red">*</span></th>
 						<td>
-							<input type="text" id="consumerName" readonly />
+							<input type="text" readonly th:value="${cNum}" id="cNum" />
 						</td>
-						<th>주소</th>
-						<td><input type="text" id="consumerAddress" readonly></td>
+						<th>주소<span style="color: red">*</span></th>
+						<td><input type="text" readonly th:value="${address}" id="address" style="width: 300px;"></td>
 					</tr>
-					<!--<tr>
-						<th>특이 사항</th>
-						<td colspan="3"><textarea placeholder="특이사항을 입력해주세요." name="memo" id="memo" cols="30"
-								rows="10"></textarea></td>
-					</tr>-->
 				</table>
-
 				<br />
 				<table id="table2">
 					<thead>
 						<tr>
-							<th style="width: 350px;">품목 번호</th>
-							<th style="width: 100px;">요청 수량</th>
+							<th style="width: 350px;">품목 번호<span style="color: red">*</span></th>
+							<th style="width: 100px;">요청 수량<span style="color: red">*</span></th>
 							<th>출하 시작일</th>
 							<th style="width: 100px;">출하 수량</th>
 							<th>기사 번호</th>
@@ -143,10 +203,10 @@
 					<tbody>
 						<tr>
 							<td>
-								<input type="text" id="productNoInput" readonly />
+								<input type="text" readonly th:value="${pNum}" id="pNum" />
 							</td>
 							<td>
-								<input type="text" placeholder="0" readonly />개
+								<input type="text" readonly th:value="${sAmount}" id="sAmount" />개
 							</td>
 							<td>
 								<input type="date" />
@@ -168,60 +228,19 @@
 			</div>
 		</form>
 	</div>
-	<!--orderlist popup-->
-	<div class="orderpopBg">
-		<div class="orderpopcon" style="width: 1050px;">
-			<span class="close" onclick="closeorderpopUp()" style="width: 30px;">×</a></span>
-			<br>
-			<h3>주문 리스트</h3>
-			<div id="search">
-				<input type="text" id="searchOrder" placeholder="수주 번호 검색">
-				<button id="search_order">검색</button>
-			</div>
-			<br>
-			<br>
-			<table id="orderlist">
-				<thead>
-					<th style="width: 100px" id="sNum">수주 번호</th>
-					<th style="width: 150px" id="dateOrder">접수 일자</th>
-					<th style="width: 150px" id="dateToArrive">납기 일자</th>
-					<th style="width: 200px" id="cNum">사업자번호</th>
-					<th style="width: 300px" id="address">주 소</th>
-					<th style="width: 100px" id="pNum">품목 번호</th>
-					<th style="width: 80px" id="sAmount">요청 수량</th>
-				</thead>
-				<tbody id="order_data">
-					<!-- 리스트 정보 받아오기 -->
-					<tr id="order_info" th:each="orderlist : ${order_info}">
-						<td id="orderNo">
-							<a href="#" onclick="d">[[${orderlist.sNum}]]</a>
-						</td>
-						<td>[[${orderlist.dateOrder}]]</td>
-						<td>[[${orderlist.dateToArrive}]]</td>
-						<td>[[${orderlist.cNum}]]</td>
-						<td>[[${orderlist.address}]]</td>
-						<td>[[${orderlist.mNum}]]</td>
-						<td>[[${orderlist.sAmount}]]</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<!--	<button id="close">닫기</button>-->
-	</div>
 	<!--driverlist popup-->
 	<div class="driverpopBg">
 		<div class="driverpopcon" style="width: 300px;">
 			<span class="close" onclick="closedriverpopUp()" style="width: 30px;">×</a></span>
 			<br>
 			<h3>기사 리스트</h3>
-			<div id="search">
-				<select>
-					<option value="orderNo">기사 코드</option>
-					<option value="comNo">연락처</option>
+			<div>
+				<select id="kind">
+					<option value="d_num">기사 코드</option>
+					<option value="d_contact">연락처</option>
 				</select>
-				<input type="text" placeholder="검색" style="width: 150px;">
-				<button>검색</button>
+				<input type="text" placeholder="검색" style="width: 150px;" id="search">
+				<button id="btn_search">검색</button>
 			</div>
 			<br>
 			<br>
@@ -231,9 +250,7 @@
 					<th style="width: 200px">기사 연락처</th>
 				</thead>
 				<tbody id="driver_data">
-					<!-- 리스트 정보 받아오기 -->
-					<td>0</td>
-					<td>0</td>
+					<!--td값은 ajax로 받아오기에 비워둬도 상관x-->
 				</tbody>
 			</table>
 		</div>

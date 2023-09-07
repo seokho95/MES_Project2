@@ -18,15 +18,17 @@
 		<result column="ship_num" property="shipNum" />
 		<result column="s_phase" property="sPhase" />
 	</resultMap>
-	<!-- 수주리스트 받기 -->
-	<select id="searchorderNo" resultMap="Consignment"
+	<resultMap type="Driver" id="Driver">
+		<id column="d_num" property="dNum" />
+		<result column="d_contact" property="dContact" />
+	</resultMap>
+	
+	<!-- 수주리스트 조회 -->
+	<select id="obtainorderSearch" resultMap="Consignment"
 		parameterType="String">
-		select s.S_NUM , s.DATE_ORDER ,
-		s.DATE_TO_ARRIVE ,
-		s.C_NUM , cs.ADDRESS , s.P_NUM , s.S_AMOUNT
-		from sell s, company_sell
-		cs where s.C_NUM = cs.C_NUM and s.S_NUM
-		=#{searchorder}
+		select 
+		s.S_NUM , s.DATE_ORDER ,s.DATE_TO_ARRIVE ,	s.C_NUM , cs.ADDRESS , s.P_NUM , s.S_AMOUNT
+		from sell s, company_sell cs where s.C_NUM = cs.C_NUM and s.S_NUM=#{Obtainorder_search}
 	</select>
 	<select id="ConsignmentManagement" resultMap="Consignment">
 		SELECT
@@ -35,5 +37,17 @@
 		s.S_NUM ,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
 		= sh.D_NUM AND s.S_NUM =sh.S_NUM
 	</select>
+	<select id="DriverList" resultMap="Driver" parameterType="Map">
+		SELECT * FROM DRIVER where 
+		<!--choose 사용  -->
+		${kind} like '%'||#{search}||'%'
+	</select>
 </mapper>
+
+
+
+
+
+
+
 	 
