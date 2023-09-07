@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.ProductionMapper">
+	<resultMap type="production" id="production">
+		<id column="P_NUM" property="pNum" />
+		<result column="P_ORDER_NUM" property="orderNum" />
+		<result column="P_NAME" property="productName" />
+		<result column="C_NUM" property="cNum" />
+		<result column="DATE_REGISTER" property="dateRegister" />
+		<result column="DATE_FINISH" property="dateFinish" />
+		<result column="PRODUCTION_AMOUNT" property="amount" />
+		<result column="PRICE" property="price" />
+		<result column="BOXCOUNT" property="boxCount" />
+		<result column="P_PHASE" property="phase" />
+	</resultMap>
+	<select id="selectAll" resultMap="production">
+	select pr.P_NUM, pr.P_ORDER_NUM, p.P_NAME, s.C_NUM, pr.DATE_REGISTER,
+	 pr.DATE_FINISH, pr.PRODUCTION_AMOUNT, s.PRICE, p.BOXCOUNT, pr.P_PHASE
+	from production pr, product p, sell s
+	where pr.P_NUM = p.P_NUM AND pr.P_NUM = s.P_NUM
+	</select>
+	<select id="selectProduction" parameterType="map" resultMap="production">
+	select pr.P_NUM, pr.P_ORDER_NUM, p.P_NAME, s.C_NUM, pr.DATE_REGISTER,
+	 pr.DATE_FINISH, pr.PRODUCTION_AMOUNT, s.PRICE, p.BOXCOUNT, pr.P_PHASE
+	from production pr, product p, sell s
+	where (pr.P_NUM = p.P_NUM AND pr.P_NUM = s.P_NUM) AND (pr.P_NUM LIKE '%' || #{search} || '%')
+	</select>
+	<insert id="register" parameterType="String">
+	insert into PRODUCTION
+	values(#{productNum}, #{pNum}, #{dateRegister}, #{dateFinish},
+		#{amount}, #{phase},#{orderNum})
+	</insert>
+	
+</mapper>

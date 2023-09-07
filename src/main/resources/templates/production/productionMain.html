@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/production/ProductionMain.css" />
+<link rel="stylesheet" href="/production/global.css" />
+<th:block th:insert="/header/header.html"></th:block>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+ 
+</head>
+<body>
+	<script>
+		// 체크박스 선택해제
+		function checkAll() {
+			if($("#selectAll").is(':checked')) {
+				$("input[name=select]").prop("checked", true);
+			} else {
+				$("input[name=select]").prop("checked", false);
+			}
+		}
+		$(document).on("click", "input:checkbox[name=select]", function(e) {
+			
+			var chks = document.getElementsByName("select");
+			var chksChecked = 0;
+			
+			for(var i=0; i<chks.length; i++) {
+				var select = chks[i];
+				
+				if(select.checked) {
+					chksChecked++;
+				}
+			}
+			
+			if(chks.length == chksChecked){
+				$("#selectAll").prop("checked", true);
+			}else{
+				$("#selectAll").prop("checked",false);
+			}
+			
+		});
+		// 체크박스 선택 삭제
+		$('.delete_btn').click(function(){
+			var selectedCheckboxes = $("input:checkbox[name='select']:checked");
+			if (selectedCheckboxes.length == 0) {
+				alert("삭제할 항목을 선택해 주세요.");
+				return;
+			}
+		selectedCheckboxes.each(function(k,kVal){
+			console.log("kVal ::", kVal.parentElement.parentElement.parentElement);
+			let a = kVal.parentElement.parentElement.parentElement;
+			$(a).remove();
+			});
+		});
+		
+		//검색 
+		$(function(){
+			$(".search_btn").click(function(){
+				let data = `search=${$(".search_text").val()}`;
+				  $.ajax({
+            url: '/Search',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (r) {
+                console.log(r);
+                var pContent = "";
+
+                if (r.length === 0) {
+                    tag = "<tr><td colspan='11'>일치하는 정보가 없습니다.</td></tr>";
+                    $('.search_con').html(pContent);
+                } else {
+                    for (let i = 0; i < r.length; i++) {
+                        pContent += `<tr>`;
+                        pContent += `<td><input type="checkbox" name="select" id="select"></td>`;
+                        pContent += `<td>${r[i].pNum}</td>`;
+                        pContent += `<td>${r[i].orderNum}</td>`;
+                        pContent += `<td>${r[i].productName}</td>`;
+                        pContent += `<td>${r[i].cNum}</td>`;
+                        pContent += `<td>${r[i].dateRegister}</td>`;
+                        pContent += `<td>${r[i].dateFinish}</td>`;
+                        pContent += `<td>${r[i].amount}</td>`;
+                        pContent += `<td>${r[i].price}</td>`;
+                        pContent += `<td>${r[i].boxCount}</td>`;
+                        pContent += `<td>${r[i].phase}</td>`;
+                        pContent += `</tr>`;
+                    }
+		                var resultCount = r.length;
+		
+		                // 결과를 특정 요소에 표시
+		                $(".result_count").text(resultCount + "개의 데이터가 조회되었습니다.");
+		                    
+		                    $('.search_con').html(pContent);
+                }
+            }
+        });
+    });
+});
+
+ </script>
+
+	<div class="container">
+		
+		<div class="top">
+			<img src="/img/home.png">
+			<img class="arrow" src="/img/arrow_right_pink.png">
+			<a href="/PM">생산지시</a>
+		</div>
+		
+		
+			<table>			
+				<tr>
+					<th>생산지시 관리</th>
+				</tr>
+				<tr>
+					<td class="none"><span class="result_count"></span></td>
+				</tr>
+			</table>
+		
+		
+		
+			<table class="date_container">
+				<tr>
+					
+					<td class="date_start">생산시작일자</td>
+					<td><input class="date1" type="datetime-local"></td>
+					<td class="date_end">생산종료일자</td>
+					<td><input class="date2" type="datetime-local"></td>
+			
+				</tr>
+			</table>
+		
+		
+		
+			<table class="condition">
+				<tr>
+					<td>전체()</td>
+					<td>생산대기()</td>
+					<td>생산중()</td>
+					<td>생산완료()</td>
+		
+					<td class="search_td"><input class="search_text"type="search" placeholder="검색"></td>
+					<td class="btn_td"><input class="search_btn"type="button" value="검색"></td>
+				
+				
+				</tr>
+			</table>
+		
+
+		
+			
+				<table class="content_title">
+					<thead>
+						<tr>
+							<td><input type="checkbox" name="selectAll" id="selectAll" onclick="checkAll();">모두선택</td>
+							<td>품목번호</td>
+							<td>지시번호</td>
+							<td>제품명</td>
+							<td>고객업체</td>
+							<td>생산시작일</td>
+							<td>생산종료일</td>
+							<td>생산수량</td>
+							<td>가격</td>						
+							<td>BOX생산수량</td>
+							<td>생산상태</td>
+						</tr>
+					</thead>
+			
+		
+							
+						<tbody class="search_con">
+						
+							<th:block th:each="selectAll : ${select_list}">		
+								<tr class="content_tr">
+									<td><input type="checkbox" name="select" id="select"></td>		
+									<td>[[${selectAll.pNum}]]</td>	
+									<td>[[${selectAll.orderNum}]]</td>	
+									<td onclick="location.href='/PMModify'">[[${selectAll.productName}]]</td>	
+									<td>[[${selectAll.cNum}]]</td>	
+									<td>[[${selectAll.dateRegister}]]</td>	
+									<td>[[${selectAll.dateFinish}]]</td>	
+									<td>[[${selectAll.amount}]]</td>
+									<td>[[${selectAll.price}]]</td>
+									<td>[[${selectAll.boxCount}]]</td>
+									<td>[[${selectAll.phase}]]</td>	
+								</tr>
+							</th:block>
+						
+						</tbody>
+				</table>
+			
+		
+		<div class="button-container">
+			<button class="delete_btn" id="delete_btn">삭제</button>
+			<button class="register_btn" onclick="window.location.href = '/PMRegister';">등록</button>
+		</div>
+		
+			
+	</div>
+</body>
+</html>

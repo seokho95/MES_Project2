@@ -1,0 +1,75 @@
+@charset "UTF-8";
+.container{
+	position: absolute;
+	top:380px;
+}
+a{
+	text-decoration: none;
+	color: black;
+}
+.top{
+	display: flex;
+	align-items: center;
+	margin-top:50px;
+	margin-bottom: 50px;
+}
+.top img{
+	margin-right: 10px;
+}
+.arrow{
+	margin-left: 10px;
+}
+.top span{
+	font-size: 18px;
+}
+
+
+th{
+	font-size: 30px;
+	text-align: left;
+}
+
+.Product_register td{
+	width: 100px;
+	height: 50px;
+	border: 1px solid black;
+	text-align: center;
+}
+.Product_register td:nth-child(odd){
+	background-color: rgb(192, 192, 192); 
+}
+.Product_register input{
+	width: 200px;
+	height: 20px;
+	border-radius: 5px;
+}
+.Product_register td[colspan="3"]{
+	padding-left: 65px;
+	text-align: left;
+}
+.Product_register{
+	width: 1000px;
+	margin: 0 auto;
+	margin-top: 50px;
+	border-collapse: collapse;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator{
+	cursor: pointer;
+	transform: scale(1.5);
+}
+.previous_btn,
+.complete_btn{
+	width: 80px;
+	height: 40px;
+	color: white;
+	background-color: #F08080;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
+.button-container{
+	margin-top: 20px;
+	display: flex;
+    justify-content: space-between;    
+}

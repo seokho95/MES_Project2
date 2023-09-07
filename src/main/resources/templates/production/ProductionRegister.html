@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/production/ProductionRegister.css" />
+<link rel="stylesheet" href="/production/global.css" />
+<th:block th:insert="/header/header.html"></th:block>
+</head>
+<body>
+	<div class="container">
+		<div class="top">
+			<img src="/img/home.png">
+			<img class="arrow" src="/img/arrow_right_pink.png">
+			<a href="/PM">생산지시</a>
+			<img class="arrow" src="/img/arrow_right_pink.png">
+			<a href="/PMRegister">생산지시관리등록</a>
+		</div>
+		
+		<div class="top_title">
+			<table>			
+				<tr>
+					<th>생산지시 등록</th>
+				</tr>	
+				
+			</table>
+		</div>
+		
+		<form action="ProductMain.html" method="get">
+			<table class="Product_register">
+					<tr>						
+						<td>제품명</td>
+						<td colspan="3"><input type="text"></td>
+					</tr>
+					<tr>
+						<td>품목번호</td>
+						<td><input type="text"></td>
+						<td>지시번호</td>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<td>고객업체</td>
+						<td><input type="text"></td>
+						<td>BOX생산수량</td>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<td>생산등록일</td>
+						<td><input class="date1" type="datetime-local"></td>
+						<td>생산종료일</td>
+						<td><input class="date1" type="datetime-local"></td>
+					</tr>
+					<tr>
+						<td>생산수량</td>
+						<td><input type="text"></td>
+						<td>생산상태</td>
+						<td>
+							<select name="condition">
+								<option value="hold">생산대기</option>
+								<option value="ing">생산중</option>
+								<option value="com">생산완료</option>
+							</select>
+						</td>
+					</tr>									
+			</table>
+			<div class="button-container">
+			<button class="previous_btn">이전</button>
+			<button class="complete_btn">확인</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
