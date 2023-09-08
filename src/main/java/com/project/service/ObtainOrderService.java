@@ -45,7 +45,7 @@ public class ObtainOrderService {
 		return obtainmapper.countAllOrderProduct2();
 	}
 
-	public int deleteProduction(String pNum) {
+	public int deleteProduction(List<String> pNum) {
 		return obtainmapper.DeleteProduction(pNum);
 	}
 

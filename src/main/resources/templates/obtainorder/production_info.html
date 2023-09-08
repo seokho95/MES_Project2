@@ -74,17 +74,18 @@
 			alert("선택된 항목이 없습니다.");
 		} else {
 			if (confirm('선택한 항목을 삭제하시겠습니까?')) {
-				var data = "";
+				var pNums = [];
 				checkedItems.each(function () {
-					data += "check=" + $(this).parent().parent().find('td:eq(5)').text();
+					pNum = $(this).parent().parent().find('td:eq(4)').text();
+					pNums.push(pNum);
 				});
+					console.log(pNums);
 				$.ajax({
-					data: data,
-					url: '/production/delete/{pNum}',
+					data: {'pNum': pNums},
+					url: '/production/delete',
 					type: 'post',
 					dataType: 'json',
 					success: function (r) {
-						console.log(r);
 						if (Number(r.count) == 0) {
 							alert(r.message);
 							location.reload();

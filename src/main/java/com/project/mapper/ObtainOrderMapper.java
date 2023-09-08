@@ -24,7 +24,7 @@ public interface ObtainOrderMapper {
 
 	int countAllOrderProduct2();
 
-	int DeleteProduction(String pNum);
+	int DeleteProduction(List<String> pNum);
 
 	//ObtainDTO ModiWriteProduction(String pNum);
 

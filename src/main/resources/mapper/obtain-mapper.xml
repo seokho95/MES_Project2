@@ -42,7 +42,7 @@
 		select * from COMPANY_SELL
 	</select>
 	<select id="ProductionAllList" resultMap="sell">
-		select * from PRODUCT p, SELL s where p.p_num = s.p_num
+		select * from PRODUCT p, SELL s where p.p_num(+) = s.p_num
 	</select>
 	<select id="SearchProduction" parameterType="Map" resultMap="sell">
 		select * from PRODUCT p, SELL s 
@@ -60,8 +60,9 @@
 		select count(*) from PRODUCT p, SELL s 
 		where p.p_num = s.p_num and s_phase in(0,1,2,3)
 	</select>
-	<delete id="DeleteProduction" parameterType="String">
-		delete from sell where p_num like #{value}
+	<delete id="DeleteProduction" parameterType="list">
+		delete from product where p_num in
+		<foreach collection="list" item="obj" open="(" close=")" separator=",">#{obj}</foreach>
 	</delete>
 <!-- 	<select id="ModiWriteProduction" parameterType="String" resultMap="sell">
   		select * from PRODUCT p, SELL s 

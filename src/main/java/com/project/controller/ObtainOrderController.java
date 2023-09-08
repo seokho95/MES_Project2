@@ -3,13 +3,11 @@ package com.project.controller;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -88,12 +86,12 @@ public class ObtainOrderController {
 //		return "redirect:/main";
 //	}
 	
-	@RequestMapping("/production/delete/{pNum}")
-	public ResponseEntity<String> delete(@PathVariable String pNum){
+	@RequestMapping("/production/delete")
+	public ResponseEntity<String> delete(@RequestParam("pNum[]") List<String> pNum){
+		System.out.println(pNum);
 		int result = obtainService.deleteProduction(pNum);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("count", result);
-		System.out.println(result);
 		if(result == 0)
 			map.put("message", "데이터 삭제 실패");
 		else
