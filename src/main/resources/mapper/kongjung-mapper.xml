@@ -6,13 +6,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.project.mapper.KongjungMapper">
 
 	<resultMap type="process" id="process">
-		<id column="PROCESS_NUM" property="processNum" />
+		<result column="PROCESS_NUM" property="processNum" />
 		<result column="PROCESS_NAME" property="processName" />
+		<result column="RECIPE_NUM" property="recipeNum" />
+		<result column="P_TIME" property="processTime" />
 	</resultMap>
-	<!-- all리스트조회  -->
+	<!-- all리스트조회 -->
 	<select id="selectAllList" resultMap="process">
-	select PROCESS_NUM,PROCESS_NAME
-	from PROCESS
+		select PROCESS_NUM,PROCESS_NAME
+		from PROCESS
 	</select>
 
+	<!-- 검색 -->
+	<select id="selectSearch" parameterType="map"
+		resultMap="process">
+		select PROCESS_NUM,PROCESS_NAME
+		from PROCESS
+		where
+		(PROCESS_NUM like '%' || #{search} || '%' or PROCESS_NAME like '%' ||
+		#{search} || '%')
+
+	</select>
+	
+	<!-- 레시피 all리스트조회 -->
+	<select id="selectAllList1" resultMap="process">
+		select RECIPE_NUM, P_TIME
+		from RECIPE
+	</select>
+
+	<!-- 검색 -->
+	<select id="selectSearch1" parameterType="string"
+		resultMap="process">
+		select RECIPE_NUM,P_TIME
+		from RECIPE
+		where
+		(RECIPE_NUM like '%' || #{search} || '%')
+
+	</select>
+
+	<!-- 삭제 메서드 추가 -->
+	<delete id="deleteKongjung" parameterType="long">
+		DELETE FROM PROCESS WHERE PROCESS_NUM = #{id}
+	</delete>
+	
+	
 </mapper>

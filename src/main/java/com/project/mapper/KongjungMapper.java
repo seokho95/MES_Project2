@@ -1,6 +1,7 @@
 package com.project.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +15,13 @@ public interface KongjungMapper {
 		
 
 		List<KongjungDTO> selectAllList(KongjungDTO kongjungDTO);
+		
+		List<KongjungDTO> selectAllList1(KongjungDTO kongjungDTO);
+
+		List<KongjungDTO> selectSearch(Map<String, Object> map);
+
+		List<KongjungDTO> selectSearch1(String search);
+		
+		void deleteKongjung(Long id);
 
 }

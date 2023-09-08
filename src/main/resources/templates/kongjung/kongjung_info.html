@@ -7,8 +7,78 @@
 
 	<th:block th:include="header/header.html"></th:block>
 	<link rel="stylesheet" href="/kongjung/kongjung_info.css">
-	<link rel="stylesheet" href="/global.css">
+	<link rel="stylesheet" href="/common/global.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 페이지가 로드되자마자 조회 갯수를 표시하는 함수
+    function displayResultCount() {
+        let data = `search=${$(".search_img").val()}`;
+        $.ajax({
+            url: "/search.do",
+            data: data,
+            dataType: "json",
+            type: "post",
+            success: function(r) {
+                var tag = "";
+                for (i = 0; i < r.length; i++) {
+                    tag += "<tr>";
+                    tag += "<td scope='row'><input class='form-check-input' type='checkbox' name='checkbox2' onclick='checkSelectAll(this)' id='checkbox1'></td>";
+                    tag += `<td id="over" onclick="location.href='/kongjung_update'">`+r[i].processNum+"</td>";
+                    tag += "<td>"+r[i].processName+"</td>";
+                    tag += "</tr>";
+                }
+                var resultCount = r.length;
+                
+                // 결과를 특정 요소에 표시
+                $(".result_count").text(resultCount + "개의 데이터가 조회되었습니다.");
+                
+                $(".processN").html(tag);
+            }
+        });
+    }
+    
+    // 페이지 로드 시 조회 갯수 표시 함수 호출
+    displayResultCount();
+    
+    // 검색 버튼 클릭 시도 조회 갯수 표시 함수 호출
+    $(".search_btn").click(function() {
+        displayResultCount();
+    });
+});
+ 
+function deleteSelected() {
+    const selectedCheckboxes = document.querySelectorAll('input[name="checkbox2"]:checked');
+    
+    if (selectedCheckboxes.length === 0) {
+        alert("삭제할 항목을 선택하세요.");
+        return;
+    }
 
+    const selectedIds = selectedCheckboxes.map((checkbox) => Number(checkbox.closest("tr").querySelector("td:nth-child(2)").textContent));
+
+    // 서버로 선택된 항목의 ID를 전송하여 삭제 요청
+    $.ajax({
+        url: "/deleteSelected.do", // 삭제 요청을 처리할 서버 엔드포인트를 지정
+        data: { selectedIds: selectedIds },
+        dataType: "json",
+        type: "post",
+        success: function(response) {
+            if (response.success) {
+                // 삭제가 성공하면 선택된 항목을 테이블에서 삭제
+                selectedCheckboxes.forEach((checkbox) => {
+                    checkbox.closest("tr").remove();
+                });
+
+                // 결과를 특정 요소에 표시
+                $(".result_count").text(response.resultCount + "개의 데이터가 조회되었습니다.");
+            } else {
+                alert("삭제에 실패했습니다.");
+            }
+        },
+    });
+}
+</script>
 </head>
 
 <body>
@@ -37,15 +107,11 @@
 		<div class="name">
 			<h2>공정정보</h2>
 			<br>
-			<span class="pink">0개의</span>데이터가 조회되었습니다.
+			<span class="result_count"></span>
 			<br>
 			<div class="search">
-				<form method="post" action="<c:url value='/kongjung_info'/>">
-					<label>
-						<td class="search_td"><input class="search_img" type="search" placeholder="검색"></td>
-						<td class="btn_td"><input class="search_btn" type="submit" value="검색"></td>
-					</label>
-				</form>
+						<input class="search_img" type="search" placeholder="검색">
+						<input class="search_btn" type="button" value="검색">
 			</div>
 		</div>
 		<div class="table_container" style="margin-top: 20px;">
@@ -56,24 +122,24 @@
 							<input class="form-check-input" type="checkbox" value="selectall" name="selectall"
 								id="checkbox1" onclick="selectAll(this)">
 						</th>
-						<th scope="col">공정 정보</th>
-						<th scope="col">레시피 명</th>
+						<th scope="col">공정 번호</th>
+						<th scope="col">공정 명</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="processN">
 					<tr th:each="r : ${kongjungList}">
 						<td scope="row">
 							<input class="form-check-input" type="checkbox" name="checkbox2"
 								onclick="checkSelectAll(this)" id="checkbox1">
 						</td>
-						<td>[[${r.processNum}]]</td>
+						<td onclick="location.href='/kongjung_update'">[[${r.processNum}]]</td>
 						<td>[[${r.processName}]]</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div id="btn">
-			<button id="btn_delete" style="float: left" onclick="btn_delete()">선택삭제</a></button>
+			<button id="btn_delete" style="float: left" onclick="deleteSelected()">선택 삭제</button>
 			<button id="btn_insert" onclick="location.href='kongjung_insert'" style="float: right">등록</button>
 			<button id="btn_update" onclick="location.href='kongjung_update'" style="float: right">수정</button>
 		</div>
