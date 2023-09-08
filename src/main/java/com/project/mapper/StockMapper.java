@@ -18,4 +18,16 @@ public interface StockMapper {
 
 	int countAllProduct();
 
+	int InsertMaterial(Stock_MaterialDTO dto);
+
+	int InsertProduct(Stock_ProductDTO dto);
+
+	Stock_MaterialDTO SelectMaterial(String m_num);
+
+	int UpdateMaterial(Stock_MaterialDTO dto);
+
+	Stock_ProductDTO SelectProduct(String p_num);
+
+	int UpdateProduct(Stock_ProductDTO dto);
+
 }

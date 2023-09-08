@@ -9,13 +9,17 @@ public class Stock_MaterialDTO {
 	private int m_count;
 	private int m_box_count;
 	private String m_unit;
+	private String c_num;
 	
-	public Stock_MaterialDTO(String m_num, String material_name, int m_count, int m_box_count, String m_unit) {
+	public Stock_MaterialDTO(String m_num, String material_name, int m_count, int m_box_count, String m_unit,
+			String c_num) {
+		super();
 		this.m_num = m_num;
 		this.material_name = material_name;
 		this.m_count = m_count;
 		this.m_box_count = m_box_count;
 		this.m_unit = m_unit;
+		this.c_num = c_num;
 	}
 
 	public Stock_MaterialDTO() {}
@@ -60,11 +64,21 @@ public class Stock_MaterialDTO {
 		this.m_unit = m_unit;
 	}
 
+	public String getC_num() {
+		return c_num;
+	}
+
+	public void setC_num(String c_num) {
+		this.c_num = c_num;
+	}
+
 	@Override
 	public String toString() {
 		return "Stock_MaterialDTO [m_num=" + m_num + ", material_name=" + material_name + ", m_count=" + m_count
-				+ ", m_box_count=" + m_box_count + ", m_unit=" + m_unit + "]";
+				+ ", m_box_count=" + m_box_count + ", m_unit=" + m_unit + ", c_num=" + c_num + "]";
 	}
+
+	
 	
 	
 	

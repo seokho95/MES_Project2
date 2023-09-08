@@ -5,7 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="common/global.css" />
+	<link rel="stylesheet" href="/common/global.css" />
 	<link rel="stylesheet" href="/stock/stock_product.css" />
 	<title>Document</title>
 </head>
@@ -50,14 +50,14 @@
 		<table id="table">
 			<tr>
 				<th style="width: 25px;"><input type="checkbox" id="all_check" onchange="selectAll(this)" /></th>
-				<th style="width: 20%">제품 이름</th>
+				<th style="width: 20%">제품명</th>
 				<th>제품 수량</th>
 				<th style="width: 20%">레시피 코드</th>
 				<th style="width: 15%">바코드</th>
 			</tr>
 			<tr th:each="p : ${list}" id="contents">
 				<td id="chk_box"><input type="checkbox" name="chk" style="width: 15px;" height="15px" onclick="checkSelectAll(this)"/></td>
-				<td>[[${ p.p_name}]]</td>
+				<td><a th:href="@{/stock/product/updateView/{p_num}(p_num=${ p.p_num})}">[[${ p.p_name}]]</a></td>
 				<td>[[${ p.p_amount}]]</td>
 				<td>[[${ p.recipe_num}]]</td>
 				<td>[[${ p.p_num}]]</td>
@@ -65,8 +65,7 @@
 		</table>
 		<div id="btn">
 			<a id="btn_delete" href="">선택 삭제</a>
-			<a id="btn_update" href="">수정</a>
-			<a id="btn_add" href="">등록</a>
+			<a id="btn_add" href="/stock/product/add">등록</a>
 		</div>
 	</div>
 </body>
