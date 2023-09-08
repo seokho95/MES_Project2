@@ -4,17 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>협력업체</title>
-	<!--<link rel="stylesheet" href="common/header.css" />-->
+	<link rel="stylesheet" href="common/header.css">
     <link rel="stylesheet" href="/order/contractor.css">
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function () {
+	//문자열 검사
+    $('.btn_search').click(function () {
+
+        let data = {
+            search: $("#search_po_p").val()
+        };
+
+        $.ajax({
+            url: '/contractor/search',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (r) {
+                console.log(r);
+                var tag = "";
+
+                if (r.length === 0) {
+                    tag = "<tr><td colspan='8'>일치하는 정보가 없습니다.</td></tr>";
+                    $('.contractorList').html(tag);
+                } else {
+                    for (let i = 0; i < r.length; i++) {
+                        tag += `<tr>`;
+                        tag += `<td><input type='checkbox' name='s_no'></td>`;
+                        tag += `<td>${r[i].companyNo}</td>`;
+                        tag += `<td>${r[i].buyName}</td>`;
+                        tag += `<td>${r[i].managerName}</td>`;
+                        tag += `<td>${r[i].managerContact}</td>`;
+                         tag += `<td>${r[i].mMail}</td>`;
+                        tag += `</tr>`;
+                    }
+                    $('.contractorList').html(tag);
+                }
+            }
+        });
+    });
+});
+	$(function () {	
+    // 전체 선택 체크박스 클릭 시 개별 체크박스 상태 업데이트
+    $('input[name="chk_all"]').click(function () {
+        var isChecked = $(this).prop('checked');
+        $('input[name="s_no"]').prop('checked', isChecked);
+    });
+    
+    // 개별 체크박스를 클릭하면 전체 선택 체크박스 상태 확인 및 업데이트
+    $('input[name="s_no"]').click(function () {
+        var allCheckbox = $('input[name="chk_all"]');
+        var selectedItems = $('input[name="s_no"]:checked');
+        
+        if (selectedItems.length === 0) {
+            // 선택된 개별 체크박스가 없을 때, 전체 선택 체크박스를 해제합니다.
+            allCheckbox.prop('checked', true);
+        } else if (selectedItems.length === $('input[name="s_no"]').length) {
+            // 모든 개별 체크박스가 선택되었을 때, 전체 선택 체크박스를 선택합니다.
+            allCheckbox.prop('checked', false);
+        }
+    });
+      // 선택 삭제 버튼 클릭 시 선택된 항목 삭제
+  $('.btn.delete').click(function () {
+    var selectedItems = $('input[name="s_no"]:checked');
+    if (selectedItems.length === 0) {
+        alert('삭제할 항목을 선택하세요.');
+    } else {
+        if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+            selectedItems.each(function () {
+                var companyNo = $(this).closest('tr').find('td:last-child').text();
+                $.ajax({
+                    url: '/contractor/delete/' + companyNo,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response) {
+                            alert(response.message);
+                            $(this).closest('tr').remove();
+                        } else {
+                            alert('삭제 실패');
+                        }
+                    },
+                    error: function () {
+                        alert('서버 오류');
+                    }
+                });
+            });
+        }
+    }
+});
+});
+</script>
 <body>
-	<!--<th:block th:insert="header/header.html"></th:block>-->
+<th:block th:insert="header/header.html"></th:block>
        <!-- 협력업체 정보 -->
     <div class="content_detail" id="content_detail">
         <div id="content" class="maOrderCont">
             <ul class="order_lnb">
                 <li>
-                        <a href="/mainpage/mainpage">
+                        <a href="/mainpage">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 51 51" fill="none">
                             <path d="M21.7266 29.2581H30.086V43.8871H21.7266V29.2581Z" fill="#F08080"/>
                             <path d="M43.5033 21.2748L27.3905 4.80665C27.1962 4.61077 26.965 4.4553 26.7104 4.3492C26.4557 4.2431 26.1826 4.18848 25.9067 4.18848C25.6308 4.18848 25.3576 4.2431 25.103 4.3492C24.8483 4.4553 24.6171 4.61077 24.4229 4.80665L8.31002 21.2957C7.92013 21.6887 7.6122 22.1553 7.40412 22.6683C7.19604 23.1813 7.09195 23.7306 7.0979 24.2842V41.7972C7.09628 42.8671 7.50495 43.8968 8.23975 44.6744C8.97454 45.4519 9.97953 45.9181 11.0477 45.977H17.5472V27.1682C17.5472 26.6139 17.7674 26.0824 18.1593 25.6904C18.5512 25.2985 19.0828 25.0783 19.6371 25.0783H32.1763C32.7305 25.0783 33.2621 25.2985 33.654 25.6904C34.0459 26.0824 34.2661 26.6139 34.2661 27.1682V45.977H40.7656C41.8338 45.9181 42.8388 45.4519 43.5736 44.6744C44.3084 43.8968 44.717 42.8671 44.7154 41.7972V24.2842C44.7171 23.1618 44.2825 22.0827 43.5033 21.2748Z" fill="#F08080"/>
@@ -43,9 +133,7 @@
                 <div class="sub_con">
                     <div class="tit_box">
                         <h2 class="sub_tit">협력업체 정보</h2>
-                        <p class="sub_txt">
-                            <span>2</span>개의 데이터가 조회되었습니다.
-                        </p>
+                        <p class="sub_txt"></p>
                     </div>
                     <!-- tit_box -->
                     <div class="search_pc">
@@ -57,50 +145,34 @@
                         <thead>
                             <tr>
                                 <th><input type="checkbox" name="chk_all"></th>
-                                <th>번호</th>
-                                <th>협력업체코드</th>
+                                <th>사업자번호</th>
                                 <th>협력업체명</th>
                                 <th>대표자명</th>
-                                <th>전화번호</th>
                                 <th>휴대폰번호</th>
-                                <th>FAX</th>
                                 <th>이메일</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr onclick="location.href='/order/ma_order_mod.html'">
-                                <td onclick="event.stopPropagation();">
-                                    <input type='checkbox' name='s_no[]'>
+                        <tbody class="contractorList">
+                            <tr  id="contractor" th:each="contractor : ${list}">
+                                <td>
+                                    <input type='checkbox' name='s_no'>
                                 </td>
-                                <td>2</td>
-                                <td>cop-3022</td>
-                                <td>바둑왕세돌이</td>
-                                <td>이세돌</td>
-                                <td>02-2525-7744</td>
-                                <td>010-4747-7475</td>
-                                <td>02-141-4744</td>
-                                <td>mangmang12@naver.com</td>
-                            </tr>
-                            <tr onclick="location.href='/order/ma_order_mod.html'">
-                                <td onclick="event.stopPropagation();">
-                                    <input type='checkbox' name='s_no[]'>
-                                </td>
-                                <td>1</td>
-                                <td>cop-3022</td>
-                                <td>우리두부박수철</td>
-                                <td>박수철</td>
-                                <td>02-215-7744</td>
-                                <td>010-4312-7431</td>
-                                <td>02-321-6341</td>
-                                <td>pockpock@naver.com</td>
+                                <td>[[${contractor.companyNo}]]</td>
+                                <td>[[${contractor.buyName}]]</td>
+                                <td>[[${contractor.managerName}]]</td>
+                                <td>[[${contractor.managerContact}]]</td>
+                                <td>[[${contractor.mMail}]]</td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="bot_box">
                         <div class="bot_btn">
                             <div class="btn delete" title="선택삭제">선택삭제</div>
-                            <div class="btn btn_right" title="등록" onclick="location.href='/ContractorRegister'">등록</div>
-                        </div>
+                            <div class="bot_edit"> 
+								  <div class="btn edit" title="수정">수정</div>
+                            	<div class="btn btn_right" title="등록" onclick="location.href='/ContractorRegister'">등록</div>
+                       			 </div>
+                        	</div>
                         <!-- bot_btn -->
                     </div>
                     <!-- bot_box -->

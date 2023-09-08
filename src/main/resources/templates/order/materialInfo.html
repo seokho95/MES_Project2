@@ -4,17 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>원부재료정보</title>
-    <!--<link rel="stylesheet" href="common/header.css" />-->
+    <link rel="stylesheet" href="common/header.css">
     <link rel="stylesheet" href="/order/materialInfo.css">
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(function () {
+	//문자열 검사
+    $('.btn_search').click(function () {
+
+        let data = {
+            search: $("#search_po_p").val()
+        };
+
+        $.ajax({
+            url: '/material/search',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (r) {
+                console.log(r);
+                var tag = "";
+
+                if (r.length === 0) {
+                    tag = "<tr><td colspan='8'>일치하는 정보가 없습니다.</td></tr>";
+                    $('.materialList').html(tag);
+                } else {
+                    for (let i = 0; i < r.length; i++) {
+                        tag += `<tr>`;
+                        tag += `<td><input type='checkbox' name='s_no'></td>`;
+                        tag += `<td>${r[i].materialNo}</td>`;
+                        tag += `<td>${r[i].materioalName}</td>`;
+                        tag += `<td>${r[i].mBOXcount}</td>`;
+                        tag += `<td>${r[i].dateOrder}</td>`;
+                        tag += `<td>${r[i].mUnit}</td>`;
+                         tag += `<td>${r[i].mTotalPrice}</td>`;
+                        tag += `<td>${r[i].buyName}</td>`;
+                        tag += `<td>༼ つ ◕_◕ ༽つ</td>`;
+                        tag += `</tr>`;
+                    }
+                    $('.materialList').html(tag);
+                }
+            }
+        });
+    });
+});
+	$(function () {	
+    // 전체 선택 체크박스 클릭 시 개별 체크박스 상태 업데이트
+    $('input[name="chk_all"]').click(function () {
+        var isChecked = $(this).prop('checked');
+        $('input[name="s_no"]').prop('checked', isChecked);
+    });
+    
+    // 개별 체크박스를 클릭하면 전체 선택 체크박스 상태 확인 및 업데이트
+    $('input[name="s_no"]').click(function () {
+        var allCheckbox = $('input[name="chk_all"]');
+        var selectedItems = $('input[name="s_no"]:checked');
+        
+        if (selectedItems.length === 0) {
+            // 선택된 개별 체크박스가 없을 때, 전체 선택 체크박스를 해제합니다.
+            allCheckbox.prop('checked', true);
+        } else if (selectedItems.length === $('input[name="s_no"]').length) {
+            // 모든 개별 체크박스가 선택되었을 때, 전체 선택 체크박스를 선택합니다.
+            allCheckbox.prop('checked', false);
+        }
+    });
+      // 선택 삭제 버튼 클릭 시 선택된 항목 삭제
+  $('.btn.delete').click(function () {
+    var selectedItems = $('input[name="s_no"]:checked');
+    if (selectedItems.length === 0) {
+        alert('삭제할 항목을 선택하세요.');
+    } else {
+        if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+            selectedItems.each(function () {
+                var companyNo = $(this).closest('tr').find('td:last-child').text();
+                $.ajax({
+                    url: '/material/delete/' + companyNo,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response) {
+                            alert(response.message);
+                            $(this).closest('tr').remove();
+                        } else {
+                            alert('삭제 실패');
+                        }
+                    },
+                    error: function () {
+                        alert('서버 오류');
+                    }
+                });
+            });
+        }
+    }
+});
+});
+</script>	
 <body>
-	<!--<th:block th:insert="header/header.html"></th:block>-->
+	<th:block th:insert="header/header.html"></th:block>
         <!-- 원부재료 정보 -->
     <div class="content_detail" id="content_detail">
         <div id="content" class="maOrderCont">
             <ul class="order_lnb">
                 <li>
-                        <a href="/mainpage/mainpage">
+                        <a href="/mainpage">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 51 51" fill="none">
                             <path d="M21.7266 29.2581H30.086V43.8871H21.7266V29.2581Z" fill="#F08080"/>
                             <path d="M43.5033 21.2748L27.3905 4.80665C27.1962 4.61077 26.965 4.4553 26.7104 4.3492C26.4557 4.2431 26.1826 4.18848 25.9067 4.18848C25.6308 4.18848 25.3576 4.2431 25.103 4.3492C24.8483 4.4553 24.6171 4.61077 24.4229 4.80665L8.31002 21.2957C7.92013 21.6887 7.6122 22.1553 7.40412 22.6683C7.19604 23.1813 7.09195 23.7306 7.0979 24.2842V41.7972C7.09628 42.8671 7.50495 43.8968 8.23975 44.6744C8.97454 45.4519 9.97953 45.9181 11.0477 45.977H17.5472V27.1682C17.5472 26.6139 17.7674 26.0824 18.1593 25.6904C18.5512 25.2985 19.0828 25.0783 19.6371 25.0783H32.1763C32.7305 25.0783 33.2621 25.2985 33.654 25.6904C34.0459 26.0824 34.2661 26.6139 34.2661 27.1682V45.977H40.7656C41.8338 45.9181 42.8388 45.4519 43.5736 44.6744C44.3084 43.8968 44.717 42.8671 44.7154 41.7972V24.2842C44.7171 23.1618 44.2825 22.0827 43.5033 21.2748Z" fill="#F08080"/>
@@ -46,49 +139,38 @@
                     </div>
 
                     <div class="search_pc">
-                        <select name="" id="" class="selectMaterial">
-                            <option value="">원재료</option>
-                            <option value="">부재료</option>
-                        </select>
-                        <input type="text" id="search_po_p" name="search_key" placeholder="search">
-                        <span><button>조회</button></span>
+                          <input type="text" id="search_po_p" name="search_key" placeholder="search">
+                        <span><button  class="btn_search">조회</button></span>
                     </div>
                     <!-- search_pc -->
                     <table id="table" class="result_table">
                         <thead>
                             <tr>
-                                <th>선택</th>
-                                <th>번호</th>
-                                <th>이미지</th>
-                                <th>원부재료</th>
-                                <th>제품번호</th>
+                                     <th><input type="checkbox" name="chk_all"></th>
+                                <th>재료번호</th>
                                 <th>제품명</th>
                                 <th>BOX당 수량</th>
-                                <th>발주 날짜</th>
+                                <th>발주일자</th>
                                 <th>단위</th>
                                 <th>가격(원)</th>
                                 <th>협력업체</th>
-                                <th>유통기한</th>
                                 <th>바코드</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td onclick="event.stopPropagation();">
-                                    <input type='checkbox' name='s_no[]'>
+                        <tbody class="materialList">
+                            <tr id="material" th:each="material : ${list}">
+                                <td>
+                                    <input type='checkbox' name='s_no'>
                                 </td>
-                                <td>1</td>
-                                <td>명리식품</td>
-                                <td>원재료</td>
-                                <td>BUU-0001</td>
-                                <td>소금</td>
-                                <td>2023-02-22</td>
-                                <td>2023-03-21</td>
-                                <td>10,000</td>
-                                <td>10,000</td>
-                                <td>WB</td>
-                                <td>23.05.28</td>
+                                <td>[[${material.materialNo}]]</td>
+                                <td>[[${material.materioalName}]]</td>
+                                <td>[[${material.mBOXcount}]]</td>
+                                <td>[[${material.dateOrder}]]</td>
+                                <td>[[${material.mUnit}]]</td>
+                                <td>[[${material.mTotalPrice}]]</td>
+                                <td>[[${material.buyName}]]</td>
                                 <td>༼ つ ◕_◕ ༽つ</td>
+                                <td style="display: none;">[[${material.companyNo}]]</td>
                             </tr>
                         </tbody>
                     </table>
@@ -96,7 +178,7 @@
                         <div class="bot_btn">
                             <div class="btn delete" title="선택삭제">선택삭제</div>
                           <div class="bot_edit"> 
-                            <div class="btn edit" title="선택삭제" onclick="location.href='/MaterialEdit'">수정</div>
+                            <div class="btn edit" title="수정">수정</div>
                             <div class="btn right" title="등록" onclick="location.href='/MaterialRegister'">등록</div>
                           </div>
                          </div>

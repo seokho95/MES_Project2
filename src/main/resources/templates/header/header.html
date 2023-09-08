@@ -20,29 +20,29 @@
 				<td><a href="/mainpage"><img src="/img/logo5.png" alt="로고" class="logo2"></a></td>
 				<td>
 					<ul class="menu">
-						<li class="bar"><a href="Order">발주관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="/Order">발주관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="Order">발주 관리</a></li>
-								<li><a href="MaterialInfo">원부재료 관리</a></li>
+								<li><a href="/Order">발주 관리</a></li>
+								<li><a href="/MaterialInfo">원부재료 관리</a></li>
 								<li><a href="/Contractor">협력업체</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="ObtainOrder">수주관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="/ObtainOrder">수주관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="ObtainOrder">수주 관리</a></li>
-								<li><a href="ProductionInfo">제품 관리</a></li>
-								<li><a href="BusinessInfo">고객 관리</a></li>
+								<li><a href="/ObtainOrder">수주 관리</a></li>
+								<li><a href="/ProductionInfo">제품 관리</a></li>
+								<li><a href="/BusinessInfo">고객 관리</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="kongjung_info">공정관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="/kongjung_info">공정관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="kongjung_info">공정 정보</a></li>
-								<li><a href="recipe_info">통합 레시피 정보</a></li>
+								<li><a href="/kongjung_info">공정 정보</a></li>
+								<li><a href="/recipe_info">통합 레시피 정보</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="PM">생산관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="/PM">생산관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="PM">생산 관리</a></li>
+								<li><a href="/PM">생산 관리</a></li>
 							</ul>
 						</li>
 						<li class="bar"><a href="/stock/material">재고관리<img src="/img/down.png" alt="" class="arrow"></a>
@@ -51,15 +51,16 @@
 								<li><a href="/stock/product">완제품 재고 관리</a></li>
 							</ul>
 						</li>
-						<li class="bar"><a href="ConsignmentManagement">출하관리<img src="/img/down.png" alt="" class="arrow"></a>
+						<li class="bar"><a href="/ConsignmentManagement">출하관리<img src="/img/down.png" alt="" class="arrow"></a>
 							<ul class="submenu">
-								<li><a href="ConsignmentManagement">출하 현황</a></li>
-								<li><a href="RequstRelease">출고 요청</a></li>
-								<li><a href="RequstConsignment">출하 요청</a></li>
+								<li><a href="/ConsignmentManagement">출하 현황</a></li>
+								<li><a href="/RequstRelease">출고 요청</a></li>
+								<li><a href="/RequstConsignment">출하 요청</a></li>
 							</ul>
 						</li>
 						<ul>
-							<li id="hello"><p style="text-decoration: underline;">님</p>안녕하세요</li>
+							<li id="hello"><p style="text-decoration: underline;"><th:block th:if="${session.user != null}">[[${session.user.name}]] 님 </th:block></p>안녕하세요</li>
+		
 					<li class="logout"><a href="/logout"  style="text-decoration:none;color: white;" />로그아웃</li>
 					</ul>
 				</td>
