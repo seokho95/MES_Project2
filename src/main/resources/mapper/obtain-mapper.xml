@@ -29,6 +29,7 @@
 		<result column="p_size" property="pSize" />
 		<result column="boxcount" property="boxCount" />
 		<result column="weight" property="pWeight" />
+		<result column="weight_1" property="pWeight_1" />
 		<result column="unit" property="unit" />
 		<result column="date_finish" property="pFinish" />
 	</resultMap>
@@ -41,7 +42,30 @@
 		select * from COMPANY_SELL
 	</select>
 	<select id="ProductionAllList" resultMap="sell">
-		select * from PRODUCT p, SELL s
+		select * from PRODUCT p, SELL s where p.p_num = s.p_num
 	</select>
+	<select id="SearchProduction" parameterType="Map" resultMap="sell">
+		select * from PRODUCT p, SELL s 
+		where p.p_num = s.p_num and ${kind} like '%' || #{search}|| '%'
+	</select>
+	<select id="countAllOrderProduct" parameterType="Map" resultType="int">
+		select count(*) from PRODUCT p, SELL s 
+		where p.p_num = s.p_num
+	</select>
+	<select id="countAllOrderProduct1" parameterType="Map" resultType="int">
+		select count(*) from PRODUCT p, SELL s 
+		where p.p_num = s.p_num and s_phase = 4
+	</select>
+	<select id="countAllOrderProduct2" parameterType="Map" resultType="int">
+		select count(*) from PRODUCT p, SELL s 
+		where p.p_num = s.p_num and s_phase in(0,1,2,3)
+	</select>
+	<delete id="DeleteProduction" parameterType="String">
+		delete from sell where p_num like #{value}
+	</delete>
+<!-- 	<select id="ModiWriteProduction" parameterType="String" resultMap="sell">
+  		select * from PRODUCT p, SELL s 
+  		where p.p_num = s.p_num and p_num like #{pNum}
+  	</select> -->
 
 </mapper>

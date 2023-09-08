@@ -1,5 +1,8 @@
 package com.project.dto;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("sell")
 public class ObtainDTO {
 	//sell
 	private String sNum;
@@ -28,6 +31,7 @@ public class ObtainDTO {
 	private String pSize;
 	private int boxCount;
 	private String pWeight;
+	private String pWeight_1;
 	private String unit;
 	private String pFinish;
      
@@ -502,6 +506,22 @@ public String toString() {
 			+ ", cCode=" + cCode + ", cLeader=" + cLeader + ", cTel=" + cTel + ", cPhone=" + cPhone + ", cFax=" + cFax
 			+ ", cMail=" + cMail + ", pAmount=" + pAmount + ", pName=" + pName + ", pImg=" + pImg + ", pSize=" + pSize
 			+ ", boxCount=" + boxCount + ", pWeight=" + pWeight + ", unit=" + unit + ", pFinish=" + pFinish + "]";
+}
+
+
+
+
+
+public String getpWeight_1() {
+	return pWeight_1;
+}
+
+
+
+
+
+public void setpWeight_1(String pWeight_1) {
+	this.pWeight_1 = pWeight_1;
 }
 
    

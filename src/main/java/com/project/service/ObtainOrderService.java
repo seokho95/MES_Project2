@@ -1,6 +1,8 @@
 package com.project.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,31 @@ public class ObtainOrderService {
 	public List<ObtainDTO> ProductionAllList() {
 		return obtainmapper.ProductionAllList();
 	}
+	public List<ObtainDTO> SearchProduction(String kind, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("kind", kind);
+		map.put("search", search);
+		return obtainmapper.SearchProduction(map);
+	}
+
+	public int countAllOrderProduct() {
+		return obtainmapper.countAllOrderProduct();
+	}
+
+	public int countAllOrderProduct1() {
+		return obtainmapper.countAllOrderProduct1();
+	}
+	public int countAllOrderProduct2() {
+		return obtainmapper.countAllOrderProduct2();
+	}
+
+	public int deleteProduction(String pNum) {
+		return obtainmapper.DeleteProduction(pNum);
+	}
+
+//	public ObtainDTO ModiWriteProduction(String pNum) {
+//		return obtainmapper.ModiWriteProduction(pNum);
+//	}
 	
 	
 }

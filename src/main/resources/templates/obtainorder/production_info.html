@@ -1,102 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/obtainorder/production_info.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="/obtainorder/production_info.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/jsbarcode/3.11.0/JsBarcode.all.min.js"></script>-->
 </head>
 <script>
-    function delete_business(){
+	// 조회
+	function search_production() {
+		currentPage = 0;
+		showPage(currentPage);
+		let data = `kind=${$("#sel_kind").val()}&search=${$(".txt_search").val()}`;
 		$.ajax({
-			url : '/business/delete/'+$(this).parent().parent().children().first().text(),
-			type : 'post',
-			dataType : 'json',
-			success:(r)=>{
-				if(Number(r.count) == 0){
-					alert(r.message);
-					location.reload();
-				}else{
-					alert(r.message);
-					console.log($(this).parent().parent());
-					$(this).parent().parent().remove();
-				}				
+			url: "/production/search",
+			data: data,
+			dataType: "json",
+			type: "post",
+			success: function (r) {
+				var tag = ``;
+
+				for (i = 0; i < r.length; i++) {
+					tag += `<tr>`;
+					tag += `<td><input type="checkbox" class="check_one"></td>`;
+					tag += `<td>${1}</td>`;
+					tag += `<td>${r[i].pImg}</td>`;
+					tag += `<td>${r[i].sPhase}</td>`;
+					tag += `<td>${r[i].pNum}</td>`;
+					tag += `<td>${r[i].pName}</td>`;
+					tag += `<td>${r[i].pSize}</td>`;
+					tag += `<td>${r[i].boxCount}</td>`;
+					tag += `<td>${r[i].pWeight}</td>`;
+					tag += `<td>${r[i].pFinish}</td>`;
+					tag += `<td>${r[i].price}</td>`;
+					tag += `<td>${r[i].barcode}</td>`;
+					tag += `</tr>`;
+				}
+
+				$("tbody").html(tag);
 			}
 		});
 	}
-    $(function(){
-        $('.btn_delete').click(delete_business);
-        $('.btn_upload').click(function(){
-            window.location.href = 'production_info_upload.html';
-        });
-    });
-    $(function() {
-        // 각 행에 번호를 연속적으로 삽입
-        $('#info tr').each(function(index) {
-            $(this).find('td:first').text(index + 1);
-        });
-    });
+
+	// 완제품 반제품 전체 클릭
+	function filterProducts(phase) {
+		currentPage = 0;
+		showPage(currentPage);
+		if (phase === 'all') {
+			$('.info').show();
+		} else if (phase === 'complete') {
+			$('.info').hide();
+			$('.info').filter(function () {
+				return $(this).find('td:eq(3)').text() === '4';
+			}).show();
+		} else if (phase === 'half') {
+			$('.info').hide();
+			$('.info').filter(function () {
+				var phaseValue = $(this).find('td:eq(3)').text();
+				return phaseValue >= '0' && phaseValue <= '3';
+			}).show();
+		}
+	}
+
+
+	//행 지우기
+	function delete_production() {
+		var checkedItems = $('.check_one:checked');
+
+		if (checkedItems.length === 0) {
+			alert("선택된 항목이 없습니다.");
+		} else {
+			if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+				var data = "";
+				checkedItems.each(function () {
+					data += "check=" + $(this).parent().parent().find('td:eq(5)').text();
+				});
+				$.ajax({
+					data: data,
+					url: '/production/delete/{pNum}',
+					type: 'post',
+					dataType: 'json',
+					success: function (r) {
+						console.log(r);
+						if (Number(r.count) == 0) {
+							alert(r.message);
+							location.reload();
+						} else {
+							alert(r.message);
+
+							// 체크된 항목 삭제
+							checkedItems.closest('tr').remove();
+						}
+					},
+					error: function () {
+						alert('서버 오류');
+					}
+				});
+			};
+		}
+	}
+	$(function () {
+		//=================체크박스 전체선택=================
+		$('.check_all').click(function () {
+			$('.check_one').prop('checked', this.checked);
+		});
+		//조회버튼 클릭 이벤트
+		$('.btn_search').click(search_production);
+		//업로드버튼 클릭 이벤트
+		$('.btn_upload').click(function () {
+			window.location.href = "/ProductionInfoUpload";
+		});
+		//삭제버튼 클릭 이벤트
+		$('.btn_delete').click(delete_production);
+
+		//=================완제품 반제품 전체 클릭=================
+		filterProducts('all');
+
+		$('#complete').click(function () {
+			filterProducts('complete');
+		});
+
+		$('#all').click(function () {
+			filterProducts('all');
+		});
+
+		$('#half').click(function () {
+			filterProducts('half');
+		});
+
+		//=================행클릭 이벤트=================
+		$('.info td:not(:first-child)').click(function () {
+			window.location.href = "/production/detail/{pNum}(pNum=${pro.pNum})";
+		});
+
+		// 초기 페이지 표시 (처음 로드 시 10개의 요소만 표시)
+		showPage(currentPage);
+		updatePageButtons();
+	});
+	//=================바코드 생성 함수=================
+	/*function generateBarcode(pNum) {
+		// 바코드를 생성할 대상 엘리먼트 선택
+		var barcodeElement = document.createElement('div'); // 예시로 div 엘리먼트를 생성
+
+		// 바코드 생성 및 설정
+		JsBarcode(barcodeElement, pNum, {
+			format: "CODE128", // 바코드 형식 선택 (여기서는 CODE128을 사용)
+			displayValue: false // 바코드 값 표시 여부 (false로 설정하면 순수한 바코드 이미지가 됨)
+		});
+
+		// 생성한 바코드를 각 행의 다섯 번째 칸에 추가
+		$(".info").each(function () {
+			var pNumInRow = $(this).find("td:eq(4)").text(); // 다섯 번째 칸의 텍스트 값 가져오기
+			if (pNumInRow === pNum) {
+				// 해당 행의 pNum 값이 원하는 값과 일치하면 바코드 추가
+				$(this).find(".barcode-cell").empty().append(barcodeElement);
+			}
+		});
+	}*/
 </script>
+
 <body>
-    <div class="All">
-        <div class="header">
-            <a href="/mainpage">
-            	<img src="/img/home.png" alt="" class="source" id="home">
-            </a>
-            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
-            <a href="#" class="source" id="headText">수주관리</a>
-            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
-            <a href="#" class="source" id="headText">제품정보</a>
-        </div>
-        <h1>제품정보</h1>
-        <p class="inquire"><span class="count">{$($.btn_search)}개</span>의 데이터가 조회되었습니다.</p>
-<div class="search_result">
-    <div class="button">
-        <button class="btn_click" id="all">전체("{$(count)}")</button>
-        <button class="btn_click" id="complete">완제품("{$(count)}")</button>
-        <button class="btn_click" id="half">반제품("{$(count)}")</button>
-    </div>
-    <div class="business_search">
-        <img src="/img/search_icon.png" alt="" id="img_search">
-        <input type="text" class="txt_search">
-        <button class="btn_search">검색</button>
-    </div>
-</div>
-    <table id="search_result">
-        <tr>
-            <th><input type="checkbox" class="check_all"></th>
-            <th>번호</th>
-            <th>이미지</th>
-            <th>분류</th>
-            <th>제품번호</th>
-            <th>제품명</th>
-            <th>규격</th>
-            <th>BOX당 수량</th>
-            <th>포장지당 중량</th>
-            <th>유통기한</th>
-            <th>가격(원)</th>
-            <th>바코드</th>
-        </tr>
-        <tr id="info" th:each="pro : ${list}">
-            <td><input type="checkbox" class="check_one"></td>
-            <td>1</td>
-            <td>[[${pro.pImg}]]</td>
-            <td>[[${pro.sPhase}]]</td>
-            <td>[[${pro.pNum}]]</td>
-            <td>[[${pro.pName}]]</td>
-            <td>[[${pro.pSize}]]</td>
-            <td>[[${pro.boxCount}]]</td>
-            <td>[[${pro.pWeight}]]</td>
-            <td>[[${pro.pFinish}]]</td>
-            <td>[[${pro.price}]]</td>
-            <td>[[${pro.barcode}]]</td>
-        </tr>
-    </table>
-    <div class="btn_area">
-        <button value="button" class="btn_delete">삭제</button>
-        <button value="button" class="btn_upload">등록</button>
-    </div>
-    </div>
+	<div class="All">
+		<div class="header">
+			<a href="/mainpage">
+				<img src="/img/home.png" alt="" class="source" id="home">
+			</a>
+			<img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+			<a href="#" class="source" id="headText">수주관리</a>
+			<img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+			<a href="#" class="source" id="headText">제품정보</a>
+		</div>
+		<h1>제품정보</h1>
+		<p class="inquire"><span class="count">[[${countAllOrderProduct}]]</span>의 데이터가 조회되었습니다.</p>
+		<div class="search_result">
+			<div class="button">
+				<button value="button" class="btn_click" id="all">전체([[${countAllOrderProduct}]])</button>
+				<button value="button" class="btn_click" id="complete">완제품([[${countAllOrderProduct1}]])</button>
+				<button value="button" class="btn_click" id="half">반제품([[${countAllOrderProduct2}]])</button>
+			</div>
+			<div class="business_search">
+				<select id="sel_kind"
+					style="margin-right: 5px; border-color: #F08080; flex-shrink: 0; border-radius: 4px;">
+					<option value="p_num">제품번호</option>
+					<option value="p_name">제품명</option>
+				</select>
+				<img src="/img/search_icon.png" alt="" id="img_search">
+				<input type="text" class="txt_search">
+				<button class="btn_search">검색</button>
+			</div>
+		</div>
+		<table id="search_result">
+			<thead>
+				<tr>
+					<th><input type="checkbox" class="check_all"></th>
+					<th>번호</th>
+					<th>이미지</th>
+					<th>분류</th>
+					<th>제품번호</th>
+					<th>제품명</th>
+					<th>규격</th>
+					<th>BOX당 수량</th>
+					<th>포장지당 중량</th>
+					<th>유통기한</th>
+					<th>가격(원)</th>
+					<th>바코드</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="info" th:each="pro : ${list}">
+					<td><input type="checkbox" class="check_one"></td>
+					<td id="number"></td>
+					<td>[[${pro.pImg}]]</td>
+					<td>[[${pro.sPhase}]]</td>
+					<td>[[${pro.pNum}]]</td>
+					<td>[[${pro.pName}]]</td>
+					<td>[[${pro.pSize}]]</td>
+					<td>[[${pro.boxCount}]]</td>
+					<td>[[${pro.pWeight}]]</td>
+					<td>[[${pro.pFinish}]]</td>
+					<td>[[${pro.price}]]</td>
+					<td class="barcode-cell"></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="12">
+						<button id="prevPage">이전 페이지</button>
+						<button id="nextPage">다음 페이지</button>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<div class="btn_area">
+			<button value="button" class="btn_delete">삭제</button>
+			<button value="button" class="btn_upload">등록</button>
+		</div>
 </body>
+<script>
+	// 페이지 설정
+	let currentPage = 1; // 현재 페이지 번호를 저장할 변수 추가
+	const boards = document.querySelectorAll('.info');
+	const prevPageButton = document.getElementById('prevPage');
+	const nextPageButton = document.getElementById('nextPage');
+	const boardsPerPage = 10;
+
+	function showPage(page) {
+		boards.forEach((board, index) => {
+			if (index >= page * boardsPerPage && index < (page + 1) * boardsPerPage) {
+				board.style.display = 'table-row'; // 변경된 부분: 'table-row'로 설정
+			} else {
+				board.style.display = 'none';
+			}
+		});
+	}
+
+	function updatePageButtons() {
+		if (currentPage === 0) {
+			prevPageButton.disabled = true;
+		} else {
+			prevPageButton.disabled = false;
+		}
+
+		if (currentPage === Math.ceil(boards.length / boardsPerPage) - 1) {
+			nextPageButton.disabled = true;
+		} else {
+			nextPageButton.disabled = false;
+		}
+	}
+
+	prevPageButton.addEventListener('click', () => {
+		if (currentPage > 0) {
+			currentPage--;
+			showPage(currentPage);
+			updatePageButtons();
+		}
+	});
+
+	nextPageButton.addEventListener('click', () => {
+		if (currentPage < Math.ceil(boards.length / boardsPerPage) - 1) {
+			currentPage++;
+			showPage(currentPage);
+			updatePageButtons();
+		}
+	});
+	//번호 컬럼에 숫자를 순서대로 넣기
+	const infoRows = document.querySelectorAll('.info');
+	infoRows.forEach((row, index) => {
+		const numberCell = row.querySelector('#number');
+		numberCell.textContent = index + 1;
+	});
+</script>
+
 </html>

@@ -7,6 +7,26 @@
     <link rel="stylesheet" href="/obtainorder/obtain_order.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+<script>
+	$(document).ready(function() {
+        function updateCount() {
+            var infoCount = $('.info').length; // .info 클래스 요소의 갯수
+            $('.count').text(infoCount); // .count 클래스의 텍스트를 업데이트
+        }
+
+        updateCount();
+
+        $('.check_all').click(function() {
+            $('.check_one').prop('checked', this.checked);
+        });
+
+    });
+$(function(){
+	$('.btn_upload').click(function(){
+		window.location.href = "/BusinessInfoUpload";
+	});
+});
+</script>
 <body>
     <div class="All">
         <div class="header">
@@ -19,7 +39,7 @@
             <a href="#" class="source" id="headText">수주조회</a>
         </div>
         <h1>수주조회</h1>
-        <p class="inquire"><span class="count">{$($.btn_search)}개</span>의 데이터가 조회되었습니다.</p>
+        <p class="inquire"><span class="count"></span>의 데이터가 조회되었습니다.</p>
     <table id="search_first">
         <tr>
             <td class="search_date">수주일자</td>
@@ -42,6 +62,11 @@
         </tr>
     </table>
     <div class="order_search">
+		<select id="sel_kind" style="margin-right: 5px; border-color: #F08080; flex-shrink: 0; border-radius: 4px;">
+			<option value="s_num">수주번호</option>
+			<option value="c_code">고객업체코드</option>
+			<option value="p_name">제품명</option>
+		</select>
         <img src="/img/search_icon.png" alt="" id="img_search">
         <input type="text" class="txt_search">
         <button class="btn_search">검색</button>
@@ -50,7 +75,7 @@
         <tr>
             <th><input type="checkbox" class="check_all"></th>
             <th>수주번호</th>
-            <th>고객업체</th>
+            <th>고객업체코드</th>
             <th>제품명</th>
             <th>등록일자</th>
             <th>수주일자</th>
