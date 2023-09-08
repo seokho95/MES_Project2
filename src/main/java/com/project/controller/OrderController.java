@@ -53,12 +53,12 @@ public class OrderController {
 		return "order/contractorRegister";
 	}
 	//협럭업체 수정
-	@RequestMapping("ContractorEdit")
+	@RequestMapping("/ContractorEdit")
 	public String ContractorEdit() {
 		return "order/contractorEdit";
 	}
 	//원부재료 조회
-	@RequestMapping("MaterialInfo")
+	@RequestMapping("/MaterialInfo")
 	public ModelAndView MaterialInfo(ModelAndView view) {
 		List<OrderDTO> list = orderService.viewAllMaterial();
 		System.out.println(list);
