@@ -22,26 +22,42 @@
 		<id column="d_num" property="dNum" />
 		<result column="d_contact" property="dContact" />
 	</resultMap>
-	
+
 	<!-- 수주리스트 조회 -->
 	<select id="obtainorderSearch" resultMap="Consignment"
 		parameterType="String">
-		select 
-		s.S_NUM , s.DATE_ORDER ,s.DATE_TO_ARRIVE ,	s.C_NUM , cs.ADDRESS , s.P_NUM , s.S_AMOUNT
-		from sell s, company_sell cs where s.C_NUM = cs.C_NUM and s.S_NUM=#{Obtainorder_search}
+		select
+		s.S_NUM , s.DATE_ORDER ,s.DATE_TO_ARRIVE , s.C_NUM
+		, cs.ADDRESS , s.P_NUM ,
+		s.S_AMOUNT
+		from sell s, company_sell cs where
+		s.C_NUM = cs.C_NUM and
+		s.S_NUM=#{Obtainorder_search}
 	</select>
 	<select id="ConsignmentManagement" resultMap="Consignment">
 		SELECT
 		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
 		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
-		s.S_NUM ,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
+		s.S_NUM
+		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
 		= sh.D_NUM AND s.S_NUM =sh.S_NUM
 	</select>
 	<select id="DriverList" resultMap="Driver" parameterType="Map">
-		SELECT * FROM DRIVER where 
-		<!--choose 사용  -->
-		${kind} like '%'||#{search}||'%'
+		SELECT * FROM DRIVER where
+		<!--choose 사용 -->
+		<choose>
+			<when test="kind.equals('dNum')">
+				and dNum like '%' || #{search} || '%'
+			</when>
+			<when test="kind.equals('dContact')">
+				and dContact like '%' || #{search} || '%'
+			</when>
+			<otherwise>
+				${kind} like '%'||#{search}||'%'
+			</otherwise>
+		</choose>
 	</select>
+	<!-- ${kind} like '%'||#{search}||'%' -->
 </mapper>
 
 

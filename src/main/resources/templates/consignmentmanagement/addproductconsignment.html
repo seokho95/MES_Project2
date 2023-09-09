@@ -51,20 +51,22 @@
 	function opendriverpopUp() {
 		$(".driverpopBg").show();
 	}
-
+	function closedriverpopUp() {
+		$(".driverpopBg").hide();
+	}
 
 	$(function () {
 		//btn_search 클릭시 실행될 함수(기사 검색)
 		$('#btn_search').click(function () {
 			//controller에서 선언한 kind값은 html의 kind /search동일
 			let data = {
-				kind : $("#kind").val(),
-				search : $("#search").val()
+				kind: $("#kind").val(),
+				search: $("#search").val()
 			}
 			console.log(data);
 			$.ajax({
 				url: '/AddProductConsignment/driverlist',
-				data:data,
+				data: data,
 				type: 'post',
 				dataType: 'json',
 				success: function (r) {
@@ -84,7 +86,7 @@
 						}
 						console.log(tag)
 						$('#driver_data').html(tag);
-						
+
 						//td 코드 클릭시 해당 값이 기사번호에 기록
 					}
 				}
@@ -107,32 +109,31 @@
 
 						for (let i = 0; i < r.length; i++) {
 							tag += `<tr>`;
-							tag += `<td>${r[i].dNum}</td>`;
+							tag += `<td id="driver";>${r[i].dNum}</td>`;
 							tag += `<td>${r[i].dContact}</td>`;
 							tag += `</tr>`;
 						}
 						console.log(tag)
 						$('#driver_data').html(tag);
-						
+
 						//td 코드 클릭시 해당 값이 기사번호에 기록
 					}
 				}
 			})
 		})
-		
+
+		$('#driver_data').on('click', 'td', function () {
+			// 클릭된 td 요소에서 dNum 값을 가져옴
+			let dNumValue = $(this).text();
+
+			// 검색 input에 dNum 값을 자동으로 설정
+			$('#opendriverlist').val(dNumValue);
+
+			// driverpopBg를 숨깁니다.
+			$(".driverpopBg").hide();
+		});
+
 	});
-
-	function closedriverpopUp() {
-		$(".driverpopBg").hide();
-	}
-
-	function selectorder(orderNo) {
-		// 주문 번호를 입력 상자에 자동으로 입력
-		document.getElementById("orderNoInput").value = orderNo;
-		window.opener.selectorder(orderNo); // 부모 창의 함수 호출
-		window.close();
-	}
-
 </script>
 
 <body>
@@ -215,7 +216,7 @@
 								<input type="text" placeholder="0" />개
 							</td>
 							<td>
-								<input type="text" placeholder="기사 번호 조회" readonly />
+								<input type="text" placeholder="기사 번호 조회" id="driver" readonly />
 								<button type="button" id="opendriverlist" onclick="opendriverpopUp()">조회</button>
 							</td>
 						</tr>
