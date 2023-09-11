@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
 	<meta charset="UTF-8" />
@@ -8,24 +8,22 @@
 	<link rel="stylesheet" href="common/global.css" />
 	<link rel="stylesheet" href="common/header.css" />
 	<link rel="stylesheet" href="consignmentmanagement/productmanagement.css" />
-	<title>Document</title>
+	<title>출하 현황</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
-
+	//li 클릭시 색상 변경
 	document.addEventListener("DOMContentLoaded", function () {
 		// #category 아래의 ul 요소에서 li 항목 가져옴.
 		var listItems = document.querySelectorAll("#category > ul li");
-
 		// 각 항목에 클릭 이벤트 추가.
 		listItems.forEach(function (item) {
 			item.addEventListener("click", function () {
-				// 모든 클래스를 초기화.
+				// 클릭 전 기본 CSS
 				listItems.forEach(function (li) {
 					li.classList.remove("clicked");
 				});
-				// 클릭한 항목에 클래스를 추가해서 스타일 변경.
+				// 클릭하면  .clicked CSS 적용
 				this.classList.add("clicked");
 			});
 		});
@@ -40,6 +38,99 @@
 			checkbox.checked = masterCheckbox.checked;
 		});
 	}
+	// 모든 행 숨기기
+	function hideAllRows() {
+		var rows = document.querySelectorAll("#table2 tbody tr");
+		rows.forEach(function (row) {
+			row.style.display = "none";
+		});
+	}
+
+	// 특정 상태 값에 따라 행 표시
+	function showRowsByStatus(statuses) {
+		var rows = document.querySelectorAll("#table2 tbody tr");
+		rows.forEach(function (row) {
+			var sPhaseCell = row.querySelector("td:nth-child(12)");
+			var sPhaseValue = parseInt(sPhaseCell.textContent);
+
+			// OR 조건: 전달된 상태 값 중 하나라도 만족하는 경우 표시
+			if (statuses.includes(sPhaseValue)) {
+				row.style.display = ""; // 행을 표시
+			}
+		});
+	}
+	//전체 현황 조회
+	function all_consignment() {
+		hideAllRows();
+		showRowsByStatus([0, 1, 2]);
+	}
+
+	// 출고 대기 조회
+	function waiting() {
+		// 모든 행 숨기기
+		hideAllRows();
+		showRowsByStatus([0]); // 0 = 출고 대기
+	}
+
+	// 출하 중 조회
+	function proceeding() {
+		// 모든 행 숨기기
+		hideAllRows();
+		showRowsByStatus([1]); // 1 = 출하 중
+	}
+
+	// 출하 완료 조회
+	function completed() {
+		// 모든 행 숨기기
+		hideAllRows();
+		showRowsByStatus([2]); // 2 = 출하 완료
+	}
+	$(function () {
+		//출하날자 검색 + 수주번호 검색
+		$('#search_date').click(function () {
+			let startDate = $('#consignmentdate1').val();
+			let endDate = $('#consignmentdate2').val();
+
+			let data = {
+				startDate: startDate,
+				endDate: endDate,
+				cnumSearch: $("#cnumSearch").val()
+			};
+			$.ajax({
+				url: 'ConsignmentManagement/search',
+				data: data,
+				type: 'post',
+				dataType: 'json',
+				success: function (r) {
+					console.log(r);
+					var tag = "";
+					
+					if (r.length === 0) {
+						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
+						$('.consignment_data').html(tag);
+					} else {
+						for (let i = 0; i < r.length; i++) {
+							tag += `<tr>`;
+							tag += `<td><input type="checkbox" style="width: 12px;" height="12px"></td>`;
+							tag += `<td>${r[i].shipNum}</td>`;
+							tag += `<td>${r[i].dateOrder}</td>`;
+							tag += `<td>${r[i].dateToArrive}</td>`;
+							tag += `<td>${r[i].cNum}</td>`;
+							tag += `<td>${r[i].pNum}</td>`;
+							tag += `<td>${r[i].dateStartShip}</td>`;
+							tag += `<td>${r[i].sAmount}</td>`;
+							tag += `<td>${r[i].shipAmount}</td>`;
+							tag += `<td>${r[i].sNum}</td>`;
+							tag += `<td>${r[i].dNum}</td>`;
+							tag += `<td>${r[i].sPhase}</td>`;
+							tag += `</tr>`;
+						}
+						$('.consignment_data').html(tag);
+					}
+				}
+			});
+		});
+	});
 </script>
 
 <body>
@@ -77,21 +168,21 @@
 		<table id="table1">
 			<tr>
 				<th>출하 일자</th>
-				<td><input type="date" /> ~ <input type="date" /></td>
+				<td><input type="date" id="consignmentdate1" /> ~ <input type="date" id="consignmentdate2" /></td>
 				<th>납기 일자</th>
 				<td><input type="date" /> ~ <input type="date" /></td>
 			</tr>
 		</table>
 		<div id="category" class="category">
 			<ul>
-				<li onclick="all_consignment()">전체</a></li>
-				<li onclick="waiting()">출고 대기</li>
-				<li onclick="proceeding()">출하 중</li>
-				<li onclick="completed()">출하 완료</li>
+				<li onclick="all_consignment()">전체([[${allcount}]])</li>
+				<li onclick="waiting()" style="width: 100px;">출고 대기([[${waitingcount}]])</li>
+				<li onclick="proceeding()" style="width: 100px;">출하 중([[${proceedingcount}]])</li>
+				<li onclick="completed()" style="width: 100px;">출하 완료([[${completedcount}]])</li>
 			</ul>
 			<div id="search" style="float: right">
-				<input type="text" placeholder="사업자번호 조회." />
-				<button id="search_btn">검색</button>
+				<input type="text" placeholder="사업자번호 조회." id="cnumSearch" />
+				<button id="search_date">검색</button>
 			</div>
 		</div>
 		<br />
@@ -111,10 +202,10 @@
 				<th>담당기사 번호</th>
 				<th>출하 현황</th>
 			</thead>
-			<tbody>
+			<tbody class="consignment_data">
 				<!-- 리스트 정보 받아오기 -->
 				<tr th:each="consignmentlist : ${all_consignmentlist}">
-					<td><input type="checkbox" style="width: 15px;" height="15px" /></td>
+					<td><input type="checkbox" style="width: 12px;" height="12px" /></td>
 					<td>[[${consignmentlist.shipNum}]]</td>
 					<td>[[${consignmentlist.dateOrder}]]</td>
 					<td>[[${consignmentlist.dateToArrive}]]</td>

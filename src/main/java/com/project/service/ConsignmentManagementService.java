@@ -27,6 +27,28 @@ public class ConsignmentManagementService {
 	public int AllConsignment() {
 		return mapper.AllConsignment();
 	}
+	public int WaitingCount() {
+		return mapper.WaitingCount();
+	}
+	public int ProdeedingCount() {
+		return mapper.ProdeedingCount();
+	}
+	public int CompletedCount() {
+		return mapper.CompletedCount();
+	}
+	public List<ConsignmentManagementDTO> searchconsignmentdate(String startDate, String endDate, String cnumSearch) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("startDate",startDate);
+		map.put("endDate",endDate);
+		map.put("cnumSearch",cnumSearch);
+		
+		return mapper.searchconsignmentdate(map);
+	}
+	public List<ConsignmentManagementDTO> searchCnum(String cnumSearch) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cnumSearch", cnumSearch);
+		return mapper.searchCnum(map);
+	}
 	
 	
 }

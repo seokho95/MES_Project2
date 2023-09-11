@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
 	<meta charset="UTF-8" />
@@ -212,7 +212,7 @@
 							<th style="width: 100px;">요청 수량<span style="color: red">*</span></th>
 							<th>출하 시작일</th>
 							<th style="width: 100px;">출하 수량</th>
-							<th>기사 코드</th>
+							<th>기사 번호</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -230,7 +230,7 @@
 								<input type="text" placeholder="0" />개
 							</td>
 							<td>
-								<input type="text" placeholder="기사 코드 조회" readonly class="driverCode"
+								<input type="text" placeholder="기사 번호 조회" readonly class="driverCode"
 									th:value="${dNum}" />
 								<button type="button" id="opendriverlist" onclick="opendriverpopUp()">조회</button>
 							</td>
@@ -252,7 +252,7 @@
 			<h3>기사 리스트</h3>
 			<div>
 				<select id="kind">
-					<option value="d_num">기사 코드</option>
+					<option value="d_num">기사 번호</option>
 					<option value="d_contact">연락처</option>
 				</select>
 				<input type="text" placeholder="검색" style="width: 150px;" id="search">
@@ -262,7 +262,7 @@
 			<br>
 			<table id="driver_list">
 				<thead>
-					<th style="width: 100px">기사 코드</th>
+					<th style="width: 100px">기사 번호</th>
 					<th style="width: 200px">기사 연락처</th>
 				</thead>
 				<tbody id="driver_data">

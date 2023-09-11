@@ -34,6 +34,7 @@
 		s.C_NUM = cs.C_NUM and
 		s.S_NUM=#{Obtainorder_search}
 	</select>
+	<!-- 출하전체리스트 조회 -->
 	<select id="ConsignmentManagement" resultMap="Consignment">
 		SELECT
 		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
@@ -58,9 +59,49 @@
 		</choose>
 	</select>
 	<select id="AllConsignment" parameterType="Map" resultType="int">
-		SELECT COUNT(*) FROM SHIPMENT
+		SELECT COUNT(*) FROM SHIPMENT sh, SELL s where s.S_NUM =sh.S_NUM
 	</select>
-	
+	<select id="WaitingCount" parameterType="Map" resultType="int">
+		SELECT
+		COUNT(*) FROM SHIPMENT sh,SELL s WHERE s.S_NUM =sh.S_NUM AND
+		sh.S_PHASE = 0
+	</select>
+	<select id="ProdeedingCount" parameterType="Map"
+		resultType="int">
+		SELECT COUNT(*) FROM SHIPMENT sh,SELL s WHERE s.S_NUM
+		=sh.S_NUM AND sh.S_PHASE = 1
+	</select>
+	<select id="CompletedCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*) FROM SHIPMENT sh,SELL s WHERE s.S_NUM =sh.S_NUM AND
+		sh.S_PHASE = 2
+	</select>
+	<!-- 날자 조회 -->
+	<select id="searchconsignmentdate" parameterType="Map"
+		resultMap="Consignment">
+		SELECT
+		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
+		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
+		s.S_NUM
+		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
+		= sh.D_NUM AND s.S_NUM =sh.S_NUM
+		AND
+		sh.date_start_ship BETWEEN #{startDate} AND #{endDate}
+		AND
+		s.C_NUM LIKE '%' || #{cnumSearch} || '%'
+	</select>
+	<!-- 수주번호 조회 -->
+	<select id="searchCnum" parameterType="Map"
+		resultMap="Consignment">
+		SELECT
+		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
+		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
+		s.S_NUM
+		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
+		= sh.D_NUM AND s.S_NUM =sh.S_NUM
+		AND
+		s.C_NUM LIKE '%' || #{cnumSearch} || '%'
+	</select>
+
 </mapper>
 
 
