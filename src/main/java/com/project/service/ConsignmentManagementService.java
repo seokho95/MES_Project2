@@ -24,6 +24,9 @@ public class ConsignmentManagementService {
 	public ConsignmentManagementDTO obtainorderSearch(String obtainordersearch) {
 		return mapper.obtainorderSearch(obtainordersearch);
 	}
+	public int AllConsignment() {
+		return mapper.AllConsignment();
+	}
 	
 	
 }

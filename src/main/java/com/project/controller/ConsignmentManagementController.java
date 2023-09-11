@@ -32,7 +32,9 @@ public class ConsignmentManagementController {
 	@RequestMapping("/ConsignmentManagement")
 	public ModelAndView ConsignmentManagement(ModelAndView view) {
 		List<ConsignmentManagementDTO> list = consignmentManagementService.ConsignmentManagement();
+		int allcount = consignmentManagementService.AllConsignment();
 		System.out.println(list);
+		view.addObject("allcount",allcount);
 		view.addObject("all_consignmentlist", list);
 		view.setViewName("consignmentmanagement/productmanagement");
 		return view;

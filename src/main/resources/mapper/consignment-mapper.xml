@@ -57,7 +57,10 @@
 			</otherwise>
 		</choose>
 	</select>
-	<!-- ${kind} like '%'||#{search}||'%' -->
+	<select id="AllConsignment" parameterType="Map" resultType="int">
+		SELECT COUNT(*) FROM SHIPMENT
+	</select>
+	
 </mapper>
 
 

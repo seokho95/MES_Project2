@@ -17,6 +17,7 @@ public interface ConsignmentManagementMapper {
 	ConsignmentManagementDTO obtainorderSearch(String obtainordersearch);
 	//기사리스트 전체조회
 	List<DriverDTO> DriverList(Map<String, Object> map);
+	int AllConsignment();
 	
 	
 }
