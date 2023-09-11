@@ -38,6 +38,39 @@ public interface OrderMapper {
 
 	void deleteCompanyBuyContractor(String companyNo);
 
+	void insertIntoCompany(String buyName, String companyNo);
+
+	void insertIntoMaterial(String materioalName, String materialNo, String companyNo);
+
+	void insertIntoBuy(String dateOrder, String dateReceived, String buyNo, String materioalAmount, String materialNo, String companyNo);
+	
+	// 에러부분
+	OrderDTO editOrder(String buyNo);
+
+	void updateOrder(String buyNo, String buyName, String materialNo, String materioalName, String dateOrder,
+			String dateReceived, String materioalAmount, String companyNo);
+
+	void MaterialinsertIntoCompany(String companyNo);
+
+	void MaterialinsertIntoMaterial(String materioalName, String materialNo, String mUnit, int mBOXcount,
+			String companyNo);
+
+	void MaterialinsertIntoBuy(String buyNo, String dateOrder, String materialNo, int mTotalPrice, String companyNo);
+
+	void ContractorinsertIntoCompany(String companyNo, String buyName);
+
+	void ContractorinsertIntoManager(String managerName, String managerContact, String mMail,
+			String companyNo);
+
+	void OrderupdateMaterial(String materialNo, String materioalName, String companyNo);
+
+	void OrderupdateCompanyBuy(String buyName, String companyNo);
+
+	void OrderupdateBuy(String buyNo, String dateOrder, String dateReceived, String materioalAmount, String materialNo,
+			String companyNo);
+
+	
+
 
 
 

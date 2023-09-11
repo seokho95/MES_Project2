@@ -50,8 +50,8 @@
 		 b.B_NUM LIKE '%' || #{search} || '%'
 	</select> 
 
-<!-- 발주 날짜도 함께 검색 + 문자열 조회	 -->
- <select id="searchUserByDateRange" parameterType="map" resultMap="buy">
+	<!-- 발주 날짜도 함께 검색 + 문자열 조회	 -->
+ 	<select id="searchUserByDateRange" parameterType="map" resultMap="buy">
 	SELECT
    		 b.B_NUM,
    		 cb.B_NAME,
@@ -70,23 +70,23 @@
 		 b.B_NUM LIKE '%' || #{search} || '%'
     </select>
     
-   <!-- 발주 항목 선택 열 삭제 -->
-<delete id="deleteOrdersByCompanyNo" parameterType="string">
+	<!-- 발주 항목 선택 열 삭제 -->
+	<delete id="deleteOrdersByCompanyNo" parameterType="string">
     DELETE FROM BUY
     WHERE C_NUM = #{companyNo}
-</delete> 
+	</delete> 
 
-<!-- COMPANY_BUY 테이블에서 삭제 -->
-<delete id="deleteCompanyBuyByCompanyNo" parameterType="string">
+	<!-- COMPANY_BUY 테이블에서 삭제 -->
+	<delete id="deleteCompanyBuyByCompanyNo" parameterType="string">
     DELETE FROM COMPANY_BUY 
     WHERE C_NUM = #{companyNo}
-</delete> 
+	</delete> 
 
-<!-- MATERIAL 테이블에서 삭제 -->
-<delete id="deleteMaterialByCompanyNo" parameterType="string">
+	<!-- MATERIAL 테이블에서 삭제 -->
+	<delete id="deleteMaterialByCompanyNo" parameterType="string">
     DELETE FROM MATERIAL 
     WHERE C_NUM = #{companyNo}
-</delete>
+	</delete>
 
 	<!-- //Material 협력업체정보 페이지 - 전체 조회- 사용된 테이블 Table : BUY, COMPANY_BUY, MATERIAL(총3개) -->
 	<select id="viewAllMaterial" resultMap="buy">
@@ -110,46 +110,161 @@
 		 b.M_NUM LIKE '%' || #{search} || '%' 
 	</select> 
 
-<!-- 원부재료 선택 BUY 테이블에서 삭제 -->
-<delete id="deleteBuy" parameterType="string">
+	<!-- 원부재료 선택 BUY 테이블에서 삭제 -->
+	<delete id="deleteBuy" parameterType="string">
     DELETE FROM BUY
     WHERE C_NUM = #{companyNo}
-</delete> 
+	</delete> 
 
-<!-- COMPANY_BUY 테이블에서 삭제 -->
-<delete id="deleteCompanyBuy" parameterType="string">
+	<!-- COMPANY_BUY 테이블에서 삭제 -->
+	<delete id="deleteCompanyBuy" parameterType="string">
     DELETE FROM COMPANY_BUY 
     WHERE C_NUM = #{companyNo}
-</delete> 
+	</delete> 
 
-<!-- MATERIAL 테이블에서 삭제 -->
-<delete id="deleteMaterial" parameterType="string">
+	<!-- MATERIAL 테이블에서 삭제 -->
+	<delete id="deleteMaterial" parameterType="string">
     DELETE FROM MATERIAL 
     WHERE C_NUM = #{companyNo}
-</delete>
+	</delete>
 
-<!-- //Contractor 협력업체정보 페이지 - 전체 조회- 사용된 테이블 Table : BUY, COMPANY_BUY, MATERIAL(총3개) -->
-<select id="viewAllContractor" resultMap="buy">
+	<!-- //Contractor 협력업체정보 페이지 - 전체 조회- 사용된 테이블 Table : BUY, COMPANY_BUY, MATERIAL(총3개) -->
+	<select id="viewAllContractor" resultMap="buy">
 	SELECT  
 		cb.B_NAME, cb.C_NUM, mr.M_NAME, mr.M_CONTACT, mr.	M_MAIL
 	FROM
 		COMPANY_BUY cb , MANAGER mr
 	WHERE
 		 cb.C_NUM = mr.C_NUM(+)
-</select>
+	</select>
 
-<!-- 원부재료 선택 BUY 테이블에서 삭제 -->
-<delete id="deleteManagerContractor" parameterType="string">
+	<!-- 원부재료 선택 BUY 테이블에서 삭제 -->
+	<delete id="deleteManagerContractor" parameterType="string">
     DELETE FROM MANAGER
     WHERE C_NUM = #{companyNo}
-</delete> 
+	</delete> 
 
-<!-- COMPANY_BUY 테이블에서 삭제 -->
-<delete id="deleteCompanyBuyContractor" parameterType="string">
+	<!-- COMPANY_BUY 테이블에서 삭제 -->
+	<delete id="deleteCompanyBuyContractor" parameterType="string">
     DELETE FROM COMPANY_BUY 
     WHERE C_NUM = #{companyNo}
-</delete> 
+	</delete> 
+
+	<!--OrderRegister 발주관리 등록 - 사용된 테이블 Table : BUY, COMPANY_BUY, MATERIAL(총3개) -->
+
+	<!--company_buy 테이블에 속한 데이터 등록-->
+	<insert id="insertIntoCompany" parameterType="buy">
+    INSERT INTO COMPANY_BUY (C_NUM, B_NAME) 
+    VALUES(#{companyNo},#{buyName})
+	</insert>
+
+	<!--material 테이블에 속한 데이터 등록-->
+	<insert id="insertIntoMaterial" parameterType="buy">
+    INSERT INTO MATERIAL (C_NUM, MATERIAL_NAME, M_NUM) 
+    VALUES(#{companyNo}, #{materioalName}, #{materialNo})
+	</insert>
+
+	<!--buy 테이블에 속한 데이터 등록-->
+	<insert id="insertIntoBuy" parameterType="buy">
+    INSERT INTO BUY (C_NUM, DATE_ORDER, DATE_RECEIVED, B_NUM, M_AMOUNT, M_NUM) 
+    VALUES(#{companyNo},#{dateOrder},#{dateReceived},#{buyNo},#{materioalAmount},#{materialNo})
+	</insert>
+	
+	<!-- editOrder -->
+	<select id="editOrder" parameterType="string" resultMap="buy">
+    SELECT
+        b.B_NUM,
+        cb.B_NAME,
+        m.M_NUM,
+        m.MATERIAL_NAME,
+        b.DATE_ORDER,
+        b.DATE_RECEIVED,
+        b.M_AMOUNT,
+        b.C_NUM
+    FROM
+        BUY b
+        LEFT JOIN COMPANY_BUY cb ON b.C_NUM = cb.C_NUM
+        LEFT JOIN MATERIAL m ON m.C_NUM = b.C_NUM
+    WHERE
+        b.B_NUM = #{buyNo}
+	</select>
+
+	<!-- updateOrder -->
+	<update id="updateOrder" parameterType="map">
+    UPDATE BUY
+    SET
+        B_NAME = #{buyName},
+        M_NUM = #{materialNo},
+        MATERIAL_NAME = #{materioalName},
+        DATE_ORDER = #{dateOrder},
+        DATE_RECEIVED = #{dateReceived},
+        M_AMOUNT = #{materioalAmount},
+        C_NUM = #{companyNo}
+    WHERE
+        B_NUM = #{buyNo}
+	</update>
+	
+	<!-- 협력업체 company_buy 테이블 데이터 삽입 -->
+	<insert id="MaterialinsertIntoCompany" parameterType="string">
+    INSERT INTO COMPANY_BUY (C_NUM, B_NAME)
+    VALUES (#{companyNo}, '미입력')
+	</insert>
+
+	<!-- 원부재료 등록 -->
+	<insert id="MaterialinsertIntoMaterial" parameterType="map">
+    INSERT INTO MATERIAL (MATERIAL_NAME, M_NUM, M_UNIT, M_BOX_COUNT, C_NUM)
+    VALUES (#{materioalName}, #{materialNo}, #{mUnit}, #{mBOXcount}, #{companyNo})
+	</insert>
 
 
+	<!-- Buy 테이블에 데이터 삽입 -->
+	<insert id="MaterialinsertIntoBuy" parameterType="map">
+    INSERT INTO BUY (B_NUM, DATE_ORDER, M_NUM, M_PRICE_TOTAL, C_NUM)
+    VALUES (#{buyNo}, #{dateOrder}, #{materialNo}, #{mTotalPrice}, #{companyNo})
+	</insert>
+	
+	<!-- contractor// company_buy 테이블에 삽입 -->
+	<insert id="ContractorinsertIntoCompany" parameterType="string">
+    INSERT INTO COMPANY_BUY (C_NUM, B_NAME)
+    VALUES (#{companyNo}, #{buyName})
+	</insert>
 
+	<!-- contractor// manager 테이블에 삽입 -->
+	<insert id="ContractorinsertIntoManager" parameterType="map">
+    INSERT INTO MANAGER (C_NUM, M_NAME, M_CONTACT, M_MAIL)
+    VALUES (#{companyNo}, #{managerName}, #{managerContact}, #{mMail})
+	</insert>
+	
+	<!-- updateMaterial -->
+	<update id="OrderupdateMaterial" parameterType="map">
+    UPDATE MATERIAL
+    SET
+        M_NUM = #{materialNo},
+        MATERIAL_NAME = #{materioalName}
+    WHERE
+        M_NUM = #{materialNo} AND C_NUM = #{companyNo}
+	</update>
+
+	<!-- updateCompanyBuy -->
+	<update id="OrderupdateCompanyBuy" parameterType="map">
+    UPDATE COMPANY_BUY
+    SET
+        B_NAME = #{buyName}
+    WHERE
+        C_NUM = #{companyNo}
+	</update>
+	
+	<!-- updateOrder -->
+	<update id="OrderupdateBuy" parameterType="map">
+    UPDATE BUY
+    SET
+        M_NUM = #{materialNo},
+        MATERIAL_NAME = #{materioalName},
+        DATE_ORDER = #{dateOrder},
+        DATE_RECEIVED = #{dateReceived},
+        M_AMOUNT = #{materioalAmount},
+        C_NUM = #{companyNo}
+    WHERE
+        B_NUM = #{buyNo}
+	</update>
 </mapper>

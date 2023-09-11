@@ -74,7 +74,7 @@ $(function () {
     } else {
         if (confirm('선택한 항목을 삭제하시겠습니까?')) {
             selectedItems.each(function () {
-                var companyNo = $(this).closest('tr').find('td:last-child').text();
+                var companyNo = $(this).closest('tr').find('td:nth-child(2)').text();
                 $.ajax({
                     url: '/contractor/delete/' + companyNo,
                     type: 'post',
@@ -83,12 +83,14 @@ $(function () {
                         if (response) {
                             alert(response.message);
                             $(this).closest('tr').remove();
+	                        alert('삭제 성공');
+
                         } else {
                             alert('삭제 실패');
                         }
                     },
                     error: function () {
-                        alert('서버 오류');
+						 window.location.href = '/Contractor';
                     }
                 });
             });
@@ -133,7 +135,6 @@ $(function () {
                 <div class="sub_con">
                     <div class="tit_box">
                         <h2 class="sub_tit">협력업체 정보</h2>
-                        <p class="sub_txt"></p>
                     </div>
                     <!-- tit_box -->
                     <div class="search_pc">
@@ -147,7 +148,7 @@ $(function () {
                                 <th><input type="checkbox" name="chk_all"></th>
                                 <th>사업자번호</th>
                                 <th>협력업체명</th>
-                                <th>대표자명</th>
+                                <th>담당자명</th>
                                 <th>휴대폰번호</th>
                                 <th>이메일</th>
                             </tr>

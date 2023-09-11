@@ -102,6 +102,47 @@ $(function () {
         }
     }
 });
+$(function () {
+    // 해당 발주번호를 클릭할 때 해당 열 데이터 넘김
+    $('.buyNo').click(function () {
+        var buyNo = $(this).closest('tr').find('.buyNo').text();
+        var buyName = $(this).closest('tr').find('td:nth-child(3)').text();
+        var materialNo = $(this).closest('tr').find('td:nth-child(4)').text();
+        var materioalName = $(this).closest('tr').find('td:nth-child(5)').text();
+        var dateOrder = $(this).closest('tr').find('td:nth-child(6)').text();
+        var dateReceived = $(this).closest('tr').find('td:nth-child(7)').text();
+        var materioalAmount = $(this).closest('tr').find('td:nth-child(8)').text();
+        var companyNo = $(this).closest('tr').find('td:last-child').text();
+
+        // AJAX 요청을 보냄
+        $.ajax({
+            type: 'POST',
+            url: '/editOrder',  // 수정 페이지로 보낼 컨트롤러 주소
+            data: {
+                buyNo: buyNo,
+                buyName: buyName,
+                materialNo: materialNo,
+                materioalName: materioalName,
+                dateOrder: dateOrder,
+                dateReceived: dateReceived,
+                materioalAmount: materioalAmount,
+                companyNo: companyNo
+            },
+            success: function(response) {
+                // 서버에서 응답이 성공하면 수정 페이지로 이동
+                if (response) {
+                    window.location.href = '/editOrder/' + buyNo;
+                } else {
+                    alert('수정 페이지로 이동에 실패했습니다.');
+                }
+            },
+            error: function(error) {
+				co
+			 alert('오류 발생');
+            }
+        });
+    });
+});
 });
 </script>
 <body>
@@ -140,9 +181,6 @@ $(function () {
                 <div class="sub_con">
                     <div class="tit_box">
                         <h2 class="sub_tit">발주 관리</h2>
-                        <p class="sub_txt">
-                            <span>2</span>개의 데이터가 조회되었습니다.
-                        </p>
                     </div>
                     <!-- tit_box -->
                     <table id="table_reg">
@@ -177,14 +215,15 @@ $(function () {
                                 <th>발주일자</th>
                                 <th>납기일자</th>
                                 <th>발주수량</th>
+                                <th style="display: none;">사업자등록번호</th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             <tr  id="buy" th:each="buy : ${list}">
                                 <td>
-                                    <input type='checkbox' name='s_no'>
+                                    <input type='checkbox' class="sno" name='s_no'>
                                 </td>
-                                <td>[[${buy.buyNo}]]</td>
+                                <td class="buyNo">[[${buy.buyNo}]]</td>
                                 <td>[[${buy.buyName}]]</td>
                                 <td>[[${buy.materialNo}]]</td>
                                 <td>[[${buy.materioalName}]]</td>

@@ -40,7 +40,7 @@
                 </ul>
                 <!--lnb -->
                 <h2 class="sub_tit">원부재료 등록</h2>
-                <form method="post" class="editBox">
+                <form method="post" class="editBox" id="materialRegisterForm" action="/material/register/action">
                     <div class="uploadImg">
                         <div class="showImg">
 
@@ -51,94 +51,60 @@
                     </div>
                     <div class="materialInfoBox">
                         <table class="info">
-                            <tr>
-                                <th>제품번호<span>*</span></th>
+							<tr>
+                                <th>발주번호<span>*</span></th>
                                 <td>
-                                    <input type="text">
+                                    <input type="text" id="buyNo" name="buyNo" placeholder="발주번호" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>재료번호<span>*</span></th>
+                                <td>
+                                    <input type="text" id="materialNo" name="materialNo" placeholder="재료번호" required>
                                 </td>
                             </tr>
                             <tr>
                                 <th>제품명<span>*</span></th>
                                 <td>
-                                    <input type="text">
+                                    <input type="text" id="materioalName" name="materioalName" placeholder="제품명" required>
                                 </td>
                             </tr>
                             <tr>
                                 <th>규격</th>
                                 <td>
-                                    <input type="text">
+                                    <input type="text" id="mUnit" name="mUnit" placeholder="규격">
                                 </td>
                             </tr>
                             <tr>
                                 <th>BOX당 수량<span>*</span></th>
                                 <td>
-                                    <input type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>BOX 표시단위</th>
-                                <td>
-                                    <select name="weight" id="">
-                                        <option value="1MT">1MT</option>
-                                        <option value="25kg">25kg</option>
-                                        <option value="1kg">1kg</option>
-                                    </select>
+                                    <input type="text" id="mBOXcount" name="mBOXcount" placeholder="BOX당 수량" required>
                                 </td>
                             </tr>
                             <tr>
                                 <th>가격</th>
                                 <td>
-                                    <input type="text">
+                                    <input type="text" id="mTotalPrice" name="mTotalPrice" placeholder="가격">
                                 </td>
                             </tr>
                             <tr>
                                 <th>협력업체</th>
                                 <td class="coworks">
+                                    <input type="text" id="companyNo" name="companyNo" placeholder="협력업체 사업자번호 입력"><br>
                                     <input type="text"><br>
-                                    <input type="text"><br>
                                     <input type="text">
                                 </td>
                             </tr>
                             <tr>
-                                <th>원산지</th>
-                                <td>
-                                    <input type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>유통기한<span>*</span></th>
-                                <td>
-                                    <input type="text">
-                                    <select name="period" id="">
-                                        <option value="year">년</option>
-                                        <option value="month">월</option>
-                                        <option value="day">일</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>진열순서</th>
-                                <td>
-                                    <input type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>구분</th>
-                                <td>
-                                    <label for="raw">
-                                        <input type="radio" id="raw" name="ingredient" value="raw" checked>
-                                        원재료
-                                    </label>
-                                    <label for="sub">
-                                        <input type="radio" id="sub" name="ingredient" value="sub">
-                                        부재료
-                                    </label>
-                                </td>
-                            </tr>
+								 <th>발주일자</th>
+								 <td>
+                                <input type="date" class="btn_candle input_calendar" id='input_date1' name="dateOrder" required>
+                            	</td>
+							</tr>
                         </table>
                         <div class="buttonBox">
                             <input type="reset" value="취소">
-                            <input type="submit" value="수정">	
+                            <input type="submit" value="등록">	
                         </div>
                     </div>
                 </form>

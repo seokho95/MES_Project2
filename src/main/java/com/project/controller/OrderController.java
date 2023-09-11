@@ -2,10 +2,14 @@ package com.project.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +59,18 @@ public class OrderController {
 		return "order/contractorRegister";
 	}
 
+	// 협력업체 등록 form
+	@RequestMapping("/contractor/register/action")
+	public String ContractorRegister(@ModelAttribute OrderDTO dto) {
+	    try {
+	        orderService.ContractorRegister(dto);
+	        return "redirect:/Contractor"; // 등록 후 해당 페이지로 이동
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "ContractorRegister"; // 실패 시 등록 페이지로 유지
+	    }
+	}
+	
 	// 협럭업체 수정
 	@RequestMapping("/ContractorEdit")
 	public String ContractorEdit() {
@@ -101,7 +117,19 @@ public class OrderController {
 	public String MaterialRegister() {
 		return "order/material_register";
 	}
-
+	
+	// 원부재료 등록 form
+	@RequestMapping("/material/register/action")
+	public String MaterialRegister(@ModelAttribute OrderDTO dto) {
+	    try {
+	        orderService.registerMaterial(dto);
+	        return "redirect:/MaterialInfo"; // 등록 후 해당 페이지로 이동
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "MaterialRegister"; // 실패 시 등록 페이지로 유지
+	    }
+	}
+	
 	// 원부재료 수정
 	@RequestMapping("/MaterialEdit")
 	public String MaterialEdit() {
@@ -151,16 +179,46 @@ public class OrderController {
 		}
 	}
 
+
 	// 발주관리 수정
-	@RequestMapping("/OrderRgisterEdit")
-	public String OrderRgisterEdit() {
-		return "order/order_register_edit";
+	@RequestMapping("/editOrder/{buyNo}")
+	public ModelAndView editOrder(@PathVariable String buyNo) {
+	    OrderDTO orderDetails = orderService.editOrder(buyNo);
+	    ModelAndView modelAndView = new ModelAndView("order/order_register_edit");
+	    modelAndView.addObject("orderDetails", orderDetails);
+	    return modelAndView;
+	}
+
+	// AJAX로 데이터 전송
+	@RequestMapping(value = "/editOrder")
+	@ResponseBody
+	public ResponseEntity<String> editOrder(@ModelAttribute OrderDTO dto) {
+	    try {
+	        orderService.updateOrder(dto);
+
+	        return ResponseEntity.ok("수정이 완료되었습니다.");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
+	    }
 	}
 
 	// 발주관리 등록
 	@RequestMapping("/OrderRegister")
-	public String OderRegister() {
+	public String OrderRegister() {
 		return "order/order_register";
+	}
+
+	// 발주관리 등록 form
+	@RequestMapping("/order/register/action")
+	public String OderRegister(OrderDTO dto) {
+		try {
+			orderService.insertOrderRegister(dto);
+			return "redirect:/Order";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "/OrderRegister";
+		}
 	}
 
 }
