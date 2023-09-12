@@ -67,6 +67,7 @@ public class ConsignmentManagementController {
 		System.out.println(consignmentList);
 		return new ResponseEntity<>(consignmentList, HttpStatus.OK);
 	}
+	//출하코드 검색시 값 출력(완전 일치)
 
 	// 선택 항목 삭제
 	@RequestMapping("/ConsignmentManagement/delete/{shipNum}")

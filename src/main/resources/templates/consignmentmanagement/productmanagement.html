@@ -60,14 +60,19 @@
 			}
 		});
 	}
+
 	//출하 현황에 따라 버튼 텍스트 다르게
 	function BtnConsignment(sPhase) {
-
+		//태그 넣어서 속성 부여 가능
 		switch (Number(sPhase)) {
-			case 0: return "출고 대기";
-			case 1: return "출하 중";
-			case 2: return "출하 완료";
-			default: return "";
+			case 0:
+				return '<button id="btn_waiting"><span hidden>0</span>출고 대기</button>';
+			case 1:
+				return '<button id="btn_proceeding"><span hidden>1</span>출하 중</button>';
+			case 2:
+				return '<button id="btn_completed"><span hidden>2</span>출하 완료</button>';
+			default:
+				return "";
 		}
 	}
 	//전체 현황 조회
@@ -104,7 +109,7 @@
 
 		$(row).each(function (idx, obj) {
 			//tr의 자녀 속성인 td중 1번째인 출하코드 선택
-			//console.log($(obj).children("td").eq(1).text());
+			console.log($(obj).children("td").eq(1).text());
 			let barcodeValue = $(obj).children("td").eq(1).text();
 			//td중 마지막 속성의 자녀 속성인 svg에 0번째 선택
 			JsBarcode($(obj).children("td").last().children("svg")[0], barcodeValue, {
@@ -145,7 +150,8 @@
 					if (r.length === 0) {
 						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
 						$('.consignment_data').html(tag);
-						console.log(sPhase);
+						//console.log(sPhase);
+						console.log(printAllBarcode());
 					} else {
 						for (let i = 0; i < r.length; i++) {
 							tag += `<tr>`;
@@ -160,11 +166,14 @@
 							tag += `<td>${r[i].shipAmount}</td>`;
 							tag += `<td>${r[i].sNum}</td>`;
 							tag += `<td>${r[i].dNum}</td>`;
-							tag += `<td><button>${BtnConsignment(r[i].sPhase)}</button></td>`;
+							tag += `<td>${BtnConsignment(r[i].sPhase)}</td>`;
 							tag += `<td><svg></svg></td>`;
 							tag += `</tr>`;
 						}
 						$('.consignment_data').html(tag);
+
+						printAllBarcode();
+						console.log(printAllBarcode());
 					}
 				}
 			});
@@ -268,7 +277,7 @@
 				<th style="width: 80px;">출하 코드</th>
 				<th style="width: 115px;">접수 일자</th>
 				<th style="width: 115px;">납기 일자</th>
-				<th>사업자번호</th>
+				<th style="width: 115px;">사업자번호</th>
 				<th style="width: 100px;">품목 번호</th>
 				<th style="width: 115px;">출하 일정</th>
 				<th style="width: 80px;">요청 수량</th>
@@ -293,9 +302,9 @@
 					<td>[[${consignmentlist.sNum}]]</td>
 					<td>[[${consignmentlist.dNum}]]</td>
 					<td th:switch="${consignmentlist.sPhase}">
-						<button th:case="0">출고 대기</button>
-						<button th:case="1">출하 중</button>
-						<button th:case="2">출하 완료</button>
+						<button th:case="0" id="btn_waiting"><span hidden>0</span>출고 대기</button>
+						<button th:case="1" id="btn_proceeding"><span hidden>1</span>출하 중</button>
+						<button th:case="2" id="btn_completed"><span hidden>2</span>출하 완료</button>
 					</td>
 					<td><svg></svg></td>
 				</tr>
