@@ -11,6 +11,7 @@
 	<title>출하 현황</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/JsBarcode.code128.min.js"></script>
 <script>
 	//li 클릭시 색상 변경
 	document.addEventListener("DOMContentLoaded", function () {
@@ -59,6 +60,16 @@
 			}
 		});
 	}
+	//출하 현황에 따라 버튼 텍스트 다르게
+	function BtnConsignment(sPhase) {
+
+		switch (Number(sPhase)) {
+			case 0: return "출고 대기";
+			case 1: return "출하 중";
+			case 2: return "출하 완료";
+			default: return "";
+		}
+	}
 	//전체 현황 조회
 	function all_consignment() {
 		hideAllRows();
@@ -85,7 +96,33 @@
 		hideAllRows();
 		showRowsByStatus([2]); // 2 = 출하 완료
 	}
+
+	//바코드 전체 출력하는 함수
+	function printAllBarcode() {
+		//consignment_data class의 tr 지정
+		let row = $(".consignment_data tr");
+
+		$(row).each(function (idx, obj) {
+			//tr의 자녀 속성인 td중 1번째인 출하코드 선택
+			//console.log($(obj).children("td").eq(1).text());
+			let barcodeValue = $(obj).children("td").eq(1).text();
+			//td중 마지막 속성의 자녀 속성인 svg에 0번째 선택
+			JsBarcode($(obj).children("td").last().children("svg")[0], barcodeValue, {
+				//바코드 크기
+				format: "CODE128", width: 1,
+				height: 20
+			});
+		});
+	}
+
+
 	$(function () {
+		//바코드 찍으면 자동으로 엔터값 입력
+		$("#cnumSearch").keyup(function (e) {
+			console.log(e.keyCode)
+			if (e.keyCode == 13)
+				alert("Enter");
+		});
 		//출하날자 검색 + 수주번호 검색
 		$('#search_date').click(function () {
 			let startDate = $('#consignmentdate1').val();
@@ -104,14 +141,15 @@
 				success: function (r) {
 					console.log(r);
 					var tag = "";
-					
+
 					if (r.length === 0) {
 						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
 						$('.consignment_data').html(tag);
+						console.log(sPhase);
 					} else {
 						for (let i = 0; i < r.length; i++) {
 							tag += `<tr>`;
-							tag += `<td><input type="checkbox" style="width: 12px;" height="12px"></td>`;
+							tag += `<td><input type="checkbox" name="check_no" style="width: 12px;" height="12px"></td>`;
 							tag += `<td>${r[i].shipNum}</td>`;
 							tag += `<td>${r[i].dateOrder}</td>`;
 							tag += `<td>${r[i].dateToArrive}</td>`;
@@ -122,7 +160,8 @@
 							tag += `<td>${r[i].shipAmount}</td>`;
 							tag += `<td>${r[i].sNum}</td>`;
 							tag += `<td>${r[i].dNum}</td>`;
-							tag += `<td>${r[i].sPhase}</td>`;
+							tag += `<td><button>${BtnConsignment(r[i].sPhase)}</button></td>`;
+							tag += `<td><svg></svg></td>`;
 							tag += `</tr>`;
 						}
 						$('.consignment_data').html(tag);
@@ -130,7 +169,43 @@
 				}
 			});
 		});
+		printAllBarcode();
+
+		//선택삭제
+		$('#btn_delete').click(function () {
+			var selectedItems = $('input[name="check_no"]:checked');
+			if (selectedItems.length === 0) {
+				alert('삭제할 항목을 선택하세요.');
+			} else {
+				if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+					console.log(selectedItems);
+					selectedItems.each(function () {
+						var shipNum = $(this).closest('tr').find('td:nth-child(2)').text();
+						console.log(shipNum);
+						$.ajax({
+							url: '/ConsignmentManagement/delete/' + shipNum,
+							type: 'post',
+							success: function (response) {
+								console.log(response)
+								if (response) {
+									alert('선택항목을 삭제했습니다.');
+									$(this).closest('tr').remove();
+									location.reload();
+								} else {
+									alert('삭제하지 못했습니다.');
+								}
+							},
+							error: function () {
+								alert('서버연결 실패');
+							}
+						});
+					});
+				}
+			}
+		});
 	});
+
+
 </script>
 
 <body>
@@ -182,7 +257,7 @@
 			</ul>
 			<div id="search" style="float: right">
 				<input type="text" placeholder="사업자번호 조회." id="cnumSearch" />
-				<button id="search_date">검색</button>
+				<button id="search_date">조회</button>
 			</div>
 		</div>
 		<br />
@@ -190,22 +265,23 @@
 		<table id="table2" class="consignmentlist">
 			<thead>
 				<th style="width: 25px;"><input type="checkbox" id="all_check" onchange="AllCheckboxes()" /></th>
-				<th style="width: 100px;">출하 코드</th>
+				<th style="width: 80px;">출하 코드</th>
 				<th style="width: 115px;">접수 일자</th>
 				<th style="width: 115px;">납기 일자</th>
 				<th>사업자번호</th>
 				<th style="width: 100px;">품목 번호</th>
-				<th>출하 일정</th>
+				<th style="width: 115px;">출하 일정</th>
 				<th style="width: 80px;">요청 수량</th>
 				<th style="width: 80px;">출하 수량</th>
-				<th style="width: 100px;">수주 번호</th>
-				<th>담당기사 번호</th>
+				<th style="width: 80px;">수주 번호</th>
+				<th>기사 번호</th>
 				<th>출하 현황</th>
+				<th>바코드</th>
 			</thead>
 			<tbody class="consignment_data">
 				<!-- 리스트 정보 받아오기 -->
 				<tr th:each="consignmentlist : ${all_consignmentlist}">
-					<td><input type="checkbox" style="width: 12px;" height="12px" /></td>
+					<td><input type="checkbox" name="check_no" style="width: 12px;" height="12px" /></td>
 					<td>[[${consignmentlist.shipNum}]]</td>
 					<td>[[${consignmentlist.dateOrder}]]</td>
 					<td>[[${consignmentlist.dateToArrive}]]</td>
@@ -216,12 +292,17 @@
 					<td>[[${consignmentlist.shipAmount}]]</td>
 					<td>[[${consignmentlist.sNum}]]</td>
 					<td>[[${consignmentlist.dNum}]]</td>
-					<td>[[${consignmentlist.sPhase}]]</td>
+					<td th:switch="${consignmentlist.sPhase}">
+						<button th:case="0">출고 대기</button>
+						<button th:case="1">출하 중</button>
+						<button th:case="2">출하 완료</button>
+					</td>
+					<td><svg></svg></td>
 				</tr>
 			</tbody>
 		</table>
 		<div id="btn">
-			<button id="btn_delete" style="float: left" onclick="btn_del()">선택 삭제</button>
+			<button type="button" id="btn_delete" style="float: left">선택 삭제</button>
 			<button id="btn_add" style="float: right"><a href="AddProductConsignment">등록</a></button>
 		</div>
 	</div>

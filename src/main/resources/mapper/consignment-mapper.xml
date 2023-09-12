@@ -79,13 +79,15 @@
 	<select id="searchconsignmentdate" parameterType="Map"
 		resultMap="Consignment">
 		SELECT
-		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
+		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM
+		,s.P_NUM
 		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
 		s.S_NUM
 		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
 		= sh.D_NUM AND s.S_NUM =sh.S_NUM
 		AND
-		sh.date_start_ship BETWEEN #{startDate} AND #{endDate}
+		sh.date_start_ship BETWEEN
+		#{startDate} AND #{endDate}
 		AND
 		s.C_NUM LIKE '%' || #{cnumSearch} || '%'
 	</select>
@@ -93,15 +95,21 @@
 	<select id="searchCnum" parameterType="Map"
 		resultMap="Consignment">
 		SELECT
-		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
+		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM
+		,s.P_NUM
 		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
 		s.S_NUM
 		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
 		= sh.D_NUM AND s.S_NUM =sh.S_NUM
 		AND
-		s.C_NUM LIKE '%' || #{cnumSearch} || '%'
+		s.C_NUM LIKE '%' || #{cnumSearch}
+		|| '%'
 	</select>
-
+	<!-- 선택 삭제 -->
+	<delete id="deleteconsignment" parameterType="string">
+		DELETE FROM SHIPMENT
+		WHERE ship_num = #{shipNum}
+	</delete>
 </mapper>
 
 

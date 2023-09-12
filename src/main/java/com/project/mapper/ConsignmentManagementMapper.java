@@ -29,5 +29,8 @@ public interface ConsignmentManagementMapper {
 	List<ConsignmentManagementDTO> searchconsignmentdate(Map<String, Object> map);
 	//사업자 번호 검색
 	List<ConsignmentManagementDTO> searchCnum(Map<String, Object> map);
+	//선택항목 삭제
+	void deleteconsignment(String shipNum);
+	
 	
 }
