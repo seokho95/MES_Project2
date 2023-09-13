@@ -26,34 +26,37 @@ public class ConsignmentManagementService {
 	public ConsignmentManagementDTO obtainorderSearch(String obtainordersearch) {
 		return mapper.obtainorderSearch(obtainordersearch);
 	}
-
+	//출하 전체 카운트
 	public int AllConsignment() {
 		return mapper.AllConsignment();
 	}
-
+	//출고 대기 전체 카운트
 	public int WaitingCount() {
 		return mapper.WaitingCount();
 	}
-
+	//출하 중 전체 카운트
 	public int ProdeedingCount() {
 		return mapper.ProdeedingCount();
 	}
-
+	//출하 완료 전체 카운트
 	public int CompletedCount() {
 		return mapper.CompletedCount();
 	}
-
-	public List<ConsignmentManagementDTO> searchconsignmentdate(String startDate, String endDate, String cnumSearch) {
+	//출하 일자/수주번호로 검색
+	public List<ConsignmentManagementDTO> searchconsignmentdate(String startDate, String endDate, String kind,
+			String cnumSearch) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("kind", kind);
 		map.put("cnumSearch", cnumSearch);
-
 		return mapper.searchconsignmentdate(map);
 	}
-
-	public List<ConsignmentManagementDTO> searchCnum(String cnumSearch) {
+	
+	//수주번호 검색
+	public List<ConsignmentManagementDTO> searchCnum(String kind, String cnumSearch) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("kind", kind);
 		map.put("cnumSearch", cnumSearch);
 		return mapper.searchCnum(map);
 	}
@@ -62,4 +65,9 @@ public class ConsignmentManagementService {
 			mapper.deleteconsignment(shipNum);
 
 	}
+	//출하 등록 
+	public int insertconsignment(ConsignmentManagementDTO dto) {
+		return mapper.insertconsignment(dto);
+	}
+
 }

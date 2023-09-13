@@ -99,17 +99,33 @@
 		,s.P_NUM
 		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
 		s.S_NUM
-		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
-		= sh.D_NUM AND s.S_NUM =sh.S_NUM
-		AND
-		s.C_NUM LIKE '%' || #{cnumSearch}
-		|| '%'
+		,d.D_NUM,sh.S_PHASE
+		FROM SELL s , DRIVER d, SHIPMENT sh
+		where
+		<choose>
+			<when test="kind.equals('ship_num')">
+				d.D_NUM = sh.D_NUM AND s.S_NUM =sh.S_NUM AND
+				sh.ship_num=#{cnumSearch}
+			</when>
+			<when test="kind.equals('c_num')">
+				d.D_NUM= sh.D_NUM AND s.S_NUM =sh.S_NUM AND s.C_NUM
+				LIKE '%' || #{cnumSearch} || '%'
+			</when>
+		</choose>
 	</select>
 	<!-- 선택 삭제 -->
 	<delete id="deleteconsignment" parameterType="string">
-		DELETE FROM SHIPMENT
+		DELETE FROM
+		SHIPMENT
 		WHERE ship_num = #{shipNum}
 	</delete>
+	<!-- 출하 등록 데이터 전달 -->
+	<insert id="insertconsignment" parameterType="Consignment">
+		insert into SHIPMENT
+		(ship_num,date_order,date_to_arrive,c_num,p_num,date_start_ship,s_amount,ship_amount,s_num,d_num,s_phase)
+		values
+		(#{shipNum},TO_DATE(#{dateOrder}, 'YYYY-MM-DD HH24:MI:SS'),TO_DATE(#{dateToArrive}, 'YYYY-MM-DD HH24:MI:SS'),#{cNum},#{pNum},TO_DATE(#{dateStartShip}, 'YYYY-MM-DD HH24:MI:SS'),#{sAmount},#{shipAmount},#{sNum},#{dNum},0)
+	</insert>
 </mapper>
 
 

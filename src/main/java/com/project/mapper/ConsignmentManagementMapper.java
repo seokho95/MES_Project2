@@ -31,6 +31,9 @@ public interface ConsignmentManagementMapper {
 	List<ConsignmentManagementDTO> searchCnum(Map<String, Object> map);
 	//선택항목 삭제
 	void deleteconsignment(String shipNum);
+	//출하 등록 데이터 전달
+	int insertconsignment(ConsignmentManagementDTO dto);
+	
 	
 	
 }

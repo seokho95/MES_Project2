@@ -132,10 +132,11 @@
 		$('#search_date').click(function () {
 			let startDate = $('#consignmentdate1').val();
 			let endDate = $('#consignmentdate2').val();
-
+			let kind = $('#kind').val();
 			let data = {
 				startDate: startDate,
 				endDate: endDate,
+				kind: kind,
 				cnumSearch: $("#cnumSearch").val()
 			};
 			$.ajax({
@@ -146,7 +147,6 @@
 				success: function (r) {
 					console.log(r);
 					var tag = "";
-
 					if (r.length === 0) {
 						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
 						$('.consignment_data').html(tag);
@@ -265,7 +265,11 @@
 				<li onclick="completed()" style="width: 100px;">출하 완료([[${completedcount}]])</li>
 			</ul>
 			<div id="search" style="float: right">
-				<input type="text" placeholder="사업자번호 조회." id="cnumSearch" />
+				<select id="kind">
+					<option value="ship_num">출하 코드</option>
+					<option value="c_num">사업자 번호</option>
+				</select>
+				<input type="text" placeholder="출하코드 혹은 사업자번호 조회" id="cnumSearch" />
 				<button id="search_date">조회</button>
 			</div>
 		</div>
