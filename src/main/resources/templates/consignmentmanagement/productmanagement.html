@@ -12,6 +12,8 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/JsBarcode.code128.min.js"></script>
+<script src="js/bxlcommon.js"></script>
+<script src="js/bxllabel.js"></script>
 <script>
 	//li 클릭시 색상 변경
 	document.addEventListener("DOMContentLoaded", function () {
@@ -102,7 +104,7 @@
 		showRowsByStatus([2]); // 2 = 출하 완료
 	}
 
-	//바코드 전체 출력하는 함수
+	//바코드 생성 함수
 	function printAllBarcode() {
 		//consignment_data class의 tr 지정
 		let row = $(".consignment_data tr");
@@ -119,6 +121,53 @@
 			});
 		});
 	}
+	//바코드 출력 함수
+	var issueID = 1;
+	var printer_name = 'Printer1';
+
+	function viewResult(result) {
+		console.log(result);
+	}
+
+	function PrintBarcode(row) {
+		console.log(row);
+		//return
+		var barCodeSymbol = 1;
+		var barCodeHeight = 100;
+		var barWidth = 4;
+		var nBarWidth = parseInt(barWidth / 2);
+		var barCodeHri = 1;
+
+		setLabelId(issueID);
+
+		checkLabelStatus();
+		clearBuffer();
+
+		setWidth(576);
+
+		drawDeviceFont("출하 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
+		drawBlock(30, 40, 530, 45, 'B', 5);
+		drawDeviceFont(`출하 코드 : ${$(row).eq(1).text()}`, 30, 50, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`사업자 번호 : ${$(row).eq(4).text()}`, 30, 90, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`품목 번호 : ${$(row).eq(5).text()}`, 30, 130, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`출하 일정 : ${$(row).eq(6).text()}`, 30, 170, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`요청 수량 : ${$(row).eq(7).text()}`, 30, 210, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`출하 수량 : ${$(row).eq(8).text()}`, 30, 250, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`기사 번호 : ${$(row).eq(10).text()}`, 30, 290, 'd', 1, 1, 0, 0, 0, 0);
+		//x,y,x,y 좌하단 우하단,글꼴,두께
+		drawBlock(30, 320, 530, 325, 'B', 5);
+		draw1DBarcode($(row).eq(1).text(), 70, 350, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
+		printBuffer();
+
+		var strSubmit = getLabelData();
+
+		console.log(strSubmit);
+
+		issueID++;
+		console.log(strSubmit, viewResult);
+		requestPrint(printer_name, strSubmit, viewResult);
+
+	}
 
 
 	$(function () {
@@ -128,6 +177,11 @@
 			if (e.keyCode == 13)
 				e.preventDefault();
 			$('#search_date').click();
+		});
+		//바코드 클릭했을 때 바코드 출력시키는 기능
+		$("svg").click(function () {
+			let row = $(this).parent().parent().children("td");
+			PrintBarcode(row);
 		});
 		//출하날자 검색 + 수주번호 검색
 		$('#search_date').click(function () {
@@ -174,6 +228,10 @@
 
 						printAllBarcode();
 						console.log(printAllBarcode());
+						$("svg").click(function () {
+							let row = $(this).parent().parent().children("td");
+							PrintBarcode(row);
+						});
 					}
 				}
 			});
@@ -218,9 +276,9 @@
 		window.location.href = '/RequstRelease';
 	}
 	//출하 요청페이지 이동
-	function completedPage(){
+	function completedPage() {
 		window.location.href = '/RequstConsignment';
-		
+
 	}
 
 </script>
