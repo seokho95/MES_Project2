@@ -1,132 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/obtainorder/obtain_order_upload.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="/obtainorder/obtain_order_upload.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+<script>
+	//.info total 구하기
+	$('input[name="sAmount"], input[name="price"]').on('input', function () {
+		var sAmount = parseFloat($('input[name="sAmount"]').val()) || 0;
+		var price = parseFloat($('input[name="price"]').val()) || 0;
+		var total = sAmount * price;
+		$('#total').text(total);
+	});
+</script>
+
 <body>
-    <div class="All">
-        <div class="header">
-            <a href="/mainpage">
-            	<img src="/img/home.png" alt="" class="source" id="home">
-            </a>
-            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
-            <a href="#" class="source" id="headText">수주관리</a>
-            <img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
-            <a href="#" class="source" id="headText">수주등록</a>
-        </div>
-        <h1>수주등록</h1>
-        <div class="form">
-            <table>
-                <tr>
-                    <th colspan="4">발주자</th>
-                </tr>
-                <tr>
-                    <td class="thead">상호</td>
-                    <td colspan="3"><input type="text" class="inputtext" id="company_name"></td>
-                </tr>
-                <tr>
-                    <td class="thead">사업자번호</td>
-                    <td ><input type="text" class="inputtext" id="business_num"></td>
-                    <td class="thead">성명</td>
-                    <td><input type="text" class="inputtext" id="leader_name"></td>
-                </tr>
-                <tr>
-                    <td class="thead">연락처</td>
-                    <td><input type="text" class="inputtext" id="phoneno"></td>
-                    <td class="thead">FAX</td>
-                    <td><input type="text" class="inputtext" id="fax_no"></td>
-                </tr>
-                <tr>
-                    <td class="thead">주소</td>
-                    <td colspan="3"><input type="text" class="inputtext" id="address"></td>
-                </tr>
-                <tr>
-                    <td class="thead">담당자</td>
-                    <td colspan="3"><input type="text" class="inputtext" id="contact_person"></td>
-                </tr>
-                <tr>
-                    <td class="thead">담당자 번호</td>
-                    <td><input type="text" class="inputtext" id="contact_person_phone"></td>
-                    <td class="thead">이메일</td>
-                    <td id="whelk"><input type="text" class="inputemail" id="email1">
-                        @<input type="text" class="inputemail" id="email1">
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <th colspan="4">납기정보</th>
-                </tr>
-                <tr>
-                    <td class="thead">수주일자</td>
-                    <td><input type="date" class="inputdate" id="date1"></td>
-                    <td class="thead">납기일자</td>
-                    <td><input type="date" class="inputdate" id="date2"></td>
-                </tr>
-                <tr>
-                    <td class="thead">입금 계좌정보</td>
-                    <td colspan="3" id="account_div">
-                        <div id="account_1">
-                            은행명
-                            <input type="text" class="input_account" id="bank_name">
-                            계좌번호
-                            <input type="text" class="input_account" id="account_number">
-                        </div>
-                        <div id="account_2">
-                            예금주
-                            <input type="text" class="input_account" id="account_holder">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="thead">납품처 주소</td>
-                    <td colspan="3" id="img_div">
-                        <input type="text" class="address1" id="">
-                        <img src="/img/search_icon.png" alt="" id="search">
-                        <input type="text" class="address2" placeholder="도로명 주소를 입력하세요.">
-                        <input type="text" class="address2" placeholder="상세 주소를 입력하세요.">
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <table id="more_info">
-            <tr>
-                <th class="num">추가</th>
-                <th>제품번호/제품명</th>
-                <th>규격/단위</th>
-                <th>포장지당 중량<br>BOX당 수량</th>
-                <th>BOX 수주수량</th>
-                <th>낱개수량</th>
-                <th>수주수량</th>
-                <th>단가</th>
-                <th>공금가액</th>
-                <th>부가세</th>
-                <th>합계</th>
-                <th>보유재고량<br>필요재고량</th>
-            </tr>
-            <tr id="info" th:each="order : ${list}">
-                <td class="num">1</td>
-                <td>[[${order.productname}]]</td>
-                <td>[[${order.unit}]]</td>
-                <td>[[${order.perpackage/boxcount}]]</dt>
-                <td>[[${order.boxorder}]]</td>
-                <td>[[${order.individual}]]</td>
-                <td>[[${order.order_quantity}]]</td>
-                <td>[[${order.unit_price}]]</td>
-                <td>[[${order.provided_value}]]</td>
-                <td>[[${order.additional_tax}]]</td>
-                <td>[[${order.total}]]</td>
-                <td>[[${order.retained_inventory}]]</td>
-            </tr>
-        </table>
-    <div class="btn_area">
-        <button value="button" class="btn_delete">삭제</button>
-        <button value="button" class="btn_upload">등록</button>
-    </div>
-    </div>
+	<th:block th:insert="header/header.html"></th:block>
+	<div class="All">
+		<div class="obtainheader">
+			<a href="/mainpage">
+				<img src="/img/home.png" alt="" class="source" id="home">
+			</a>
+			<img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+			<a href="/ObtainOrder" class="source" id="headText">수주관리</a>
+			<img src="/img/arrow_right_pink.png" alt="" class="source" id="arrow">
+			<a href="/ObtainOrder" class="source" id="headText">수주등록</a>
+		</div>
+		<h2>수주등록</h2>
+		<div class="form">
+			<table>
+				<tr>
+					<th colspan="4">발주자</th>
+				</tr>
+				<tr>
+					<td class="thead">상호</td>
+					<td colspan="3">
+						<input type="text" class="inputtext" id="company_name" name="cName" readonly>
+						<button id="company_search">검색</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="thead">사업자번호</td>
+					<td><input type="text" class="inputtext" id="business_num" name="cNum" readonly></td>
+					<td class="thead">성명</td>
+					<td><input type="text" class="inputtext" id="leader_name" name="cLeader" readonly></td>
+				</tr>
+				<tr>
+					<td class="thead">연락처</td>
+					<td><input type="text" class="inputtext" id="phoneno" name="cPhone" readonly></td>
+					<td class="thead">FAX</td>
+					<td><input type="text" class="inputtext" id="fax_no" name="cFax" readonly></td>
+				</tr>
+				<tr>
+					<td class="thead">주소</td>
+					<td colspan="3"><input type="text" class="inputtext" id="address" name="address" readonly></td>
+				</tr>
+				<tr>
+					<td class="thead">담당자</td>
+					<td colspan="3">
+						<input type="text" class="inputtext" id="contact_person" name="mName" readonly>
+						<button id="manager_search">검색</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="thead">담당자 번호</td>
+					<td><input type="text" class="inputtext" id="contact_person_phone" name="mConnect" readonly></td>
+					<td class="thead">이메일</td>
+					<td id="whelk"><input type="text" class="inputemail" id="email1" name="mMail" readonly>
+						@<input type="text" class="inputemail" id="email1" name="mMail" readonly>
+					</td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<th colspan="4">납기정보</th>
+				</tr>
+				<tr>
+					<td class="thead">수주일자</td>
+					<td><input type="date" class="inputdate" id="date1"></td>
+					<td class="thead">납기일자</td>
+					<td><input type="date" class="inputdate" id="date2"></td>
+				</tr>
+				<tr>
+					<td class="thead">입금 계좌정보</td>
+					<td colspan="3" id="account_div">
+						<div id="account_1">
+							은행명
+							<input type="text" class="input_account" id="bank_name" placeholder="신한은행" readonly>
+							계좌번호
+							<input type="text" class="input_account" id="account_number" placeholder="110-111-111111" readonly>
+						</div>
+						<div id="account_2">
+							예금주
+							<input type="text" class="input_account" id="account_holder" placeholder="MES" readonly>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="thead">납품처 주소</td>
+					<td colspan="3" id="img_div">
+						<textarea rows="3" class="address" placeholder="주소를 입력하세요." name="address" readonly></textarea>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<table id="more_info">
+			<thead>
+				<tr>
+					<th class="num">추가</th>
+					<th>제품번호</th>
+					<th>제품명</th>
+					<th>규격/단위</th>
+					<th>단계</th>
+					<th>수주수량</th>
+					<th>단가</th>
+					<th>합계</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr id="info">
+					<td></td>
+					<td><input type="text" class="inputtext" name="pNum"></td>
+					<td><input type="text" class="inputtext" name="pName"></td>
+					<td><input type="text" class="inputtext" name="unit"></td>
+					<td><input type="text" class="inputtext" name="sPhase"></td>
+					<td><input type="text" class="inputtext" name="sAmount"></td>
+					<td><input type="text" class="inputtext" name="price"></td>
+					<td id="total"></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="btn_area">
+			<button value="button" class="btn_delete">삭제</button>
+			<button value="button" class="btn_upload">등록</button>
+		</div>
+	</div>
 </body>
+
 </html>
