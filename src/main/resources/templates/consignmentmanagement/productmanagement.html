@@ -202,11 +202,9 @@
 				success: function (r) {
 					console.log(r);
 					var tag = "";
-					if (r.length === 0 || r == '') {
-						alert("일치하는 정보가 없습니다.");
-						window.location.reload();
-						//tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
-						//$('.consignment_data').html(tag);
+					if (r.length === 0) {
+						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
+						$('.consignment_data').html(tag);
 						//console.log(sPhase);
 					} else {
 						for (let i = 0; i < r.length; i++) {
@@ -384,85 +382,11 @@
 				</tr>
 			</tbody>
 		</table>
-		<div id="pagination">
-			<button id="prevPage">이전</button>
-			<span id="pageNumbers"></span>
-			<button id="nextPage">다음</button>
-		</div>
 		<div id="btn">
 			<button type="button" id="btn_delete" style="float: left">선택 삭제</button>
 			<button id="btn_add" style="float: right"><a href="AddProductConsignment">등록</a></button>
 		</div>
 	</div>
 </body>
-<script>
-	//페이징 처리
-	// 페이지당 항목 수와 현재 페이지 번호를 설정합니다.
-	var itemsPerPage = 10;
-	var currentPage = 1;
-
-	// 페이징 데이터를 업데이트하는 함수
-	function updatePagination() {
-		var tableRows = document.querySelectorAll("#table2 tbody tr");
-		var totalPages = Math.ceil(tableRows.length / itemsPerPage);
-
-		// 페이지 번호를 생성합니다.
-		var pageNumbersHTML = "";
-		for (var i = 1; i <= totalPages; i++) {
-			pageNumbersHTML += `<span class="pageNumber" data-page="${i}">${i}</span>`;
-		}
-		document.getElementById("pageNumbers").innerHTML = pageNumbersHTML;
-
-		// 페이지 번호를 클릭했을 때 해당 페이지의 데이터를 표시합니다.
-		var pageButtons = document.querySelectorAll(".pageNumber");
-		pageButtons.forEach(function (button) {
-			button.addEventListener("click", function () {
-				currentPage = parseInt(button.getAttribute("data-page"));
-				showTableData();
-			});
-		});
-
-		// 이전 페이지로 이동하는 버튼
-		document.getElementById("prevPage").addEventListener("click", function () {
-			if (currentPage > 1) {
-				currentPage--;
-				showTableData();
-			}
-		});
-
-		// 다음 페이지로 이동하는 버튼
-		document.getElementById("nextPage").addEventListener("click", function () {
-			if (currentPage < totalPages) {
-				currentPage++;
-				showTableData();
-			}
-		});
-
-		// 초기 데이터 표시
-		showTableData();
-	}
-
-	// 현재 페이지에 해당하는 데이터만 표시하는 함수
-	function showTableData() {
-		var tableRows = document.querySelectorAll("#table2 tbody tr");
-
-		// 모든 행 숨기기
-		tableRows.forEach(function (row) {
-			row.style.display = "none";
-		});
-
-		// 현재 페이지에 해당하는 행만 표시
-		var startIndex = (currentPage - 1) * itemsPerPage;
-		var endIndex = startIndex + itemsPerPage;
-		for (var i = startIndex; i < endIndex && i < tableRows.length; i++) {
-			tableRows[i].style.display = "";
-		}
-	}
-
-	// 페이지 로드 시 페이징 초기화
-	document.addEventListener("DOMContentLoaded", function () {
-		updatePagination();
-	});
-</script>
 
 </html>
