@@ -57,6 +57,7 @@ h2{
 .form > table{
     border-collapse: collapse;
     width: 50%;
+    height: auto;
     border:2px solid black;
 }
 .form > table > tbody > tr > *{
@@ -149,6 +150,7 @@ h2{
 
 #more_info{
     margin-left: 39.97px;
+    height: auto;
     border-radius: 4px;
     border: 2px solid black;
     border-collapse: collapse;

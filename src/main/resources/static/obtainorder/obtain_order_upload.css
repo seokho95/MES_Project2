@@ -59,6 +59,7 @@ h2{
 .form>table {
 	border-collapse: collapse;
 	width: 50%;
+	height: auto;
 	border: 2px solid black;
 }
 

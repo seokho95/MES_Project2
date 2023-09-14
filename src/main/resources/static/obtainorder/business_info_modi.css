@@ -49,6 +49,7 @@ h2{
 .modi_form{
     margin: 0px auto;
     width: 851px;
+    height: auto;
     flex-shrink: 0;
     border-radius: 8px;
     border: 2px solid #000;
