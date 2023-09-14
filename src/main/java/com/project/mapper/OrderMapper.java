@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.project.dto.OrderDTO;
 
@@ -16,11 +17,7 @@ public interface OrderMapper {
 
 	List<OrderDTO> searchUserByDateRange(Map<String, Object> map);
 
-	void deleteOrdersByCompanyNo(String companyNo);
-
-	void deleteCompanyBuyByCompanyNo(String companyNo);
-
-	void deleteMaterialByCompanyNo(String companyNo);
+	void deleteOrdersByNo(String buyNo);
 
 	List<OrderDTO> viewAllMaterial();
 
@@ -44,34 +41,33 @@ public interface OrderMapper {
 
 	void insertIntoBuy(String dateOrder, String dateReceived, String buyNo, String materioalAmount, String materialNo, String companyNo);
 	
-	// 에러부분
-	OrderDTO editOrder(String buyNo);
+	OrderDTO editOrder(Map<String, Object> map);
 
 	void updateOrder(String buyNo, String buyName, String materialNo, String materioalName, String dateOrder,
 			String dateReceived, String materioalAmount, String companyNo);
 
-	void MaterialinsertIntoCompany(String companyNo);
-
-	void MaterialinsertIntoMaterial(String materioalName, String materialNo, String mUnit, int mBOXcount,
+	void MaterialinsertIntoMaterial(String materialNo, String materioalName,  String mUnit, int mBOXcount,
 			String companyNo);
-
-	void MaterialinsertIntoBuy(String buyNo, String dateOrder, String materialNo, int mTotalPrice, String companyNo);
 
 	void ContractorinsertIntoCompany(String companyNo, String buyName);
 
 	void ContractorinsertIntoManager(String managerName, String managerContact, String mMail,
 			String companyNo);
 
-	void OrderupdateMaterial(String materialNo, String materioalName, String companyNo);
+	void OrderupdateBuy(@Param("buyNo") String buyNo, @Param("dateOrder") String dateOrder, 
+			@Param("dateReceived") String dateReceived, @Param("materioalAmount") String materioalAmount, @Param("materialNo") String materialNo, @Param("companyNo") String companyNo);
 
-	void OrderupdateCompanyBuy(String buyName, String companyNo);
+	OrderDTO ContractorEdit(Map<String, Object> map);
 
-	void OrderupdateBuy(String buyNo, String dateOrder, String dateReceived, String materioalAmount, String materialNo,
-			String companyNo);
+	void updateContractorCompany(String buyName);
 
+	void updateConstractorManager(String managerName, String managerContact, String mMail);
+
+	List<OrderDTO> ConstractorList(Map<String, Object> map);
+
+
+	/* void MaterialinsertIntoBuyNNo(String buyNo); */
 	
-
-
 
 
 }

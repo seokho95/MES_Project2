@@ -78,7 +78,6 @@ $(function () {
                 $.ajax({
                     url: '/contractor/delete/' + companyNo,
                     type: 'post',
-                    dataType: 'json',
                     success: function (response) {
                         if (response) {
                             alert(response.message);
@@ -96,6 +95,14 @@ $(function () {
             });
         }
     }
+});
+	$(function () {
+    // 해당 사업자번호를 클릭할 때 해당 열 데이터 넘김
+    $('.companyNo').click(function () {
+        var companyNo = $(this).closest('tr').find('.companyNo').text();
+		location.href=`/ContractorEdit?companyNo=${companyNo}`;
+
+    });
 });
 });
 </script>
@@ -158,11 +165,11 @@ $(function () {
                                 <td>
                                     <input type='checkbox' name='s_no'>
                                 </td>
-                                <td>[[${contractor.companyNo}]]</td>
-                                <td>[[${contractor.buyName}]]</td>
-                                <td>[[${contractor.managerName}]]</td>
-                                <td>[[${contractor.managerContact}]]</td>
-                                <td>[[${contractor.mMail}]]</td>
+                                <td class="companyNo">[[${contractor.companyNo}]]</td>
+                                <td class="buyName">[[${contractor.buyName}]]</td>
+                                <td class="managerName">[[${contractor.managerName}]]</td>
+                                <td class="managerContact">[[${contractor.managerContact}]]</td>
+                                <td class="mMail">[[${contractor.mMail}]]</td>
                             </tr>
                         </tbody>
                     </table>
@@ -170,7 +177,6 @@ $(function () {
                         <div class="bot_btn">
                             <div class="btn delete" title="선택삭제">선택삭제</div>
                             <div class="bot_edit"> 
-								  <div class="btn edit" title="수정">수정</div>
                             	<div class="btn btn_right" title="등록" onclick="location.href='/ContractorRegister'">등록</div>
                        			 </div>
                         	</div>

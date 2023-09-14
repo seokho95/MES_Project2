@@ -1,8 +1,11 @@
 package com.project.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,19 +65,38 @@ public class OrderController {
 	// 협력업체 등록 form
 	@RequestMapping("/contractor/register/action")
 	public String ContractorRegister(@ModelAttribute OrderDTO dto) {
-	    try {
-	        orderService.ContractorRegister(dto);
-	        return "redirect:/Contractor"; // 등록 후 해당 페이지로 이동
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "ContractorRegister"; // 실패 시 등록 페이지로 유지
-	    }
+		try {
+			orderService.ContractorRegister(dto);
+			return "redirect:/Contractor"; // 등록 후 해당 페이지로 이동
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ContractorRegister"; // 실패 시 등록 페이지로 유지
+		}
 	}
-	
-	// 협럭업체 수정
+
+	// 협럭업체 수정 페이지 이동
 	@RequestMapping("/ContractorEdit")
-	public String ContractorEdit() {
-		return "order/contractorEdit";
+	public ModelAndView ContractorEdit(String companyNo) {
+		System.out.println(companyNo);
+		OrderDTO ContractorDetails = orderService.ContractorEdit(companyNo);
+		ModelAndView modelAndView = new ModelAndView("order/contractorEdit");
+		modelAndView.addObject("ContractorDetails", ContractorDetails);
+		return modelAndView;
+	}
+
+	// 협력업체 수정하기
+	@RequestMapping("/updateContractor")
+	public String updateContractor(@ModelAttribute OrderDTO dto) {
+		try {
+			orderService.updateContractor(dto);
+			System.out.println(dto);
+			return "redirect:/Contractor";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ContractorEdit"; // 실패 시 수정 페이지로 유지
+		}
+
 	}
 
 	// 원부재료 조회
@@ -97,6 +119,22 @@ public class OrderController {
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
+	// 원부재료 등록 협력업체 pop 조회
+	@ResponseBody
+	@RequestMapping("/pop/constractorlist")
+	// @RequestParam(name="driverCode",defaultValue = "")→name의 값은 driverCode 값이 없으면
+	// ""으로 표시
+	public List<OrderDTO> ConstractorList(@RequestParam(name = "search", defaultValue = "") String search,
+			@RequestParam(name = "kind", defaultValue = "buyName") String kind) {
+		// kind=카테고리값 search=검색값
+		System.out.println("search:" + search);
+		System.out.println(kind);
+		List<OrderDTO> driverlist = orderService.ConstractorList(kind, search);
+		System.out.println(driverlist);
+
+		return driverlist;
+	}
+
 	// 협력업체 데이터 삭제
 	@RequestMapping("/material/delete/{companyNo}")
 	@ResponseBody
@@ -114,22 +152,68 @@ public class OrderController {
 
 	// 원부재료 등록
 	@RequestMapping("MaterialRegister")
-	public String MaterialRegister() {
+	public String MaterialRegister(Model model) {
+
 		return "order/material_register";
 	}
-	
+
+	public class BuyNoCode {
+		private static final int BUYNOCODE_LENGTH = 6; // 코드 길이.
+		private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // 코드에 적용될 문자형태(알파벳+숫자)
+		private Set<String> generatedbuyNoCode = new HashSet<>();
+
+		public void setExistingbuyNoCode(Set<String> buyNoCode) {
+			generatedbuyNoCode.addAll(buyNoCode);
+		}
+
+		public void signup(OrderDTO dto) {
+
+			String buyNoCode = UniquebuyNoCode();
+			dto.setBuyNo(buyNoCode);
+
+		}
+
+		private String UniquebuyNoCode() {
+			Random random = new Random();
+			StringBuilder buyNoCode = new StringBuilder();
+
+			while (true) {
+				for (int i = 0; i < BUYNOCODE_LENGTH; i++) {
+					int index = random.nextInt(CHARACTERS.length());
+					char digit = CHARACTERS.charAt(index);
+					buyNoCode.append(digit);
+				}
+
+				String generatedCode = buyNoCode.toString();
+				if (!generatedbuyNoCode.contains(generatedCode)) {
+					generatedbuyNoCode.add(generatedCode);
+					return generatedCode;
+				}
+				System.out.println("생성된 출하코드:" + buyNoCode);
+				buyNoCode.setLength(0); // 생성될때 초기화
+			}
+		}
+
+	}
+
 	// 원부재료 등록 form
 	@RequestMapping("/material/register/action")
 	public String MaterialRegister(@ModelAttribute OrderDTO dto) {
-	    try {
-	        orderService.registerMaterial(dto);
-	        return "redirect:/MaterialInfo"; // 등록 후 해당 페이지로 이동
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "MaterialRegister"; // 실패 시 등록 페이지로 유지
-	    }
+		try {
+
+			BuyNoCode buyNoGenerator = new BuyNoCode();
+
+			buyNoGenerator.signup(dto);
+			System.out.println("발주코드 :" + dto.getBuyNo());
+
+			orderService.registerMaterial(dto);
+			return "redirect:/MaterialInfo"; // 등록 후 해당 페이지로 이동
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "MaterialRegister"; // 실패 시 등록 페이지로 유지
+		}
 	}
-	
+
 	// 원부재료 수정
 	@RequestMapping("/MaterialEdit")
 	public String MaterialEdit() {
@@ -165,43 +249,36 @@ public class OrderController {
 	}
 
 	// 발주관리 선택 데이터 삭제
-	@RequestMapping("/buy/delete/{companyNo}")
-	@ResponseBody
-	public ResponseEntity<String> deleteBuyAndRelatedData(@PathVariable("companyNo") String companyNo) {
+	@RequestMapping("/buy/delete/{buyNo}")
+	public ResponseEntity<String> deleteOrdersByNo(@PathVariable("buyNo") String buyNo) {
 		try {
-
-			orderService.deleteBuyAndRelatedData(companyNo);
-
-			return ResponseEntity.ok("삭제되었습니다.");
+			System.out.println(buyNo);
+			orderService.deleteOrdersByNo(buyNo);
+			return ResponseEntity.ok("주문이 성공적으로 삭제되었습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"삭제 실패\"}");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 삭제 중 오류가 발생했습니다.");
 		}
 	}
 
-
-	// 발주관리 수정
-	@RequestMapping("/editOrder/{buyNo}")
-	public ModelAndView editOrder(@PathVariable String buyNo) {
-	    OrderDTO orderDetails = orderService.editOrder(buyNo);
-	    ModelAndView modelAndView = new ModelAndView("order/order_register_edit");
-	    modelAndView.addObject("orderDetails", orderDetails);
-	    return modelAndView;
+	// 발주관리 수정 페이지 이동
+	@RequestMapping("/editOrder")
+	public ModelAndView editOrder(String buyNo, String materialNo) {
+		OrderDTO orderDetails = orderService.editOrder(buyNo, materialNo);
+		ModelAndView modelAndView = new ModelAndView("order/order_register_edit");
+		modelAndView.addObject("orderDetails", orderDetails);
+		return modelAndView;
 	}
 
-	// AJAX로 데이터 전송
-	@RequestMapping(value = "/editOrder")
-	@ResponseBody
-	public ResponseEntity<String> editOrder(@ModelAttribute OrderDTO dto) {
-	    try {
-	        orderService.updateOrder(dto);
-
-	        return ResponseEntity.ok("수정이 완료되었습니다.");
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
-	    }
-	}
+	
+	//발주 수정 컨트롤러
+	
+	 @RequestMapping("/updateOrder") public String updateOrder(@ModelAttribute
+	 OrderDTO orderDTO) { orderService.updateOrder(orderDTO); return
+	 "redirect:/Order";
+	  
+	 }
+	 
 
 	// 발주관리 등록
 	@RequestMapping("/OrderRegister")
@@ -213,6 +290,7 @@ public class OrderController {
 	@RequestMapping("/order/register/action")
 	public String OderRegister(OrderDTO dto) {
 		try {
+
 			orderService.insertOrderRegister(dto);
 			return "redirect:/Order";
 		} catch (Exception e) {
