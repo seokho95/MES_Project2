@@ -66,11 +66,11 @@
 		//태그 넣어서 속성 부여 가능
 		switch (Number(sPhase)) {
 			case 0:
-				return '<button id="btn_waiting"><span hidden>0</span>출고 대기</button>';
+				return '<button id="btn_waiting" onclick="waitingPage()"><span hidden>0</span>출고 대기</button>';
 			case 1:
-				return '<button id="btn_proceeding"><span hidden>1</span>출하 중</button>';
+				return '<button id="btn_proceeding" onclick="completedPage()"><span hidden>1</span>출하 중</button>';
 			case 2:
-				return '<button id="btn_completed"><span hidden>2</span>출하 완료</button>';
+				return '<button id="btn_completed" onclick="completedPage()"><span hidden>2</span>출하 완료</button>';
 			default:
 				return "";
 		}
@@ -126,7 +126,8 @@
 		$("#cnumSearch").keyup(function (e) {
 			console.log(e.keyCode)
 			if (e.keyCode == 13)
-				alert("Enter");
+				e.preventDefault();
+			$('#search_date').click();
 		});
 		//출하날자 검색 + 수주번호 검색
 		$('#search_date').click(function () {
@@ -151,7 +152,6 @@
 						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
 						$('.consignment_data').html(tag);
 						//console.log(sPhase);
-						console.log(printAllBarcode());
 					} else {
 						for (let i = 0; i < r.length; i++) {
 							tag += `<tr>`;
@@ -213,7 +213,15 @@
 			}
 		});
 	});
-
+	//출고요청 페이지 이동
+	function waitingPage() {
+		window.location.href = '/RequstRelease';
+	}
+	//출하 요청페이지 이동
+	function completedPage(){
+		window.location.href = '/RequstConsignment';
+		
+	}
 
 </script>
 
@@ -306,9 +314,11 @@
 					<td>[[${consignmentlist.sNum}]]</td>
 					<td>[[${consignmentlist.dNum}]]</td>
 					<td th:switch="${consignmentlist.sPhase}">
-						<button th:case="0" id="btn_waiting"><span hidden>0</span>출고 대기</button>
-						<button th:case="1" id="btn_proceeding"><span hidden>1</span>출하 중</button>
-						<button th:case="2" id="btn_completed"><span hidden>2</span>출하 완료</button>
+						<button th:case="0" id="btn_waiting" onclick="waitingPage()"><span hidden>0</span>출고 대기</button>
+						<button th:case="1" id="btn_proceeding" onclick="completedPage()"><span hidden>1</span>출하
+							중</button>
+						<button th:case="2" id="btn_completed" onclick="completedPage()"><span hidden>2</span>출하
+							완료</button>
 					</td>
 					<td><svg></svg></td>
 				</tr>

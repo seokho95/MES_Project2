@@ -39,8 +39,9 @@
 
 					}
 				},
-				error: function () {
-					alert("수주번호로 조회해주세요.");
+				error: function (xhr, status, error) {
+					console.log(error);
+					alert("수주번호로 조회가 가능합니다.");
 
 				}
 			});
@@ -148,7 +149,33 @@
 			var shipAmount = $("#shipAmount").val();
 			var dNum = $("#dNum").val();
 			//var shipNum 컨트롤러에서 랜덤생성
-			//var sPhase 0,1,2 갑에 따라 다르게
+			if (sNum === '') {
+				alert('수주번호를 입력해주세요.');
+				e.preventDefault();
+				return;
+			}
+			if (dateStartShip === '') {
+				alert('출하 시작일을 입력해주세요.');
+				e.preventDefault();
+				return;
+			}
+
+			if (shipAmount === '') {
+				alert('출하 수량을 입력해주세요.');
+				e.preventDefault();
+				return;
+			}
+			
+			if (parseInt(shipAmount) > parseInt(sAmount)) {
+				alert('출하 수량은 요청수량을 초과할 수 없습니다.');
+				e.preventDefault();
+				return;
+			}
+			if (dNum === '') {
+				alert('기사코드가 입력되지 않았습니다.');
+				e.preventDefault();
+				return;
+			}
 		})
 
 
@@ -207,15 +234,17 @@
 						<th>접수일자<span style="color: red">*</span></th>
 						<td><input type="text" readonly th:value="${dateOrder}" id="dateOrder" name="dateOrder" /></td>
 						<th>납기일자<span style="color: red">*</span></th>
-						<td><input type="text" readonly th:value="${dateToArrive}" id="dateToArrive" name="dateToArrive" /></td>
+						<td><input type="text" readonly th:value="${dateToArrive}" id="dateToArrive"
+								name="dateToArrive" /></td>
 					</tr>
 					<tr>
 						<th>사업자번호<span style="color: red">*</span></th>
 						<td>
-							<input type="text" readonly th:value="${cNum}" id="cNum" name="cNum"/>
+							<input type="text" readonly th:value="${cNum}" id="cNum" name="cNum" />
 						</td>
 						<th>주소<span style="color: red">*</span></th>
-						<td><input type="text" readonly th:value="${address}" id="address" style="width: 300px;" name="address" ></td>
+						<td><input type="text" readonly th:value="${address}" id="address" style="width: 300px;"
+								name="address"></td>
 					</tr>
 				</table>
 				<br />
@@ -232,7 +261,7 @@
 					<tbody>
 						<tr>
 							<td>
-								<input type="text" readonly th:value="${pNum}" id="pNum" name="pNum"/>
+								<input type="text" readonly th:value="${pNum}" id="pNum" name="pNum" />
 							</td>
 							<td>
 								<input type="text" readonly th:value="${sAmount}" id="sAmount" name="sAmount" />개
@@ -241,7 +270,7 @@
 								<input type="date" id="dateStartShip" name="dateStartShip" />
 							</td>
 							<td>
-								<input type="text" placeholder="0" id="shipAmount" name="shipAmount"/>개
+								<input type="text" placeholder="0" id="shipAmount" name="shipAmount" />개
 							</td>
 							<td>
 								<input type="text" placeholder="기사 번호 조회" readonly class="driverCode" th:value="${dNum}"

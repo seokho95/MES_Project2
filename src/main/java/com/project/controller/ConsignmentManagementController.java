@@ -133,19 +133,32 @@ public class ConsignmentManagementController {
 	// 출하등록 데이터 전달
 	@RequestMapping(value = "/AddProductConsignment/action", method = RequestMethod.POST)
 	public String AddProductConsignment(ConsignmentManagementDTO dto) {
-		
+
 		System.out.println("dto:" + dto);
 		// ShipNumCode 객체 생성
 		ShipNumCode shipNumGenerator = new ShipNumCode();
-		// 생성된 출하 코드 설정	
+		// 생성된 출하 코드 설정
 		// 출하코드 생성 및 dto 저장
 		shipNumGenerator.signup(dto);
+		//
+		// 이미 DTO에 저장된 shipAmount와 sAmount 값을 가져옵니다.
+		int shipAmount = dto.getShipAmount();
+		int sAmount = dto.getsAmount();
+
+		// 조건에 따라 sPhase 값을 설정
+		if (shipAmount == sAmount) {
+			dto.setsPhase("2");
+		} else if (shipAmount < sAmount && shipAmount > 0) {
+			dto.setsPhase("1");
+		} else if (shipAmount == 0) {
+			dto.setsPhase("0");
+		}
 
 		System.out.println("출하코드 :" + dto.getShipNum());
 		System.out.println("dto2:" + dto);
-		//1건의 결과 값으로 등록되므로 String는 사용 불가 int 사용
+		// 1건의 결과 값으로 등록되므로 String는 사용 불가 int 사용
 		int result = consignmentManagementService.insertconsignment(dto);
-			return "redirect:/ConsignmentManagement";
+		return "redirect:/ConsignmentManagement";
 	}
 
 	// 수주리스트 검색해서 innerHtml로 입력바로 받기
