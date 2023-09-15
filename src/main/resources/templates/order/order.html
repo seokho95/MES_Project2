@@ -80,7 +80,16 @@
 	//바코드 찍으면 자동으로 엔터값 입력
 		$("#search_po_p").keyup(function (e) {
 			console.log(e.keyCode)
+			
 			if (e.keyCode == 13){
+		// 입력된 문자열을 가져옴
+		var inputString = document.getElementById("search_po_p").value;
+
+		// 문자열을 대문자로 변환
+		var uppercaseString = inputString.toUpperCase();
+
+		// 변환된 문자열을 다시 입력란에 넣음
+		document.getElementById("search_po_p").value = uppercaseString;			
 			$('#btn_search').click();
 			}
 		});
@@ -196,15 +205,14 @@
         }
     }
     });
-    $(document).ready(function() {
+     $(document).ready(function(){
     // 해당 발주번호를 클릭할 때 해당 열 데이터 넘김
     $('.buyNo').click(function () {
         var materialNo = $(this).closest('tr').find('td:nth-child(4)').text();
         var buyNo = $(this).closest('tr').find('.buyNo').text();
 		location.href=`/editOrder?buyNo=${buyNo}&materialNo=${materialNo}`;
-		});
+    });
 });
-
 </script>
 <body>
 <th:block th:include="header/header.html"></th:block>
@@ -302,6 +310,7 @@
                             <div class="btn delete" title="선택삭제">선택삭제</div>
                         		<div class="bot_edit" title="왼쪽">
                             		<div class="btn btn_right" title="등록" onclick="location.href='/OrderRegister'">등록</div>
+									 	<div class="btn edit" title="수정" >수정</div>                           	
                         		</div>
                         </div>
                         <!-- bot_btn -->
@@ -314,13 +323,5 @@
         <!--content-->
     </div>
    </div>
-   <div class="pagination">
-    <span id="prevPage" class="disabled">이전</span>
-    <c:forEach var="i" begin="1" end="${totalPages}">
-        <span class="page" data-page="${i}">${i}</span>
-    </c:forEach>
-    <span id="nextPage" class="disabled">다음</span>
-    <span id="btnNextPage">다음 페이지</span>
-</div>
 </body>
 </html>

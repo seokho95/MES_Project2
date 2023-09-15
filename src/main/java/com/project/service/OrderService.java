@@ -128,7 +128,6 @@ public class OrderService {
 		        return mapper.editOrder(map);
 		        
 		    } catch (Exception e) {
-		    	e.printStackTrace();
 		        throw new RuntimeException("데이터 조회 중 오류 발생", e);
 		    }
 	 }
@@ -145,6 +144,9 @@ public class OrderService {
 		        String dateReceived = dto.getDateReceived();
 		        String materioalAmount = dto.getMaterioalAmount();
 		        String companyNo = dto.getCompanyNo();
+
+		        // Material 테이블 업데이트
+		        mapper.OrderupdateMaterial(materialNo, materioalName, companyNo);
 
 		        // Buy 테이블 업데이트
 		        mapper.OrderupdateBuy(buyNo, dateOrder, dateReceived, materioalAmount, materialNo, companyNo);
@@ -166,8 +168,9 @@ public class OrderService {
 		            String companyNo = dto.getCompanyNo();
 		            String buyNo = dto.getBuyNo();
 		            
-		            // 원부재료 buy 테이블
-					/* mapper.MaterialinsertIntoBuyNNo(buyNo); */
+					/*
+					 * // 원부재료 buy 테이블 mapper.MaterialinsertIntoBuyNNo(buyNo);
+					 */
 		            
 		             //원부재료 material 테이블
 		            mapper.MaterialinsertIntoMaterial(materialNo, materioalName, mUnit, mBOXcount, companyNo); 

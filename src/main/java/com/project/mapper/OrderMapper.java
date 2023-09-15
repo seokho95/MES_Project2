@@ -54,6 +54,9 @@ public interface OrderMapper {
 	void ContractorinsertIntoManager(String managerName, String managerContact, String mMail,
 			String companyNo);
 
+	void OrderupdateMaterial(@Param("materialNo") String materialNo, @Param("materioalName")
+			String materioalName, String companyNo);
+
 	void OrderupdateBuy(@Param("buyNo") String buyNo, @Param("dateOrder") String dateOrder, 
 			@Param("dateReceived") String dateReceived, @Param("materioalAmount") String materioalAmount, @Param("materialNo") String materialNo, @Param("companyNo") String companyNo);
 

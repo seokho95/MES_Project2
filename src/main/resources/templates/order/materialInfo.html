@@ -56,8 +56,11 @@
                         tag += `<td>${r[i].materialNo}</td>`;
                         tag += `<td>${r[i].materioalName}</td>`;
                         tag += `<td>${r[i].mBOXcount}</td>`;
+                        tag += `<td>${r[i].dateOrder}</td>`;
                         tag += `<td>${r[i].mUnit}</td>`;
-                        tag += `<td>${r[i].companyNo}</td>`;
+                         tag += `<td>${r[i].mTotalPrice}</td>`;
+                        tag += `<td>${r[i].buyName}</td>`;
+                        tag += `<td><svg></svg></td>`;
                         tag += `</tr>`;
                     }
                     $('.materialList').html(tag);
@@ -167,11 +170,11 @@
                                 <th>재료번호</th>
                                 <th>제품명</th>
                                 <th>BOX당 수량</th>
-                                <th>단위</th>
-                                <th>사업자번호</th>
                                 <th style="display: none;">발주일자</th>
+                                <th>단위</th>
                                 <th style="display: none;">가격(원)</th>
                                 <th style="display: none;">협력업체</th>
+                                <th>사업자번호</th>
                             </tr>
                         </thead>
                         <tbody class="materialList">
@@ -182,11 +185,11 @@
                                 <td>[[${material.materialNo}]]</td>
                                 <td>[[${material.materioalName}]]</td>
                                 <td>[[${material.mBOXcount}]]</td>
-                                <td>[[${material.mUnit}]]</td>
-                                <td>[[${material.companyNo}]]</td>
                                 <td style="display: none;">[[${material.dateOrder}]]</td>
+                                <td>[[${material.mUnit}]]</td>
                                 <td style="display: none;">[[${material.mTotalPrice}]]</td>
                                 <td style="display: none;">[[${material.buyName}]]
+                                <td>[[${material.companyNo}]]</td>
                             </tr>
                         </tbody>
                     </table>
@@ -194,6 +197,7 @@
                         <div class="bot_btn">
                             <div class="btn delete" title="선택삭제">선택삭제</div>
                           <div class="bot_edit"> 
+                            <div class="btn edit" title="수정">수정</div>
                             <div class="btn right" title="등록" onclick="location.href='/MaterialRegister'">등록</div>
                           </div>
                          </div>

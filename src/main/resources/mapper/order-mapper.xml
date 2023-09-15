@@ -93,7 +93,7 @@
 	FROM
 		BUY b , COMPANY_BUY cb , MATERIAL m
 	WHERE
-		 b.C_NUM = cb.C_NUM(+) AND b.C_NUM = m.C_NUM(+)
+		 b.C_NUM = cb.C_NUM(+) AND m.C_NUM = b.C_NUM(+)
 	AND
 		 b.M_NUM LIKE '%' || #{search} || '%' 
 	</select> 
@@ -156,7 +156,7 @@
         b.DATE_ORDER,
         b.DATE_RECEIVED,
         b.M_AMOUNT,
-        cb.C_NUM
+        b.C_NUM
     FROM
         BUY b
         LEFT JOIN COMPANY_BUY cb ON b.C_NUM = cb.C_NUM
@@ -169,6 +169,7 @@
 	<update id="updateOrder" parameterType="map">
     UPDATE BUY
     SET
+    	B_NUM = #{buyNo}
         B_NAME = #{buyName},
         M_NUM = #{materialNo},
         MATERIAL_NAME = #{materioalName},
@@ -199,10 +200,10 @@
 	</insert> -->
 
 	<!-- Buy 테이블에 데이터 삽입 -->
-<!-- 	<insert id="MaterialinsertIntoBuy" parameterType="map">
+	<insert id="MaterialinsertIntoBuy" parameterType="map">
     INSERT INTO BUY (B_NUM, DATE_ORDER, M_NUM, M_PRICE_TOTAL, C_NUM)
     VALUES (#{buyNo}, #{dateOrder}, #{materialNo}, #{mTotalPrice}, #{companyNo})
-	</insert> -->
+	</insert>
 	
 	<!-- contractor// company_buy 테이블에 삽입 -->
 	<insert id="ContractorinsertIntoCompany" parameterType="string">
@@ -217,19 +218,25 @@
 	</insert>
 	
 	<!--Order 페이지 수정  -->
-	<!-- updateOrder -->
-	<update id="OrderupdateBuy" parameterType="map">
-  	UPDATE BUY
-	SET
-	B_NUM = #{buyNo},
-    DATE_ORDER = TO_DATE(#{dateOrder}, 'YYYY-MM-DD'),
-    DATE_RECEIVED = TO_DATE(#{dateReceived}, 'YYYY-MM-DD'),
-    M_AMOUNT = #{materioalAmount},
-    M_NUM = #{materialNo},
-    C_NUM = #{companyNo}
-	WHERE
-    B_NUM = #{buyNo}
-	</update>
+	<!-- updateMaterial -->
+	<update id="OrderupdateMaterial" parameterType="map">
+    UPDATE MATERIAL
+    SET
+        MATERIAL_NAME = #{materioalName}
+    WHERE
+        M_NUM = #{materialNo} 
+</update>
+
+<update id="OrderupdateBuy" parameterType="map">
+    UPDATE BUY
+    SET
+        DATE_ORDER = TO_DATE(#{dateOrder}, 'YYYY-MM-DD'),
+        DATE_RECEIVED = TO_DATE(#{dateReceived}, 'YYYY-MM-DD'),
+        M_AMOUNT = #{materioalAmount},
+        M_NUM = #{materialNo}
+    WHERE
+        B_NUM = #{buyNo} 
+</update>
 	
 	<!-- ContractorEdit -->
 	<select id="ContractorEdit" parameterType="map" resultMap="buy">
