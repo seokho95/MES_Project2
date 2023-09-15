@@ -9,7 +9,86 @@
 	<link rel="stylesheet" href="/kongjung/kongjung_info.css">
 	<link rel="stylesheet" href="/common/global.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/JsBarcode.code128.min.js"></script>
+<script src="js/bxlcommon.js"></script>
+<script src="js/bxllabel.js"></script>
 <script>
+		//바코드 생성 함수
+	function printAllBarcode() {
+		//processN class의 tr 지정
+		let row = $(".processN tr");
+		
+		$(row).each(function (idx, obj) {
+			//tr의 자녀 속성인 td중 1번째인 공정번호 선택
+			console.log($(obj).children("td").eq(1).text());
+			let barcodeValue = $(obj).children("td").eq(1).text();
+			//td중 마지막 속성의 자녀 속성인 svg에 0번째 선택
+			JsBarcode($(obj).children("td").last().children("svg")[0], barcodeValue, {
+				//바코드 크기
+				format: "CODE128", width: 1,
+				height: 20
+			});
+		});
+	}
+	//바코드 출력 함수
+	var issueID = 1;
+	var printer_name = 'Printer1';
+
+	function viewResult(result) {
+		console.log(result);
+	}
+
+	function PrintBarcode(row) {
+		console.log(row);
+		//	return
+		var barCodeSymbol = 1;
+		var barCodeHeight = 100;
+		var barWidth = 4;
+		var nBarWidth = parseInt(barWidth / 2);
+		var barCodeHri = 1;
+
+		setLabelId(issueID);
+
+		checkLabelStatus();
+		clearBuffer();
+
+		setWidth(576);
+
+		drawDeviceFont("공정 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
+		drawBlock(30, 40, 530, 45, 'B', 5);
+		drawDeviceFont(`공정 번호 : ${$(row).eq(1).text()}`, 30, 50, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`공정 명 : ${$(row).eq(2).text()}`, 30, 80, 'd', 1, 1, 0, 0, 0, 0);
+		//x,y,x,y 좌하단 우하단,글꼴,두께
+		drawBlock(30, 120, 530, 125, 'B', 5);
+		draw1DBarcode($(row).eq(1).text(), 70, 150, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
+		printBuffer();
+
+		var strSubmit = getLabelData();
+
+		console.log(strSubmit);
+
+		issueID++;
+		console.log(strSubmit, viewResult);
+		requestPrint(printer_name, strSubmit, viewResult);
+
+	}
+
+
+	$(function () {
+		//바코드 찍으면 자동으로 엔터값 입력
+		$("#pnum").keyup(function (e) {
+			console.log(e.keyCode)
+			if (e.keyCode == 13)
+				e.preventDefault();
+			$('#search_date').click();
+		});
+		//바코드 클릭했을 때 바코드 출력시키는 기능
+		$("svg").click(function () {
+			let row = $(this).parent().parent().children("td");
+			PrintBarcode(row);
+		});
+		
+	
 $(document).ready(function() {
     // 페이지가 로드되자마자 조회 갯수를 표시하는 함수
     function displayResultCount() {
@@ -26,6 +105,7 @@ $(document).ready(function() {
                     tag += "<td scope='row'><input class='form-check-input' type='checkbox' name='checkbox2' onclick='checkSelectAll(this)' id='checkbox1'></td>";
                     tag += `<td><a th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r[i].processNum})}">${r[i].processNum}</a></td>`;
                     tag += "<td>"+r[i].processName+"</td>";
+                    tag += "<td><svg></svg></td>";
                     tag += "</tr>";
                 }
                 var resultCount = r.length;
@@ -34,10 +114,18 @@ $(document).ready(function() {
                 $(".result_count").text(resultCount + "개의 데이터가 조회되었습니다.");
                 
                 $(".processN").html(tag);
+                
+                printAllBarcode();
+						console.log(printAllBarcode());
+						$("svg").click(function () {
+							let row = $(this).parent().parent().children("td");
+							PrintBarcode(row);
+						});
+					
             }
         });
     }
-    
+    printAllBarcode();
     // 페이지 로드 시 조회 갯수 표시 함수 호출
  //   displayResultCount();
     
@@ -81,6 +169,7 @@ $(function () {
         }
     });
 });
+ });
  
 
 </script>
@@ -129,6 +218,7 @@ $(function () {
 						</th>
 						<th scope="col">공정 번호</th>
 						<th scope="col">공정 명</th>
+						<th>바코드</th>
 					</tr>
 				</thead>
 				<tbody class="processN">
@@ -137,8 +227,9 @@ $(function () {
 							<input class="form-check-input" type="checkbox" name="checkbox2"
 								onclick="checkSelectAll(this)" id="checkbox2">
 						</td>
-						<td><a th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r.processNum})}">[[${ r.processNum}]]</a></td>
+						<td><a id="pnum" th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r.processNum})}">[[${ r.processNum}]]</a></td>
 						<td>[[${r.processName}]]</td>
+						<td><svg></svg></td>
 					</tr>
 				</tbody>
 			</table>
