@@ -63,10 +63,11 @@ public class ObtainOrderController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	@RequestMapping("/add/companylist")
-	@ResponseBody
-	public List<ObtainDTO> SearchCompanyList(@RequestParam("cNum") String cNum){
+	public ResponseEntity<List<ObtainDTO>> SearchCompanyList(@RequestParam("cNum") String cNum){
+		System.out.println(cNum);
 		List<ObtainDTO> list = obtainService.SearchCompanyList(cNum);
-		return list;
+		System.out.println(list);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 

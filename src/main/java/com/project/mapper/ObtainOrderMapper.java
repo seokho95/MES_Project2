@@ -60,6 +60,6 @@ public interface ObtainOrderMapper {
 
 	int DeleteBusiness(List<String> cNum);
 
-	List<ObtainDTO> SearchCompanyList(String cNum);
+	List<ObtainDTO> SearchCompanyList(Map<String, Object> map);
 
 }

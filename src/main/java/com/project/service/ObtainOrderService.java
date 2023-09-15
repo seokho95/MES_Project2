@@ -124,10 +124,11 @@ public class ObtainOrderService {
 	public int DeleteBusiness(List<String> cNum) {
 		return obtainmapper.DeleteBusiness(cNum);
 	}
-
+	//수주 서치
 	public List<ObtainDTO> SearchCompanyList(String cNum) {
-		return obtainmapper.SearchCompanyList(cNum);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cNum", cNum);
+		return obtainmapper.SearchCompanyList(map);
 	}
-	
 	
 }

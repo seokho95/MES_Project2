@@ -97,19 +97,8 @@
 		where p.p_num = s.p_num and s_phase = 4
 	</select>
 	<!-- 수주등록*수정 컴퍼니리스트 -->
-	<select id="SearchCompanyList" parameterType="Map" resultMap="sell">
-		SELECT * FROM COMPANY_SELL where cNum like '%' || #{cNum} || '%'
-<!-- 		<choose>
-			<when test="kind.equals('dNum')">
-				and cNum like '%' || #{search} || '%'
-			</when>
-			<when test="kind.equals('dContact')">
-				and dContact like '%' || #{search} || '%'
-			</when>
-			<otherwise>
-				${kind} like '%'||#{search}||'%'
-			</otherwise>
-		</choose> -->
+	<select id="SearchCompanyList" parameterType="string" resultMap="sell">
+		SELECT * from COMPANY_SELL where c_num like '%' || #{cNum} || '%'
 	</select>
 
 	<!-- 제품 -->
@@ -119,8 +108,7 @@
 	<select id="SearchProduction" parameterType="Map"
 		resultMap="sell">
 		select * from PRODUCT p
-		where ${kind} like '%' || #{search}||
-		'%'
+		where ${kind} like '%' || #{search}|| '%'
 	</select>
 	<select id="countAllOrderProduct" parameterType="Map"
 		resultType="int">
