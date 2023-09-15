@@ -29,7 +29,7 @@
 	FROM
 		BUY b , COMPANY_BUY cb , MATERIAL m
 	WHERE
-		 m.C_NUM = cb.C_NUM(+) AND m.C_NUM = b.C_NUM(+)
+		 m.C_NUM = cb.C_NUM AND m.C_NUM = b.C_NUM
 	</select>
 
 	<!-- //발주관리 -발주번호 문자열 검색으로 조회-->
