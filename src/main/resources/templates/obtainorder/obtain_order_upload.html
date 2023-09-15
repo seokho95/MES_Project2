@@ -18,7 +18,9 @@
 	});
 
 	function company_search() {
-		let data = $("#txt_company_search").val();
+		let data = {
+			cNum : $("#txt_company_search").val()		
+		};
 		$.ajax({
 			url: '/add/companylist',
 			data: data,
@@ -102,7 +104,7 @@
 					</tr>
 					<tr>
 						<td class="thead">상호</td>
-						<td><input type="text" class="inputtext" id="company_name" name="cName" readonly></td>
+						<td><input type="text" class="inputtext" id="company_name" name="sName" readonly></td>
 						<td class="thead">성명</td>
 						<td><input type="text" class="inputtext" id="leader_name" name="cLeader" readonly></td>
 					</tr>
