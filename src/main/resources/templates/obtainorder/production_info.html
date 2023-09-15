@@ -7,7 +7,10 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="/obtainorder/production_info.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="js/JsBarcode.code128.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/js/JsBarcode.code128.min.js"></script>
+	<script src="js/bxlcommon.js"></script>
+	<script src="js/bxllabel.js"></script>
 </head>
 <script>
 	// 조회
@@ -109,6 +112,52 @@
 			};
 		}
 	}
+	//바코드 출력 함수
+	var issueID = 1;
+	var printer_name = 'Printer1';
+
+	function viewResult(result) {
+		console.log(result);
+	}
+
+	function PrintBarcode(row) {
+		console.log(row);
+		//return
+		var barCodeSymbol = 1;
+		var barCodeHeight = 100;
+		var barWidth = 4;
+		var nBarWidth = parseInt(barWidth / 2);
+		var barCodeHri = 1;
+
+		setLabelId(issueID);
+
+		checkLabelStatus();
+		clearBuffer();
+
+		setWidth(576);
+
+		drawDeviceFont("제품 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
+		drawBlock(30, 40, 530, 45, 'B', 5);
+		drawDeviceFont(`제품 번호 : ${$(row).eq(2).text()}`, 30, 50, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`제품명 : ${$(row).eq(3).text()}`, 30, 90, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`규격 : ${$(row).eq(4).text()}`, 30, 130, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`수량 : ${$(row).eq(5).text()}`, 30, 170, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`유통 기한 : ${$(row).eq(7).text()}`, 30, 210, 'd', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`가격 : ${$(row).eq(8).text()}`, 30, 250, 'd', 1, 1, 0, 0, 0, 0);
+		//x,y,x,y 좌하단 우하단,글꼴,두께
+		drawBlock(30, 300, 530, 300, 'B', 5);
+		draw1DBarcode($(row).eq(2).text(), 70, 350, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
+		printBuffer();
+
+		var strSubmit = getLabelData();
+
+		console.log(strSubmit);
+
+		issueID++;
+		console.log(strSubmit, viewResult);
+		requestPrint(printer_name, strSubmit, viewResult);
+
+	}
 	$(function () {
 		//=================체크박스 전체선택=================
 		$('.check_all').click(function () {
@@ -161,6 +210,11 @@
 			$(".txt_search").val('');
 			$('.btn_search').click();
 				
+		});
+		//바코드 클릭했을 때 바코드 출력시키는 기능
+		$("svg").click(function () {
+			let row = $(this).parent().parent().children("td");
+			PrintBarcode(row);
 		});
 	});
 	//=================바코드 생성 함수=================
@@ -231,7 +285,7 @@
 					<td>[[${sell.boxCount}]]</td>
 					<td>[[${sell.pWeight}]]</td>
 					<td>[[${sell.pFinish}]]</td>
-					<td>[[${sell.price}]]</td>
+					<td>[[${sell.pPrice}]]</td>
 					<td><svg></svg></td>
 				</tr>
 			</tbody>
