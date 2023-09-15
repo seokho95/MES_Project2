@@ -62,6 +62,13 @@ public class ObtainOrderController {
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
+	@RequestMapping("/add/companylist")
+	@ResponseBody
+	public List<ObtainDTO> SearchCompanyList(@RequestParam("cNum") String cNum){
+		List<ObtainDTO> list = obtainService.SearchCompanyList(cNum);
+		return list;
+	}
+	
 
 	// 수주등록
 	@RequestMapping("/ObtainOrderUpload")

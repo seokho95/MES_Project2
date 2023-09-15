@@ -124,6 +124,10 @@ public class ObtainOrderService {
 	public int DeleteBusiness(List<String> cNum) {
 		return obtainmapper.DeleteBusiness(cNum);
 	}
+
+	public List<ObtainDTO> SearchCompanyList(String cNum) {
+		return obtainmapper.SearchCompanyList(cNum);
+	}
 	
 	
 }

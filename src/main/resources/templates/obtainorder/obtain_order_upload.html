@@ -16,6 +16,109 @@
 		var total = sAmount * price;
 		$('#total').text(total);
 	});
+	$('#btn_search').click(function () {
+		let data = {
+			cNum: $("#txt_company_search").val(),
+		}
+		$.ajax({
+			url: '/add/companylist',
+			data: data,
+			type: 'post',
+			dataType: 'json',
+			success: function (r) {
+				console.log(r);
+				var tag = "";
+
+				if (r.length === 0) {
+					tag = "<tr><td colspan=6'>등록된 기사정보가 없습니다.<td></tr>";
+					$('#company_data').html(tag);
+				} else {
+
+					for (let i = 0; i < r.length; i++) {
+						tag += `<tr>`;
+						tag += `<td class="company">${r[i].cNum}</td>`;
+						tag += `<td>${r[i].sName}</td>`;
+						tag += `<td>${r[i].address}</td>`;
+						tag += `<td>${r[i].cLeader}</td>`;
+						tag += `<td>${r[i].cPhone}</td>`;
+						tag += `<td>${r[i].cFax}</td>`;
+						tag += `</tr>`;
+					}
+					console.log(tag)
+					$('#company_data').html(tag);
+
+					//td 코드 클릭시 해당 값이 기사번호에 기록
+					$('#company_data tr').on('click', function () {
+						// 클릭된 td 요소에서 cNum 값을 가져옴
+						// td리스트를 tr로 선택될 수 있게 해서 해당 값 클릭될 수 있도록함
+						let cNum = $(this).children().first().text();
+
+						// 검색 input에 클릭한 td 값을 자동으로 입력
+						$("#business_num").val($(this).children().first().text());
+						$("#company_name").val($(this).children("td").eq(1).text());
+						$("#leader_name").val($(this).children("td").eq(2).text());
+						$("#address").val($(this).children("td").eq(3).text());
+						$("#phoneno").val($(this).children("td").eq(4).text());
+						$("#faxno").val($(this).children("td").eq(5).text());
+
+						$(".company_popup").hide();
+					});
+				}
+			}
+		})
+	})
+	//companylist popup
+	$('#company_search').click(function () {
+		$.ajax({
+			url: '/add/companylist',
+			type: 'post',
+			dataType: 'json',
+			success: function (r) {
+				console.log(r);
+				var tag = "";
+
+				if (r.length === 0) {
+					tag = "<tr><td colspan=6'>등록된 기사정보가 없습니다.<td></tr>";
+					$('#company_data').html(tag);
+				} else {
+
+					for (let i = 0; i < r.length; i++) {
+						tag += `<tr>`;
+						tag += `<td class="company";>${r[i].cNum}</td>`;
+						tag += `<td>${r[i].sName}</td>`;
+						tag += `<td>${r[i].cLeader}</td>`;
+						tag += `<td>${r[i].address}</td>`;
+						tag += `<td>${r[i].cPhone}</td>`;
+						tag += `<td>${r[i].cFax}</td>`;
+						tag += `</tr>`;
+					}
+					console.log(tag)
+					$('#company_data').html(tag);
+
+					//td 코드 클릭시 해당 값이 기사번호에 기록
+					$('#company_data tr').on('click', function () {
+
+						// 검색 input에 클릭한 td 값을 자동으로 입력
+						$("#business_num").val($(this).children().first().text());
+						$("#company_name").val($(this).children("td").eq(1).text());
+						$("#leader_name").val($(this).children("td").eq(2).text());
+						$("#address").val($(this).children("td").eq(3).text());
+						$("#phoneno").val($(this).children("td").eq(4).text());
+						$("#faxno").val($(this).children("td").eq(5).text());
+
+						$(".company_popup").hide();
+					});
+				}
+			}
+		})
+	});
+	
+	function openpopUp() {
+		$(".company_popup").show();
+	}
+	function closepopUp() {
+		$(".company_popup").hide();
+	}
 </script>
 
 <body>
@@ -31,112 +134,142 @@
 			<a href="/ObtainOrder" class="source" id="headText">수주등록</a>
 		</div>
 		<h2>수주등록</h2>
-		<div class="form">
-			<table>
-				<tr>
-					<th colspan="4">발주자</th>
-				</tr>
-				<tr>
-					<td class="thead">상호</td>
-					<td colspan="3">
-						<input type="text" class="inputtext" id="company_name" name="cName" readonly>
-						<button id="company_search">검색</button>
-					</td>
-				</tr>
-				<tr>
-					<td class="thead">사업자번호</td>
-					<td><input type="text" class="inputtext" id="business_num" name="cNum" readonly></td>
-					<td class="thead">성명</td>
-					<td><input type="text" class="inputtext" id="leader_name" name="cLeader" readonly></td>
-				</tr>
-				<tr>
-					<td class="thead">연락처</td>
-					<td><input type="text" class="inputtext" id="phoneno" name="cPhone" readonly></td>
-					<td class="thead">FAX</td>
-					<td><input type="text" class="inputtext" id="fax_no" name="cFax" readonly></td>
-				</tr>
-				<tr>
-					<td class="thead">주소</td>
-					<td colspan="3"><input type="text" class="inputtext" id="address" name="address" readonly></td>
-				</tr>
-				<tr>
-					<td class="thead">담당자</td>
-					<td colspan="3">
-						<input type="text" class="inputtext" id="contact_person" name="mName" readonly>
-						<button id="manager_search">검색</button>
-					</td>
-				</tr>
-				<tr>
-					<td class="thead">담당자 번호</td>
-					<td><input type="text" class="inputtext" id="contact_person_phone" name="mConnect" readonly></td>
-					<td class="thead">이메일</td>
-					<td id="whelk"><input type="text" class="inputemail" id="email1" name="mMail" readonly>
-						@<input type="text" class="inputemail" id="email1" name="mMail" readonly>
-					</td>
-				</tr>
+		<form class="insert_obtain" method="post">
+			<div class="form">
+				<table>
+					<tr>
+						<th colspan="4">발주자</th>
+					</tr>
+					<tr>
+						<td class="thead">사업자번호</td>
+						<td colspan="3">
+							<input type="text" class="inputtext" id="business_num" name="cNum" readonly>
+							<button id="company_search" onclick="openpopUp()">검색</button>
+						</td>
+					</tr>
+					<tr>
+						<td class="thead">상호</td>
+						<td><input type="text" class="inputtext" id="company_name" name="cName" readonly></td>
+						<td class="thead">성명</td>
+						<td><input type="text" class="inputtext" id="leader_name" name="cLeader" readonly></td>
+					</tr>
+					<tr>
+						<td class="thead">연락처</td>
+						<td><input type="text" class="inputtext" id="phoneno" name="cPhone" readonly></td>
+						<td class="thead">FAX</td>
+						<td><input type="text" class="inputtext" id="faxno" name="cFax" readonly></td>
+					</tr>
+					<tr>
+						<td class="thead">주소</td>
+						<td colspan="3"><input type="text" class="inputtext" id="address" name="address" readonly></td>
+					</tr>
+					<tr>
+						<td class="thead">담당자</td>
+						<td colspan="3">
+							<input type="text" class="inputtext" id="contact_person" name="mName" readonly>
+							<button id="manager_search">검색</button>
+						</td>
+					</tr>
+					<tr>
+						<td class="thead">담당자 번호</td>
+						<td><input type="text" class="inputtext" id="contact_person_phone" name="mConnect" readonly>
+						</td>
+						<td class="thead">이메일</td>
+						<td id="whelk"><input type="text" class="inputemail" id="email1" name="mMail" readonly>
+							@<input type="text" class="inputemail" id="email1" name="mMail" readonly>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<th colspan="4">납기정보</th>
+					</tr>
+					<tr>
+						<td class="thead">수주일자</td>
+						<td><input type="date" class="inputdate" id="date1"></td>
+						<td class="thead">납기일자</td>
+						<td><input type="date" class="inputdate" id="date2"></td>
+					</tr>
+					<tr>
+						<td class="thead">입금 계좌정보</td>
+						<td colspan="3" id="account_div">
+							<div id="account_1">
+								은행명
+								<input type="text" class="input_account" id="bank_name" placeholder="신한은행" readonly>
+								계좌번호
+								<input type="text" class="input_account" id="account_number"
+									placeholder="110-111-111111" readonly>
+							</div>
+							<div id="account_2">
+								예금주
+								<input type="text" class="input_account" id="account_holder" placeholder="MES" readonly>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="thead">납품처 주소</td>
+						<td colspan="3" id="img_div">
+							<textarea rows="3" class="address" placeholder="주소를 입력하세요." name="address"
+								readonly></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<table id="more_info">
+				<thead>
+					<tr>
+						<th class="num">추가</th>
+						<th>제품번호</th>
+						<th>제품명</th>
+						<th>규격/단위</th>
+						<th>단계</th>
+						<th>수주수량</th>
+						<th>단가</th>
+						<th>합계</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="info">
+						<td></td>
+						<td><input type="text" class="inputtext" name="pNum"></td>
+						<td><input type="text" class="inputtext" name="pName"></td>
+						<td><input type="text" class="inputtext" name="unit"></td>
+						<td><input type="text" class="inputtext" name="sPhase"></td>
+						<td><input type="text" class="inputtext" name="sAmount"></td>
+						<td><input type="text" class="inputtext" name="price"></td>
+						<td id="total"></td>
+					</tr>
+				</tbody>
 			</table>
-			<table>
-				<tr>
-					<th colspan="4">납기정보</th>
-				</tr>
-				<tr>
-					<td class="thead">수주일자</td>
-					<td><input type="date" class="inputdate" id="date1"></td>
-					<td class="thead">납기일자</td>
-					<td><input type="date" class="inputdate" id="date2"></td>
-				</tr>
-				<tr>
-					<td class="thead">입금 계좌정보</td>
-					<td colspan="3" id="account_div">
-						<div id="account_1">
-							은행명
-							<input type="text" class="input_account" id="bank_name" placeholder="신한은행" readonly>
-							계좌번호
-							<input type="text" class="input_account" id="account_number" placeholder="110-111-111111" readonly>
-						</div>
-						<div id="account_2">
-							예금주
-							<input type="text" class="input_account" id="account_holder" placeholder="MES" readonly>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td class="thead">납품처 주소</td>
-					<td colspan="3" id="img_div">
-						<textarea rows="3" class="address" placeholder="주소를 입력하세요." name="address" readonly></textarea>
-					</td>
-				</tr>
+			<div class="btn_area">
+				<button value="button" class="btn_delete">삭제</button>
+				<button value="button" class="btn_upload">등록</button>
+			</div>
+	</div>
+	</form>
+	<div class="company_popup">
+		<div class="company_popin" style="width: 900px;">
+			<span class="close" onclick="closepopUp()" style="width: 30px;">×</span>
+			<br>
+			<h3>고객업체 검색</h3>
+			<div class="searcharea">
+				<input type="text" placeholder="업체 번호로 검색" style="width: 150px;" id="txt_company_search">
+				<button type="button" id="btn_search">검색</button>
+			</div>
+			<br>
+			<br>
+			<table id="company_list">
+				<thead>
+					<th style="width: 100px">고객업체 번호</th>
+					<th style="width: 100px">고객업체 명</th>
+					<th style="width: 100px">주소</th>
+					<th style="width: 80px">대표</th>
+					<th style="width: 100px">핸드폰 번호</th>
+					<th style="width: 100px">FAX</th>
+				</thead>
+				<tbody id="company_data">
+				</tbody>
 			</table>
-		</div>
-		<table id="more_info">
-			<thead>
-				<tr>
-					<th class="num">추가</th>
-					<th>제품번호</th>
-					<th>제품명</th>
-					<th>규격/단위</th>
-					<th>단계</th>
-					<th>수주수량</th>
-					<th>단가</th>
-					<th>합계</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr id="info">
-					<td></td>
-					<td><input type="text" class="inputtext" name="pNum"></td>
-					<td><input type="text" class="inputtext" name="pName"></td>
-					<td><input type="text" class="inputtext" name="unit"></td>
-					<td><input type="text" class="inputtext" name="sPhase"></td>
-					<td><input type="text" class="inputtext" name="sAmount"></td>
-					<td><input type="text" class="inputtext" name="price"></td>
-					<td id="total"></td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="btn_area">
-			<button value="button" class="btn_delete">삭제</button>
-			<button value="button" class="btn_upload">등록</button>
 		</div>
 	</div>
 </body>
