@@ -54,17 +54,17 @@
 
 		setWidth(576);
 
-		drawDeviceFont("수주 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
+		drawDeviceFont("재료 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
 		drawBlock(30, 40, 530, 45, 'B', 5);
 
 		drawDeviceFont(`재료번호 : ${$(row).eq(0).text()}`, 30, 50, 'a', 1, 1, 0, 0, 0, 0);
-		drawDeviceFont(`재료명 : ${$(row).eq(1).text()}`, 30, 50, 'a', 1, 1, 0, 0, 0, 0);
-		drawDeviceFont(`재료 수량 : ${$(row).eq(2).text()}`, 30, 70, 'a', 1, 1, 0, 0, 0, 0);
-		drawDeviceFont(`박스당 수량 : ${$(row).eq(3).text()}`, 30, 90, 'a', 1, 1, 0, 0, 0, 0);
-		drawDeviceFont(`기준 단위 : ${$(row).eq(4).text()}`, 30, 110, 'a', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`재료명 : ${$(row).eq(1).text()}`, 30, 70, 'a', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`재료 수량 : ${$(row).eq(2).text()}`, 30, 90, 'a', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`박스당 수량 : ${$(row).eq(3).text()}`, 30, 110, 'a', 1, 1, 0, 0, 0, 0);
+		drawDeviceFont(`기준 단위 : ${$(row).eq(4).text()}`, 30, 130, 'a', 1, 1, 0, 0, 0, 0);
 
 		drawBlock(30, 180, 530, 185, 'B', 5);
-		draw1DBarcode($(row).eq(0).text(), 70, 200, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
+		draw1DBarcode($(row).eq(0).text(), 160, 200, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
 		printBuffer();
 
 		var strSubmit = getLabelData();
