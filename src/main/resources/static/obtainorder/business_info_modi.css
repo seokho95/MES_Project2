@@ -2,11 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&display=swap');
 
 .All{
+	margin: 0px auto;
     width: 1426px;
     height: 1117px;
 }
 .obtainheader {
-	margin-left: 45.81px;
 	margin-top: 55px;
 	display: flex;
 	flex-direction: row;
