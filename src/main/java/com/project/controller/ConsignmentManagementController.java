@@ -8,6 +8,8 @@ import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ import com.project.dto.ConsignmentManagementDTO;
 import com.project.dto.DriverDTO;
 import com.project.service.ConsignmentManagementService;
 import com.project.service.DriverService;
+import com.project.vo.PagingVO;
 
 @Controller
 public class ConsignmentManagementController {
@@ -36,18 +39,25 @@ public class ConsignmentManagementController {
 
 	// 출하 현황
 	@RequestMapping("/ConsignmentManagement")
-	public ModelAndView ConsignmentManagement(ModelAndView view) {
-		List<ConsignmentManagementDTO> list = consignmentManagementService.ConsignmentManagement();
+	public ModelAndView ConsignmentManagement(@RequestParam(name = "pageNo",defaultValue = "1")int pageNo, ModelAndView view) {
+		List<ConsignmentManagementDTO> list = consignmentManagementService.ConsignmentManagement(pageNo);
 		int allcount = consignmentManagementService.AllConsignment();
 		int waitingcount = consignmentManagementService.WaitingCount();
 		int proceedingcount = consignmentManagementService.ProdeedingCount();
 		int completedcount = consignmentManagementService.CompletedCount();
 		// System.out.println(list);
+		// 각 단계 개수표시
 		view.addObject("allcount", allcount);
 		view.addObject("waitingcount", waitingcount);
 		view.addObject("proceedingcount", proceedingcount);
 		view.addObject("completedcount", completedcount);
 		view.addObject("all_consignmentlist", list);
+		// 페이지 VO불러옴
+		System.err.println(pageNo);
+		PagingVO vo = new PagingVO(allcount, pageNo, 10, 5);
+		System.out.println(vo.toString());
+		view.addObject("paging",vo);
+		
 		view.setViewName("consignmentmanagement/productmanagement");
 		return view;
 	}
@@ -141,7 +151,7 @@ public class ConsignmentManagementController {
 		// 출하코드 생성 및 dto 저장
 		shipNumGenerator.signup(dto);
 		//
-		// 이미 DTO에 저장된 shipAmount와 sAmount 값을 가져옵니다.
+		// DTO에 저장된 shipAmount와 sAmount 값을 가져옴.
 		int shipAmount = dto.getShipAmount();
 		int sAmount = dto.getsAmount();
 

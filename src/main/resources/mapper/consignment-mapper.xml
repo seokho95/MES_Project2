@@ -35,13 +35,22 @@
 		s.S_NUM=#{Obtainorder_search}
 	</select>
 	<!-- 출하전체리스트 조회 -->
-	<select id="ConsignmentManagement" resultMap="Consignment">
+	<select id="ConsignmentManagement" resultMap="Consignment"
+		parameterType="int">
 		SELECT
-		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM ,s.P_NUM
+		sh.SHIP_NUM,s.DATE_ORDER ,s.DATE_TO_ARRIVE,s.C_NUM
+		,s.P_NUM
 		,sh.DATE_START_SHIP,s.S_AMOUNT ,sh.SHIP_AMOUNT,
 		s.S_NUM
-		,d.D_NUM,sh.S_PHASE FROM SELL s , DRIVER d, SHIPMENT sh where d.D_NUM
-		= sh.D_NUM AND s.S_NUM =sh.S_NUM
+		,d.D_NUM,sh.S_PHASE
+		FROM(
+		SELECT ceil(rownum/10) as pageNo, SHIP_NUM,
+		DATE_ORDER ,
+		DATE_TO_ARRIVE,C_NUM ,P_NUM
+		,DATE_START_SHIP,S_AMOUNT
+		,SHIP_AMOUNT,
+		S_NUM,D_NUM,S_PHASE FROM shipment)sh, SELL s , DRIVER d
+		where d.D_NUM= sh.D_NUM AND s.S_NUM =sh.S_NUM AND pageNo=#{pageNo}
 	</select>
 	<select id="DriverList" resultMap="Driver" parameterType="Map">
 		SELECT * FROM DRIVER where
@@ -121,10 +130,14 @@
 	</delete>
 	<!-- 출하 등록 데이터 전달 -->
 	<insert id="insertconsignment" parameterType="Consignment">
-		insert into SHIPMENT
+		insert into
+		SHIPMENT
 		(ship_num,date_order,date_to_arrive,c_num,p_num,date_start_ship,s_amount,ship_amount,s_num,d_num,s_phase)
 		values
-		(#{shipNum},TO_DATE(#{dateOrder}, 'YYYY-MM-DD HH24:MI:SS'),TO_DATE(#{dateToArrive}, 'YYYY-MM-DD HH24:MI:SS'),#{cNum},#{pNum},TO_DATE(#{dateStartShip}, 'YYYY-MM-DD HH24:MI:SS'),#{sAmount},#{shipAmount},#{sNum},#{dNum},#{sPhase})
+		(#{shipNum},TO_DATE(#{dateOrder}, 'YYYY-MM-DD
+		HH24:MI:SS'),TO_DATE(#{dateToArrive}, 'YYYY-MM-DD
+		HH24:MI:SS'),#{cNum},#{pNum},TO_DATE(#{dateStartShip}, 'YYYY-MM-DD
+		HH24:MI:SS'),#{sAmount},#{shipAmount},#{sNum},#{dNum},#{sPhase})
 	</insert>
 </mapper>
 

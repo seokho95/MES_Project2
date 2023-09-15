@@ -18,8 +18,8 @@ public class ConsignmentManagementService {
 	}
 
 	// 출하정보 전체리스트
-	public List<ConsignmentManagementDTO> ConsignmentManagement() {
-		return mapper.ConsignmentManagement();
+	public List<ConsignmentManagementDTO> ConsignmentManagement(int currPage) {
+		return mapper.ConsignmentManagement(currPage);
 	}
 
 	// 수주 조회
@@ -68,6 +68,10 @@ public class ConsignmentManagementService {
 	//출하 등록 
 	public int insertconsignment(ConsignmentManagementDTO dto) {
 		return mapper.insertconsignment(dto);
+	}
+
+	public List<ConsignmentManagementDTO> consignmentManagementPaging(int pageNo) {
+		return mapper.consignmentManagementPaging(pageNo);
 	}
 
 }

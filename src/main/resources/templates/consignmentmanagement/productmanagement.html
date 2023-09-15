@@ -14,6 +14,23 @@
 <script src="/js/JsBarcode.code128.min.js"></script>
 <script src="js/bxlcommon.js"></script>
 <script src="js/bxllabel.js"></script>
+<style>
+	.page_bar {
+		text-align: center;
+		padding: 5px;
+	}
+
+	.page_bar a {
+		font-size: 18px;
+		/* 폰트 크기 조정 */
+		text-decoration: none;
+		color: #f08080;
+	}
+	.page_bar a.active {
+		font-weight: bold;
+		color: rgb(213, 26, 26);
+	}
+</style>
 <script>
 	//li 클릭시 색상 변경
 	document.addEventListener("DOMContentLoaded", function () {
@@ -203,8 +220,10 @@
 					console.log(r);
 					var tag = "";
 					if (r.length === 0) {
-						tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
-						$('.consignment_data').html(tag);
+						alert("일치하는 정보가 없습니다.");
+						window.location.reload();
+						//tag = "<tr><td colspan='12'>일치하는 정보가 없습니다.</td></tr>";
+						//$('.consignment_data').html(tag);
 						//console.log(sPhase);
 					} else {
 						for (let i = 0; i < r.length; i++) {
@@ -380,6 +399,22 @@
 					</td>
 					<td><svg></svg></td>
 				</tr>
+				<tr>
+					<td colspan="13">
+						<div class="page_bar">
+							<a th:if="${paging.previousPageGroup}"
+								th:href="@{ConsignmentManagement(pageNo=${paging.startPageOfPageGroup - 1 })}">◀</a>
+
+							<th:block
+								th:each="i : ${#numbers.sequence(paging.startPageOfPageGroup, paging.endPageOfPageGroup)}">
+								<a th:href="@{ConsignmentManagement(pageNo=${i})}"
+									th:classappend="${i == paging.currentPageNo} ? 'active'">[[${i}]]</a>
+							</th:block>
+							<a th:if="${paging.nextPageGroup}"
+								th:href="@{ConsignmentManagement(pageNo=${paging.endPageOfPageGroup + 1 })}">▶</a>
+						</div>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<div id="btn">
@@ -388,5 +423,4 @@
 		</div>
 	</div>
 </body>
-
 </html>
