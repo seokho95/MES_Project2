@@ -26,6 +26,7 @@
 		text-decoration: none;
 		color: #f08080;
 	}
+
 	.page_bar a.active {
 		font-weight: bold;
 		color: rgb(213, 26, 26);
@@ -67,7 +68,7 @@
 	}
 
 	// 특정 상태 값에 따라 행 표시
-	function showRowsByStatus(statuses) {
+	function showRowsByStatus(statuses, pageNo) {
 		var rows = document.querySelectorAll("#table2 tbody tr");
 		rows.forEach(function (row) {
 			var sPhaseCell = row.querySelector("td:nth-child(12)");
@@ -423,4 +424,5 @@
 		</div>
 	</div>
 </body>
+
 </html>
