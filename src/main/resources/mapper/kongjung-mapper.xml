@@ -45,9 +45,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 삭제 메서드 추가 -->
-	<delete id="deleteKongjung" parameterType="long">
-		DELETE FROM PROCESS WHERE PROCESS_NUM = #{id}
+	<delete id="deletekongjung" parameterType="string">
+		DELETE FROM PROCESS WHERE PROCESS_NUM = #{processNum}
 	</delete>
+	
+	<!-- 데이터 삽입을 위한 SQL 문 정의 -->
+    <insert id="KongjungInsert" parameterType="com.project.dto.KongjungDTO">
+    INSERT INTO PROCESS (PROCESS_NUM, M_NUM, PROCESS_NAME)
+    VALUES (#{processNum},  #{materialNo}, #{processName})
+	</insert>
+	
+	<select id="editKongjung" parameterType="String" resultMap="process">
+		select * from PROCESS where PROCESS_NUM = #{p_num}
+	</select>
+	
 	
 	
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.dto.KongjungDTO;
+import com.project.dto.OrderDTO;
 
 @Mapper		// Mapper라고 선언함
 public interface KongjungMapper {
@@ -21,7 +22,14 @@ public interface KongjungMapper {
 		List<KongjungDTO> selectSearch(Map<String, Object> map);
 
 		List<KongjungDTO> selectSearch1(String search);
+
+		void deletekongjung(String processNum);
+
+		void KongjungInsert(String processNum, String processName, String materialNo);
+
+
+		KongjungDTO editKongjung(String p_num);
+
 		
-		void deleteKongjung(Long id);
 
 }

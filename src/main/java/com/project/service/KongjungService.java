@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.KongjungDTO;
+import com.project.dto.OrderDTO;
 import com.project.mapper.KongjungMapper;
 
 
@@ -39,18 +40,37 @@ public class KongjungService {
 		return mapper.selectSearch1(search);
 	}
 	
-	// 선택된 항목을 삭제하는 메서드
-    public boolean deleteSelected(List<Long> selectedIds) {
-        try {
-            for (Long id : selectedIds) {
-                mapper.deleteKongjung(id);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+	public void deletekongjung(String processNum) {
+		mapper.deletekongjung(processNum);
+
+}
+
+
+	
+	//공정정보 등록
+			public void KongjungInsert(KongjungDTO dto) {
+				 try {
+			            // KongjungDTO에서 데이터 추출
+					 	String processNum = dto.getProcessNum();
+			            String processName = dto.getProcessName();
+			            String materialNo = dto.getMaterialNo();
+
+			            mapper.KongjungInsert(processNum, processName, materialNo);
+			       
+
+			        } catch (Exception e) {
+			            throw new RuntimeException("데이터 삽입 중 오류 발생", e);
+			        }
+			  }
+
+
+			public KongjungDTO editKongjung(String p_num) {
+				return mapper.editKongjung(p_num);
+			}
+
+
+			
+
 	
 
 }

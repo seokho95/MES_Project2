@@ -24,7 +24,7 @@ $(document).ready(function() {
                 for (i = 0; i < r.length; i++) {
                     tag += "<tr>";
                     tag += "<td scope='row'><input class='form-check-input' type='checkbox' name='checkbox2' onclick='checkSelectAll(this)' id='checkbox1'></td>";
-                    tag += `<td id="over" onclick="location.href='/kongjung_update'">`+r[i].processNum+"</td>";
+                    tag += `<td><a th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r[i].processNum})}">${r[i].processNum}</a></td>`;
                     tag += "<td>"+r[i].processName+"</td>";
                     tag += "</tr>";
                 }
@@ -39,45 +39,50 @@ $(document).ready(function() {
     }
     
     // 페이지 로드 시 조회 갯수 표시 함수 호출
-    displayResultCount();
+ //   displayResultCount();
     
     // 검색 버튼 클릭 시도 조회 갯수 표시 함수 호출
     $(".search_btn").click(function() {
         displayResultCount();
     });
 });
- 
-function deleteSelected() {
-    const selectedCheckboxes = document.querySelectorAll('input[name="checkbox2"]:checked');
-    
-    if (selectedCheckboxes.length === 0) {
-        alert("삭제할 항목을 선택하세요.");
-        return;
-    }
 
-    const selectedIds = selectedCheckboxes.map((checkbox) => Number(checkbox.closest("tr").querySelector("td:nth-child(2)").textContent));
+//선택삭제
+$(function () {
+		$('#btn_delete').click(function () {
+        var selectedItems = $('input[name="checkbox2"]:checked');
 
-    // 서버로 선택된 항목의 ID를 전송하여 삭제 요청
-    $.ajax({
-        url: "/deleteSelected.do", // 삭제 요청을 처리할 서버 엔드포인트를 지정
-        data: { selectedIds: selectedIds },
-        dataType: "json",
-        type: "post",
-        success: function(response) {
-            if (response.success) {
-                // 삭제가 성공하면 선택된 항목을 테이블에서 삭제
-                selectedCheckboxes.forEach((checkbox) => {
-                    checkbox.closest("tr").remove();
+        if (selectedItems.length === 0) {
+            alert('삭제할 항목을 선택하세요.');
+        } else {
+            if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+                selectedItems.each(function () {
+                    var processNum = $(this).closest('tr').find('td:nth-child(2)').text();
+					console.log();
+                    $.ajax({
+                        url: '/kongjung_info/delete/' + processNum,
+                        type: 'post',
+                        success: function (response) {
+                            console.log(response);
+                            if (response) {
+                                alert('선택 항목을 삭제했습니다.');
+                                $(this).closest('tr').remove(); // 테이블에서 삭제된 행을 제거
+                                location.reload(); // 페이지 새로 고침
+                            } else {
+                                alert('삭제하지 못했습니다.');
+                            }
+                        },
+                        error: function () {
+                            alert('서버 연결 실패');
+                        }
+                    });
                 });
-
-                // 결과를 특정 요소에 표시
-                $(".result_count").text(response.resultCount + "개의 데이터가 조회되었습니다.");
-            } else {
-                alert("삭제에 실패했습니다.");
             }
-        },
+        }
     });
-}
+});
+ 
+
 </script>
 </head>
 
@@ -130,24 +135,23 @@ function deleteSelected() {
 					<tr th:each="r : ${kongjungList}">
 						<td scope="row">
 							<input class="form-check-input" type="checkbox" name="checkbox2"
-								onclick="checkSelectAll(this)" id="checkbox1">
+								onclick="checkSelectAll(this)" id="checkbox2">
 						</td>
-						<td onclick="location.href='/kongjung_update'">[[${r.processNum}]]</td>
+						<td><a th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r.processNum})}">[[${ r.processNum}]]</a></td>
 						<td>[[${r.processName}]]</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div id="btn">
-			<button id="btn_delete" style="float: left" onclick="deleteSelected()">선택 삭제</button>
+			<button id="btn_delete" style="float: left">선택 삭제</button>
 			<button id="btn_insert" onclick="location.href='kongjung_insert'" style="float: right">등록</button>
-			<button id="btn_update" onclick="location.href='kongjung_update'" style="float: right">수정</button>
 		</div>
 	</div>
 </body>
 
 <script>
-
+ 
 	function checkSelectAll(checkbox) {
 		const selectall
 			= document.querySelector('input[name="selectall"]');
