@@ -8,171 +8,171 @@
 	<th:block th:include="header/header.html"></th:block>
 	<link rel="stylesheet" href="/kongjung/kongjung_info.css">
 	<link rel="stylesheet" href="/common/global.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/js/JsBarcode.code128.min.js"></script>
-<script src="js/bxlcommon.js"></script>
-<script src="js/bxllabel.js"></script>
-<script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/js/JsBarcode.code128.min.js"></script>
+	<script src="js/bxlcommon.js"></script>
+	<script src="js/bxllabel.js"></script>
+	<script>
 		//바코드 생성 함수
-	function printAllBarcode() {
-		//processN class의 tr 지정
-		let row = $(".processN tr");
-		
-		$(row).each(function (idx, obj) {
-			//tr의 자녀 속성인 td중 1번째인 공정번호 선택
-			console.log($(obj).children("td").eq(1).text());
-			let barcodeValue = $(obj).children("td").eq(1).text();
-			//td중 마지막 속성의 자녀 속성인 svg에 0번째 선택
-			JsBarcode($(obj).children("td").last().children("svg")[0], barcodeValue, {
-				//바코드 크기
-				format: "CODE128", width: 1,
-				height: 20
+		function printAllBarcode() {
+			//processN class의 tr 지정
+			let row = $(".processN tr");
+
+			$(row).each(function (idx, obj) {
+				//tr의 자녀 속성인 td중 1번째인 공정번호 선택
+				console.log($(obj).children("td").eq(1).text());
+				let barcodeValue = $(obj).children("td").eq(1).text();
+				//td중 마지막 속성의 자녀 속성인 svg에 0번째 선택
+				JsBarcode($(obj).children("td").last().children("svg")[0], barcodeValue, {
+					//바코드 크기
+					format: "CODE128", width: 1,
+					height: 20
+				});
+			});
+		}
+		//바코드 출력 함수
+		var issueID = 1;
+		var printer_name = 'Printer1';
+
+		function viewResult(result) {
+			console.log(result);
+		}
+
+		function PrintBarcode(row) {
+			console.log(row);
+			//	return
+			var barCodeSymbol = 1;
+			var barCodeHeight = 100;
+			var barWidth = 4;
+			var nBarWidth = parseInt(barWidth / 2);
+			var barCodeHri = 1;
+
+			setLabelId(issueID);
+
+			checkLabelStatus();
+			clearBuffer();
+
+			setWidth(576);
+
+			drawDeviceFont("공정 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
+			drawBlock(30, 40, 530, 45, 'B', 5);
+			drawDeviceFont(`공정 번호 : ${$(row).eq(1).text()}`, 30, 50, 'd', 1, 1, 0, 0, 0, 0);
+			drawDeviceFont(`공정 명 : ${$(row).eq(2).text()}`, 30, 80, 'd', 1, 1, 0, 0, 0, 0);
+			//x,y,x,y 좌하단 우하단,글꼴,두께
+			drawBlock(30, 120, 530, 125, 'B', 5);
+			draw1DBarcode($(row).eq(1).text(), 70, 150, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
+			printBuffer();
+
+			var strSubmit = getLabelData();
+
+			console.log(strSubmit);
+
+			issueID++;
+			console.log(strSubmit, viewResult);
+			requestPrint(printer_name, strSubmit, viewResult);
+
+		}
+
+
+		$(function () {
+			//바코드 찍으면 자동으로 엔터값 입력
+			$("#pnum").keyup(function (e) {
+				console.log(e.keyCode)
+				if (e.keyCode == 13)
+					e.preventDefault();
+				$('#search_date').click();
+			});
+			//바코드 클릭했을 때 바코드 출력시키는 기능
+			$("svg").click(function () {
+				let row = $(this).parent().parent().children("td");
+				PrintBarcode(row);
+			});
+
+
+			$(document).ready(function () {
+				// 페이지가 로드되자마자 조회 갯수를 표시하는 함수
+				function displayResultCount() {
+					let data = `search=${$(".search_img").val()}`;
+					$.ajax({
+						url: "/search.do",
+						data: data,
+						dataType: "json",
+						type: "post",
+						success: function (r) {
+							var tag = "";
+							for (i = 0; i < r.length; i++) {
+								tag += "<tr>";
+								tag += "<td scope='row'><input class='form-check-input' type='checkbox' name='checkbox2' onclick='checkSelectAll(this)' id='checkbox1'></td>";
+								tag += `<td><a href="/kongjung/kongupdate/${r[i].processNum}">${r[i].processNum}</a></td>`;
+								tag += "<td>" + r[i].processName + "</td>";
+								tag += "<td><svg></svg></td>";
+								tag += "</tr>";
+							}
+							var resultCount = r.length;
+
+							// 결과를 특정 요소에 표시
+							$(".result_count").text(resultCount + "개의 데이터가 조회되었습니다.");
+
+							$(".processN").html(tag);
+
+							printAllBarcode();
+							console.log(printAllBarcode());
+							$("svg").click(function () {
+								let row = $(this).parent().parent().children("td");
+								PrintBarcode(row);
+							});
+
+						}
+					});
+				}
+				printAllBarcode();
+				// 페이지 로드 시 조회 갯수 표시 함수 호출
+				//   displayResultCount();
+
+				// 검색 버튼 클릭 시도 조회 갯수 표시 함수 호출
+				$(".search_btn").click(function () {
+					displayResultCount();
+				});
+			});
+
+			//선택삭제
+			$(function () {
+				$('#btn_delete').click(function () {
+					var selectedItems = $('input[name="checkbox2"]:checked');
+
+					if (selectedItems.length === 0) {
+						alert('삭제할 항목을 선택하세요.');
+					} else {
+						if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+							selectedItems.each(function () {
+								var processNum = $(this).closest('tr').find('td:nth-child(2)').text();
+								console.log();
+								$.ajax({
+									url: '/kongjung_info/delete/' + processNum,
+									type: 'post',
+									success: function (response) {
+										console.log(response);
+										if (response) {
+											alert('선택 항목을 삭제했습니다.');
+											$(this).closest('tr').remove(); // 테이블에서 삭제된 행을 제거
+											location.reload(); // 페이지 새로 고침
+										} else {
+											alert('삭제하지 못했습니다.');
+										}
+									},
+									error: function () {
+										alert('서버 연결 실패');
+									}
+								});
+							});
+						}
+					}
+				});
 			});
 		});
-	}
-	//바코드 출력 함수
-	var issueID = 1;
-	var printer_name = 'Printer1';
-
-	function viewResult(result) {
-		console.log(result);
-	}
-
-	function PrintBarcode(row) {
-		console.log(row);
-		//	return
-		var barCodeSymbol = 1;
-		var barCodeHeight = 100;
-		var barWidth = 4;
-		var nBarWidth = parseInt(barWidth / 2);
-		var barCodeHri = 1;
-
-		setLabelId(issueID);
-
-		checkLabelStatus();
-		clearBuffer();
-
-		setWidth(576);
-
-		drawDeviceFont("공정 정보", 30, 10, 'b', 1, 1, 0, 0, 1, 0);
-		drawBlock(30, 40, 530, 45, 'B', 5);
-		drawDeviceFont(`공정 번호 : ${$(row).eq(1).text()}`, 30, 50, 'd', 1, 1, 0, 0, 0, 0);
-		drawDeviceFont(`공정 명 : ${$(row).eq(2).text()}`, 30, 80, 'd', 1, 1, 0, 0, 0, 0);
-		//x,y,x,y 좌하단 우하단,글꼴,두께
-		drawBlock(30, 120, 530, 125, 'B', 5);
-		draw1DBarcode($(row).eq(1).text(), 70, 150, barCodeSymbol, nBarWidth, barWidth, barCodeHeight, 0, barCodeHri);
-		printBuffer();
-
-		var strSubmit = getLabelData();
-
-		console.log(strSubmit);
-
-		issueID++;
-		console.log(strSubmit, viewResult);
-		requestPrint(printer_name, strSubmit, viewResult);
-
-	}
 
 
-	$(function () {
-		//바코드 찍으면 자동으로 엔터값 입력
-		$("#pnum").keyup(function (e) {
-			console.log(e.keyCode)
-			if (e.keyCode == 13)
-				e.preventDefault();
-			$('#search_date').click();
-		});
-		//바코드 클릭했을 때 바코드 출력시키는 기능
-		$("svg").click(function () {
-			let row = $(this).parent().parent().children("td");
-			PrintBarcode(row);
-		});
-		
-	
-$(document).ready(function() {
-    // 페이지가 로드되자마자 조회 갯수를 표시하는 함수
-    function displayResultCount() {
-        let data = `search=${$(".search_img").val()}`;
-        $.ajax({
-            url: "/search.do",
-            data: data,
-            dataType: "json",
-            type: "post",
-            success: function(r) {
-                var tag = "";
-                for (i = 0; i < r.length; i++) {
-                    tag += "<tr>";
-                    tag += "<td scope='row'><input class='form-check-input' type='checkbox' name='checkbox2' onclick='checkSelectAll(this)' id='checkbox1'></td>";
-                    tag += `<td><a th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r[i].processNum})}">${r[i].processNum}</a></td>`;
-                    tag += "<td>"+r[i].processName+"</td>";
-                    tag += "<td><svg></svg></td>";
-                    tag += "</tr>";
-                }
-                var resultCount = r.length;
-                
-                // 결과를 특정 요소에 표시
-                $(".result_count").text(resultCount + "개의 데이터가 조회되었습니다.");
-                
-                $(".processN").html(tag);
-                
-                printAllBarcode();
-						console.log(printAllBarcode());
-						$("svg").click(function () {
-							let row = $(this).parent().parent().children("td");
-							PrintBarcode(row);
-						});
-					
-            }
-        });
-    }
-    printAllBarcode();
-    // 페이지 로드 시 조회 갯수 표시 함수 호출
- //   displayResultCount();
-    
-    // 검색 버튼 클릭 시도 조회 갯수 표시 함수 호출
-    $(".search_btn").click(function() {
-        displayResultCount();
-    });
-});
-
-//선택삭제
-$(function () {
-		$('#btn_delete').click(function () {
-        var selectedItems = $('input[name="checkbox2"]:checked');
-
-        if (selectedItems.length === 0) {
-            alert('삭제할 항목을 선택하세요.');
-        } else {
-            if (confirm('선택한 항목을 삭제하시겠습니까?')) {
-                selectedItems.each(function () {
-                    var processNum = $(this).closest('tr').find('td:nth-child(2)').text();
-					console.log();
-                    $.ajax({
-                        url: '/kongjung_info/delete/' + processNum,
-                        type: 'post',
-                        success: function (response) {
-                            console.log(response);
-                            if (response) {
-                                alert('선택 항목을 삭제했습니다.');
-                                $(this).closest('tr').remove(); // 테이블에서 삭제된 행을 제거
-                                location.reload(); // 페이지 새로 고침
-                            } else {
-                                alert('삭제하지 못했습니다.');
-                            }
-                        },
-                        error: function () {
-                            alert('서버 연결 실패');
-                        }
-                    });
-                });
-            }
-        }
-    });
-});
- });
- 
-
-</script>
+	</script>
 </head>
 
 <body>
@@ -204,8 +204,8 @@ $(function () {
 			<span class="result_count"></span>
 			<br>
 			<div class="search">
-						<input class="search_img" type="search" placeholder="검색">
-						<input class="search_btn" type="button" value="검색">
+				<input class="search_img" type="search" placeholder="검색">
+				<input class="search_btn" type="button" value="검색">
 			</div>
 		</div>
 		<div class="table_container" style="margin-top: 20px;">
@@ -227,7 +227,8 @@ $(function () {
 							<input class="form-check-input" type="checkbox" name="checkbox2"
 								onclick="checkSelectAll(this)" id="checkbox2">
 						</td>
-						<td><a id="pnum" th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r.processNum})}">[[${ r.processNum}]]</a></td>
+						<td><a id="pnum" th:href="@{/kongjung/kongupdate/{p_num}(p_num=${r.processNum})}">[[${
+								r.processNum}]]</a></td>
 						<td>[[${r.processName}]]</td>
 						<td><svg></svg></td>
 					</tr>
@@ -242,7 +243,7 @@ $(function () {
 </body>
 
 <script>
- 
+
 	function checkSelectAll(checkbox) {
 		const selectall
 			= document.querySelector('input[name="selectall"]');

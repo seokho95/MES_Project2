@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="/common/global.css" />
-	<link rel="stylesheet" href="/stock/stock_product.css" />
+	<link rel="stylesheet" href="/stock/stock_product_app.css" />
 	<title>완제품 재고 현황</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -17,13 +17,13 @@
 	function showBarcode() {
 		let row = $(".tableContent tr");
 		$(row).each(function (idx, obj) {
-			let barcodeValue = $(obj).children("td").eq(0).text();
+			let barcodeValue = $(obj).children("td").eq(2).text();
 			$(obj).children("td").last();
 			JsBarcode($(obj).children("td").last().children("svg")[0], barcodeValue, {
 				format: "CODE128",
-				width: 1.5,
-				height: 30,
-				displayValue: true
+				width: 1,
+				height: 20,
+				displayValue: false
 			})
 
 
@@ -99,12 +99,9 @@
 				} else {
 					for (let i = 0; i < r.length; i++) {
 						tag += `<tr id="contents"> `
-						tag += `<td id="chk_box"><input type="checkbox" name="chk" style="width: 15px;" height="15px" onclick="checkSelectAll(this)"/><span id="barcodeID" hidden>${r[i].p_num}</span></td>"`;
-
-						tag += `<td><a href="/stock/product/updateView/${r[i].p_num}">${r[i].p_name}</a></td>`;
+						tag += `<td>${r[i].p_name}</td>`;
 						tag += `<td>${r[i].p_amount}</td>`;
-						tag += `<td>${r[i].recipe_num}</td>`;
-						tag += `<td style="text-align: center;"><svg></svg></td>`;
+						tag += `<td style="text-align: center;"><span id="barcodeID" hidden>${r[i].p_num}</span><svg></svg></td>`;
 						tag += `</tr>`
 					}
 
@@ -172,36 +169,8 @@
 </script>
 
 <body>
-	<th:block th:insert="header/header.html"></th:block>
-	<div class="menu_container">
-		<ul class="menu_bar">
-			<li>
-				<a href="/main.html">
-					<img src="/img/home.png" width="40" height="40" viewBox="0 0 51 51">
-				</a>
-			</li>
-			<div style="margin-top: 15px;" width="300px" id="menu">
-				<li>
-					<img src="/img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
-				</li>
-				<li>
-					<h4>재고 관리</h4>
-				</li>
-				<li>
-					<img src="/img/arrow_right_pink.png" width="12" height="20" viewBox="0 0 17 29">
-				</li>
-				<li>
-					<h4>완제품 재고 관리</h4>
-				</li>
-			</div>
-		</ul>
-	</div>
 	<div id="container">
 		<h3>완제품 재고 관리</h3>
-		<p id="data">
-			<!--<th:span>[[${count}]]</thspan>
-				개의 데이터가 조회되었습니다.-->
-		</p>
 
 		<div id="search">
 			<input type="text" id="search_input" placeholder="검색" />
@@ -209,27 +178,18 @@
 		</div>
 		<table id="table">
 			<tr>
-				<th style="width: 25px;"><input type="checkbox" id="all_check" onchange="selectAll(this)" /></th>
-				<th style="width: 20%">제품명</th>
+				<th style="width: 30%">제품명</th>
 				<th>제품 수량</th>
-				<th style="width: 20%">레시피 코드</th>
-				<th style="width: 15%">바코드</th>
+				<th style="width: 40%">바코드</th>
 			</tr>
 			<tbody class="tableContent">
 				<tr th:each="p : ${list}" id="contents">
-					<td id="chk_box"><input type="checkbox" name="chk" style="width: 15px;" height="15px"
-							onclick="checkSelectAll(this)" /><span id="barcodeID" hidden>[[${ p.p_num}]]</span></td>
-					<td><a th:href="@{/stock/product/updateView/{p_num}(p_num=${ p.p_num})}">[[${ p.p_name}]]</a></td>
+					<td>[[${ p.p_name}]]</td>
 					<td>[[${ p.p_amount}]]</td>
-					<td>[[${ p.recipe_num}]]</td>
-					<td style="text-align: center;"><svg></svg></td>
+					<td style="text-align: center;"><span id="barcodeID" hidden>[[${ p.p_num}]]</span><svg></svg></td>
 				</tr>
 			</tbody>
 		</table>
-		<div id="btn">
-			<button id="btn_delete" href="">선택 삭제</button>
-			<a id="btn_add" href="/stock/product/add">등록</a>
-		</div>
 	</div>
 </body>
 <script>

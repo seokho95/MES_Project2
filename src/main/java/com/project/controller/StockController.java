@@ -165,5 +165,30 @@ public class StockController {
 		return ResponseEntity.ok(response);
 		
 	}
+	/*********************************************************************************
+	 APP
+	 *********************************************************************************/
+	
+	@RequestMapping("/app/stock/material")
+	public ModelAndView ViewAllMaterialApp(ModelAndView view) {
+		List<Stock_MaterialDTO> list = service.selectAllMaterial();
+		int count = service.countAllMaterial();
+		view.addObject("count", count);
+		view.addObject("list", list);
+		view.setViewName("stock/stock_material_app");
+		return view;
+	}
+	
+	@RequestMapping("/app/stock/product")
+	public ModelAndView ViewAllProductApp(ModelAndView view) {
+		List<Stock_ProductDTO> list = service.selectAllProduct();
+		int count = service.countAllProduct();
+		view.addObject("count", count);
+		view.addObject("list", list);
+		view.setViewName("stock/stock_product_app");
+		return view;
+	}
 
+	
+	
 }
