@@ -79,6 +79,15 @@ public class KongjungController {
 			return view;
 	}
 	
+	@RequestMapping("/kongjung/recipeupdate/{r_num}")
+	public ModelAndView UpdateRecipeView(@PathVariable("r_num") String r_num, ModelAndView view) {
+	KongjungDTO dto = kongjungService.editRecipe(r_num);
+		view.addObject("recipeupdate", dto);
+		view.setViewName("kongjung/recipe_update");
+		System.out.println(dto.toString());
+		return view;
+}
+	
 	@PostMapping("/kongjung_update/action")
 	public String updateKongjungAction(@ModelAttribute KongjungDTO dto) {
 	    try {
@@ -90,6 +99,22 @@ public class KongjungController {
 	    }
 	}
 	
+	// 공정정보 수정하기
+		@RequestMapping("/kongjung_update")
+		public String updateKongjung(@ModelAttribute KongjungDTO dto) {
+			try {
+				kongjungService.updateKongjung(dto);
+				System.out.println(dto);
+				return "redirect:/kongjung_info";
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "kongjung_update"; // 실패 시 수정 페이지로 유지
+			}
+
+		}
+
+	
 	@RequestMapping("/recipe_info")     
 	public ModelAndView allList1(KongjungDTO kongjungDTO , ModelAndView view)  {
 		List<KongjungDTO> List = kongjungService.selectAllList1(kongjungDTO);    //  임시 KongjungService의 seletAllList List로 담음
@@ -98,13 +123,24 @@ public class KongjungController {
 		
 	return view;                      
 	}
+	
+	
+	@RequestMapping("/recipe_info/delete/{recipeNum}")
+	public ResponseEntity<String> deletekongjung1(@PathVariable("recipeNum") String recipeNum) {
+		System.out.println("1:" + recipeNum);
+		kongjungService.deletekongjung(recipeNum);
+		System.out.println("2:" + recipeNum);
+
+		return new ResponseEntity("선택항목을 삭제했습니다.", HttpStatus.OK);
+	}
+	
 	@RequestMapping("/search1.do")
 	public ResponseEntity<String> selectSearch1(String search){
 		List<KongjungDTO> list = kongjungService.selectSearch1(search);
 		return new ResponseEntity(list,HttpStatus.OK);
 	}
-	@RequestMapping("/recipe1")
-	public String RecipeTest1() {
+	@RequestMapping("/recipe_insert")
+	public String RecipeTest1() { 
 		return "/kongjung/recipe_insert";
 	}
 	@RequestMapping("/recipe_update")

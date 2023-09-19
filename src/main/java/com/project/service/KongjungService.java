@@ -44,6 +44,11 @@ public class KongjungService {
 		mapper.deletekongjung(processNum);
 
 }
+	
+	public void deletekongjung1(String recipeNum) {
+		mapper.deletekongjung1(recipeNum);
+
+}
 
 
 	
@@ -66,6 +71,41 @@ public class KongjungService {
 
 			public KongjungDTO editKongjung(String p_num) {
 				return mapper.editKongjung(p_num);
+			}
+			
+			public KongjungDTO editRecipe(String r_num) {
+				return mapper.editRecipe(r_num);
+			}
+
+			public void updateRecipe(KongjungDTO dto) {
+				try {
+					String processNum = dto.getProcessNum();
+		            int processTime = dto.getProcessTime();
+		            String process1 = dto.getProcess1();
+		            String process2 = dto.getProcess2();
+		            String process3 = dto.getProcess3();
+		            String process4 = dto.getProcess4();
+		            String process5 = dto.getProcess5();
+		            String process6 = dto.getProcess6();
+		            
+		            mapper.updateRecipe(processNum, processTime, process1, process2, process3, process4, process5, process6);
+				}
+				catch (Exception e) {
+		            throw new RuntimeException("데이터 삽입 중 오류 발생", e);
+		        }
+			}
+
+			public void updateKongjung(KongjungDTO dto) {
+				try {
+					String processNum = dto.getProcessNum();
+		            String processName = dto.getProcessName();
+		            String materialNo = dto.getMaterialNo();
+		            
+		            mapper.updateKongjung(processNum, processName, materialNo);
+				}
+				catch (Exception e) {
+		            throw new RuntimeException("데이터 삽입 중 오류 발생", e);
+		        }
 			}
 
 

@@ -44,14 +44,14 @@
                         <tr>
                             <th id="col">공정 번호</th>
                             <th>
-                                <input type="text" id="processNum" name="processNum"  th:value="${ kongupdate.processNum}" style="float:left" >
+                                <input type="text" id="processNum" name="processNum"  th:value="${ kongupdate.processNum}" style="float:left" readonly>
                                     
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td id="col1">레시피 설명</td>
+                            <td id="col1">공정 명</td>
                             <td id="col2">
                                 <input type="text" id="processName" name="processName" th:value="${ kongupdate.processName}" style="float:left" required>
                             </td>

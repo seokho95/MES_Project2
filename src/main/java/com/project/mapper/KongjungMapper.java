@@ -30,6 +30,17 @@ public interface KongjungMapper {
 
 		KongjungDTO editKongjung(String p_num);
 
+		void updateKongjung(String processNum, String processName, String materialNo);
+
+		void deletekongjung1(String recipeNum);
 		
+		void updateRecipe(String recipeNum, int processTime, String process1, String process2, String process3,
+				String process4, String process5, String process6);
+
+
+		KongjungDTO editRecipe(String r_num);
+
+
+
 
 }
